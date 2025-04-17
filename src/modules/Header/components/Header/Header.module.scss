@@ -1,0 +1,41 @@
+@use "../../../../styles/abstracts/index.scss" as *;
+
+.header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    height: 8rem;
+
+    &__logo {
+        @include flex-align-center;
+    }
+
+    &__logo-img {
+        height: 6rem;
+        width: 6rem;
+    }
+
+    &__title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #338fbe;
+    }
+
+    &__auth {
+        @include flex-align-center;
+    }
+
+    &__auth-btn {
+        padding: 2rem;
+        border-radius: 5px;
+        background-color: $accent-bg-color;
+        color: #000;
+
+        &:hover {
+            background-color: $hover-color;
+        }
+    }
+}
