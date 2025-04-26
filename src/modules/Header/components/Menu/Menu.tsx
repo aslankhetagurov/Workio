@@ -18,12 +18,12 @@ const Menu = () => {
                 </li>
                 <li className={styles.menu__item}>
                     <NavLink to="/about" className={getLinkClass}>
-                        About Us
+                        About
                     </NavLink>
                 </li>
                 <li className={styles.menu__item}>
-                    <NavLink to="/find-jobs" className={getLinkClass}>
-                        Find Jobs
+                    <NavLink to="/jobs" className={getLinkClass}>
+                        Jobs
                     </NavLink>
                 </li>
                 <li className={styles.menu__item}>
@@ -32,13 +32,13 @@ const Menu = () => {
                     </NavLink>
                 </li>
                 <li className={styles.menu__item}>
-                    <NavLink to="/candidates" className={getLinkClass}>
-                        Candidates
+                    <NavLink to="/applicants" className={getLinkClass}>
+                        Applicants
                     </NavLink>
                 </li>
                 <li className={styles.menu__item}>
-                    <NavLink to="/contacts" className={getLinkClass}>
-                        Contacts
+                    <NavLink to="/contact" className={getLinkClass}>
+                        Contact
                     </NavLink>
                 </li>
             </ul>
