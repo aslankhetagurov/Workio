@@ -1,0 +1,44 @@
+@use "@/styles/abstracts/index.scss" as *;
+
+.primary-button {
+    @include flex-center;
+    padding: 1rem 1.5rem;
+    border-radius: 5px;
+    background-color: $button-bg-color;
+    color: $hover-color;
+    width: 100%;
+    font-weight: 700;
+    position: relative;
+    min-height: 44px;
+    transition:
+        background-color 0.3s,
+        color 0.3s,
+        transform 0.3s;
+
+    &:hover {
+        background-color: $hover-color;
+        color: #fff;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    &__spinner {
+        width: 30px;
+        height: 30px;
+        display: block;
+        position: absolute;
+        margin: 0 auto;
+        animation: spinner 1s linear infinite;
+
+        @keyframes spinner {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+}

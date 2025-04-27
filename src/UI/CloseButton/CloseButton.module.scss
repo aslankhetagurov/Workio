@@ -1,0 +1,27 @@
+@use "@/styles/abstracts/index.scss" as *;
+
+.close-button {
+    display: inline-block;
+    line-height: 0;
+
+    &__wrapper {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__icon {
+        font-size: 26px;
+        color: #dfdfdf;
+        transition:
+            color 0.3s,
+            transform 0.3s;
+
+        &:hover {
+            color: $hover-color;
+        }
+
+        &:active {
+            transform: scale(0.9);
+        }
+    }
+}
