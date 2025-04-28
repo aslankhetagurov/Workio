@@ -3,9 +3,12 @@ import { Toaster } from 'sonner';
 
 import { Header } from './modules/Header';
 import { Footer } from './modules/Footer';
+import { useInitAuth } from './modules/Auth/hooks/useInitAuth';
 import './App.scss';
 
 function App() {
+    useInitAuth();
+
     return (
         <BrowserRouter>
             <div className="app">
