@@ -4,6 +4,7 @@ import { Toaster } from 'sonner';
 import { Header } from './modules/Header';
 import { Footer } from './modules/Footer';
 import { useInitAuth } from './modules/Auth/hooks/useInitAuth';
+import { AuthModal } from './modules/Auth';
 import './App.scss';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <BrowserRouter>
             <div className="app">
                 <Toaster position="top-left" closeButton richColors />
+                <AuthModal />
                 <Header />
                 <main className="main"></main>
                 <Footer />
