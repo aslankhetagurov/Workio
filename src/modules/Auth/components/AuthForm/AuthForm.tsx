@@ -168,7 +168,7 @@ const AuthForm = () => {
                                     className={styles.auth__select}
                                     {...register('role', { required: true })}
                                 >
-                                    <option value="" disabled selected hidden>
+                                    <option value="" hidden>
                                         -- Select Role --
                                     </option>
                                     <option
