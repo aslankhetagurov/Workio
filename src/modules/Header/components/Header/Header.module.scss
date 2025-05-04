@@ -1,12 +1,19 @@
-@use "../../../../styles/abstracts/index.scss" as *;
+@use "@/styles/abstracts/index.scss" as *;
 
 .header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    right: 0;
+    left: 0;
+    max-width: 1430px;
+    padding: 0 15px;
     width: 100%;
+    margin: 0 auto;
+    z-index: 1000;
     background-color: #fff;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     height: 8rem;
 
     &__logo {
@@ -26,16 +33,5 @@
 
     &__auth {
         @include flex-align-center;
-    }
-
-    &__auth-btn {
-        padding: 2rem;
-        border-radius: 5px;
-        background-color: $accent-bg-color;
-        color: #000;
-
-        &:hover {
-            background-color: $hover-color;
-        }
     }
 }
