@@ -1,10 +1,19 @@
 import { Link } from 'react-router-dom';
 
 import Menu from '../Menu/Menu';
-import logo from '../../../../assets/logo.webp';
+import logo from '@/assets/logo.webp';
+import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
+import { selectUserData, toggleAuthModal } from '@/modules/Auth';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import UserMenu from '../UserMenu/UserMenu';
 import styles from './Header.module.scss';
 
 export const Header = () => {
+    const dispatch = useAppDispatch();
+
+    const handleModalShowToggle = () => dispatch(toggleAuthModal());
+    const userData = useAppSelector(selectUserData);
+
     return (
         <header className={styles.header}>
             <Link
@@ -19,15 +28,20 @@ export const Header = () => {
                 />
                 <h1 className={styles.header__title}>Workio</h1>
             </Link>
+
             <Menu />
-            <div className={styles.header__auth}>
-                <button
-                    className={styles['header__auth-btn']}
-                    aria-label="Log in or sign up"
-                >
-                    Log In / Sign Up
-                </button>
-            </div>
+
+            {userData ? (
+                <UserMenu />
+            ) : (
+                <div className={styles.header__auth}>
+                    <PrimaryButton
+                        label="Log In / Sign Up"
+                        ariaLabel="Log in or sign up"
+                        onClick={handleModalShowToggle}
+                    />
+                </div>
+            )}
         </header>
     );
 };
