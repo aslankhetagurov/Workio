@@ -21,7 +21,6 @@
   padding: 0;
   box-sizing: border-box;
   border: 0;
-  outline: 0;
   background: none;
   font: inherit;
   vertical-align: baseline;
@@ -59,10 +58,6 @@ a {
   text-decoration: none;
 }
 
-*:focus {
-  outline: none;
-}
-
 *:focus-visible {
   outline: 3px solid #55a4ff;
 }
@@ -86,7 +81,6 @@ button {
   border: none;
   font: inherit;
   color: inherit;
-  outline: none;
 }
 
 button {
@@ -102,10 +96,6 @@ img {
 p {
   margin: 0;
   padding: 0;
-}
-
-input {
-  outline: none;
 }
 
 input::-webkit-outer-spin-button,
