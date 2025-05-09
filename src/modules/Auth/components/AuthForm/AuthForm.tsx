@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
 import { useAuth } from '../../hooks/useAuth';
+import { selectAuthModalIsOpen } from '../../store/authSlice';
+import { useAppSelector } from '@/store/hooks';
 import styles from './AuthForm.module.scss';
 
 interface IFormInputs {
@@ -27,6 +29,19 @@ const AuthForm = () => {
         mode: 'onBlur',
     });
     const { handleAuth, isLoading } = useAuth();
+    const modalIsOpen = useAppSelector(selectAuthModalIsOpen);
+    const emailInputRef = useRef<HTMLInputElement>(null);
+    const fullNameInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        reset();
+
+        if (mode === 'signUp') {
+            fullNameInputRef.current?.focus();
+        } else {
+            emailInputRef.current?.focus();
+        }
+    }, [modalIsOpen, mode]);
 
     const onSubmit: SubmitHandler<IFormInputs> = (data) => {
         const { email, password, fullName, role } = data;
@@ -90,6 +105,10 @@ const AuthForm = () => {
                                 pattern: /^[A-Za-z]+ [A-Za-z]+$/i,
                                 minLength: 3,
                             })}
+                            ref={(e) => {
+                                register('fullName').ref(e);
+                                fullNameInputRef.current = e;
+                            }}
                         />
                         {errors.fullName && (
                             <span className={styles['auth__form-error']}>
@@ -115,6 +134,10 @@ const AuthForm = () => {
                             required: true,
                             pattern: /^\S+@\S+$/i,
                         })}
+                        ref={(e) => {
+                            register('email').ref(e);
+                            emailInputRef.current = e;
+                        }}
                     />
                     {errors.email && (
                         <span className={styles['auth__form-error']}>
