@@ -1,0 +1,34 @@
+.hero-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__content {
+        position: absolute;
+        width: 100%;
+        z-index: 10;
+    }
+
+    &__titles {
+        display: inline-block;
+        background-color: #f4f6fbdd;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    &__title {
+        font-size: 6rem;
+        font-weight: 700;
+        max-width: 49rem;
+        line-height: 1.1;
+        margin-bottom: 10px;
+    }
+
+    &__img {
+        margin-left: auto;
+        max-width: 70%;
+        object-fit: cover;
+    }
+}
