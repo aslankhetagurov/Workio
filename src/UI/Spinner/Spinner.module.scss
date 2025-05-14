@@ -1,0 +1,25 @@
+@use "@/styles/abstracts/index.scss" as *;
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+
+    &__icon {
+        width: 30px;
+        height: 30px;
+        margin: 0 auto;
+        color: $hover-color;
+        animation: spinner 1s linear infinite;
+    }
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
