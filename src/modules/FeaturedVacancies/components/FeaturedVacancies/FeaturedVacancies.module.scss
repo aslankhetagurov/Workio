@@ -1,0 +1,53 @@
+@use "@/styles/abstracts/index.scss" as *;
+
+.featured-vacancies {
+    margin-bottom: 10rem;
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+
+    &__title {
+        font-size: 2.2rem;
+        font-weight: 700;
+    }
+
+    &__categories-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    &__categories {
+        width: 210px;
+        height: 45px;
+        padding: 0 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 18px;
+        cursor: pointer;
+        box-shadow: 3px 3px 10px 5px rgba(0, 0, 0, 0.1);
+        border: 1px solid #dbdbdb;
+
+        &:hover {
+            background-color: $accent-bg-color;
+        }
+    }
+
+    &__categories-icon {
+        font-size: 20px;
+        position: absolute;
+        bottom: 3px;
+        pointer-events: none;
+        color: $hover-color;
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
