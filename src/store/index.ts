@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { authReducer } from '@/modules/Auth';
 import { locationApi } from './api/locationApi';
-import { featuredVacanciesApi } from '@/modules/FeaturedVacancies/api/featuredVacanciesApi';
+import { featuredVacanciesApi } from '@/modules/FeaturedVacancies';
 
 const store = configureStore({
     reducer: {
