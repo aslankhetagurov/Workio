@@ -1,14 +1,15 @@
 import { ChangeEvent, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 
-import { jobCategories, TJobCategories } from '@/consts/jobCategories';
+import { jobCategories, TJobCategoriesWithAll } from '@/consts/jobCategories';
 import { useGetFeaturedVacanciesQuery } from '../../api/featuredVacanciesApi';
 import VacancyItem from '@/UI/VacancyItem/VacancyItem';
 import styles from './FeaturedVacancies.module.scss';
 import Spinner from '@/UI/Spinner/Spinner';
 
 export const FeaturedVacancies = () => {
-    const [category, setCategory] = useState<TJobCategories>('All categories');
+    const [category, setCategory] =
+        useState<TJobCategoriesWithAll>('All categories');
 
     const {
         data: vacancies,
@@ -25,7 +26,7 @@ export const FeaturedVacancies = () => {
     if (!vacancies) return null;
 
     const handleSetCategory = (e: ChangeEvent<HTMLSelectElement>) => {
-        const value = e.target.value as TJobCategories;
+        const value = e.target.value as TJobCategoriesWithAll;
         setCategory(value);
     };
 
@@ -54,6 +55,9 @@ export const FeaturedVacancies = () => {
                         value={category}
                         onChange={handleSetCategory}
                     >
+                        <option key="All categories" value="All categories">
+                            All categories
+                        </option>
                         {jobCategories.map((category) => (
                             <option key={category} value={category}>
                                 {category}

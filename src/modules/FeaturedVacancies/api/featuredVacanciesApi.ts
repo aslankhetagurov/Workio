@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 
 import supabase from '../../../../supabaseClient';
 import { VacancyWithCompany } from '@/types/database.types';
-import { TJobCategories } from '@/consts/jobCategories';
+import { TJobCategoriesWithAll } from '@/consts/jobCategories';
 
 export const featuredVacanciesApi = createApi({
     reducerPath: 'featuredVacanciesApi',
@@ -11,7 +11,7 @@ export const featuredVacanciesApi = createApi({
     endpoints: (builder) => ({
         getFeaturedVacancies: builder.query<
             VacancyWithCompany[],
-            TJobCategories | null
+            TJobCategoriesWithAll | null
         >({
             queryFn: async (category) => {
                 try {

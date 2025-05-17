@@ -1,5 +1,4 @@
 export const jobCategories = [
-    'All categories',
     'Engineering',
     'Design',
     'Product Management',
@@ -17,5 +16,7 @@ export const jobCategories = [
     'Project Management',
     'IT',
 ] as const;
-
 export type TJobCategories = (typeof jobCategories)[number];
+
+type TAllCategories = 'All categories';
+export type TJobCategoriesWithAll = TAllCategories | TJobCategories;
