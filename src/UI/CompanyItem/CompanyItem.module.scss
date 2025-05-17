@@ -1,0 +1,68 @@
+@use "@/styles/abstracts/index.scss" as *;
+
+.company-item {
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    transition: background-color 0.3s;
+    display: flex;
+
+    &:hover {
+        background-color: $accent-bg-color;
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        padding: 20px;
+    }
+
+    &__logo {
+        width: 55px;
+        height: 55px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    &__info {
+        display: grid;
+        row-gap: 10px;
+    }
+
+    &__name {
+        font-weight: 700;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__other-info {
+        display: grid;
+        grid-template-columns: min-content min-content;
+        column-gap: 10px;
+        font-size: 12px;
+    }
+
+    &__other-info-item {
+        display: flex;
+        align-items: center;
+        column-gap: 2px;
+        overflow: hidden;
+    }
+
+    &__text {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 165px;
+    }
+
+    &__link-vacancies {
+        margin-left: auto;
+        height: 100%;
+        max-width: min-content;
+        padding: 20px;
+    }
+}
