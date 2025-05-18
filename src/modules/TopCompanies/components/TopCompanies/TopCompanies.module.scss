@@ -1,0 +1,28 @@
+.top-companies {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15rem;
+
+    &__titles {
+        margin-bottom: 40px;
+    }
+
+    &__title {
+        font-size: 2.2rem;
+        font-weight: 700;
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    &__link-all {
+        max-width: 200px;
+        width: 100%;
+        display: inline-block;
+        margin: 0 auto;
+    }
+}
