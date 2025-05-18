@@ -1,6 +1,7 @@
 import { HeroSection } from '@/modules/HeroSection';
 import { FeaturedVacancies } from '@/modules/FeaturedVacancies';
 import { PromoSection } from '@/modules/PromoSection';
+import { TopCompanies } from '@/modules/TopCompanies';
 
 const HomePage = () => {
     return (
@@ -8,6 +9,7 @@ const HomePage = () => {
             <HeroSection />
             <FeaturedVacancies />
             <PromoSection />
+            <TopCompanies />
         </div>
     );
 };
