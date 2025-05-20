@@ -1,0 +1,103 @@
+@use "@/styles/abstracts/index.scss" as *;
+
+.resume-item {
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 5px 5px 15px #dbdbdb;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: $accent-bg-color;
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        padding: 20px 10px;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        row-gap: 10px;
+        overflow: hidden;
+    }
+
+    &__avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 100px;
+        object-fit: cover;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__username {
+        font-weight: 700;
+    }
+
+    &__other-info {
+        display: flex;
+        column-gap: 10px;
+        font-size: 12px;
+        flex-wrap: wrap;
+    }
+
+    &__other-info-item {
+        display: flex;
+        align-items: center;
+        column-gap: 2px;
+    }
+
+    &__title {
+        font-weight: 700;
+    }
+
+    &__salary-icon {
+        font-size: 16px;
+    }
+
+    &__text {
+        display: inline-block;
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__skills {
+        display: flex;
+        column-gap: 15px;
+    }
+
+    &__skill {
+        min-width: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 10px;
+        background-color: #c9dfff;
+        color: #ffffff;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: 700;
+
+        &.employment {
+            background-color: #bc7fdd;
+        }
+
+        &.accessibility {
+            background-color: #358cfe;
+        }
+
+        &.urgent {
+            background-color: #ff9393;
+        }
+    }
+}

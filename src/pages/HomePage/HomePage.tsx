@@ -3,6 +3,7 @@ import { FeaturedVacancies } from '@/modules/FeaturedVacancies';
 import { PromoSection } from '@/modules/PromoSection';
 import { TopCompanies } from '@/modules/TopCompanies';
 import { FeaturedCities } from '@/modules/FeaturedCities';
+import { FeaturedResumes } from '@/modules/FeaturedResumes';
 
 const HomePage = () => {
     return (
@@ -12,6 +13,7 @@ const HomePage = () => {
             <PromoSection />
             <TopCompanies />
             <FeaturedCities />
+            <FeaturedResumes />
         </div>
     );
 };
