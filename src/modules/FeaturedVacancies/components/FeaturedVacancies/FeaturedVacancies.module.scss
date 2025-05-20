@@ -1,7 +1,9 @@
 @use "@/styles/abstracts/index.scss" as *;
 
 .featured-vacancies {
-    margin-bottom: 10rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15rem;
 
     &__top {
         display: flex;
@@ -49,5 +51,13 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    &__link-all {
+        max-width: 200px;
+        width: 100%;
+        display: inline-block;
+        margin: 0 auto;
     }
 }

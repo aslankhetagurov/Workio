@@ -1,11 +1,13 @@
 import { ChangeEvent, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 import { jobCategories, TJobCategoriesWithAll } from '@/consts/jobCategories';
 import { useGetFeaturedVacanciesQuery } from '../../api/featuredVacanciesApi';
 import VacancyItem from '@/UI/VacancyItem/VacancyItem';
-import styles from './FeaturedVacancies.module.scss';
 import Spinner from '@/UI/Spinner/Spinner';
+import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
+import styles from './FeaturedVacancies.module.scss';
 
 export const FeaturedVacancies = () => {
     const [category, setCategory] =
@@ -84,6 +86,13 @@ export const FeaturedVacancies = () => {
                     ))
                 )}
             </ul>
+
+            <Link
+                className={styles['featured-vacancies__link-all']}
+                to="/vacancies"
+            >
+                <PrimaryButton label="Show All" />
+            </Link>
         </section>
     );
 };
