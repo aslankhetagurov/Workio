@@ -1,0 +1,18 @@
+.featured-cities {
+    width: 100%;
+    margin-bottom: 15rem;
+
+    &__header {
+        margin-bottom: 20px;
+    }
+
+    &__title {
+        font-weight: 700;
+        font-size: 2.2rem;
+    }
+
+    &__list {
+        display: flex;
+        gap: 30px;
+    }
+}
