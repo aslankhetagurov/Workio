@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import Spinner from '@/UI/Spinner/Spinner';
+import Spinner from '@/shared/UI/Spinner/Spinner';
 import { useGetTopCompaniesQuery } from '../../api/topCompaniesApi';
-import CompanyItem from '@/UI/CompanyItem/CompanyItem';
-import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
+import CompanyItem from '@/shared/UI/CompanyItem/CompanyItem';
+import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import styles from './TopCompanies.module.scss';
 
 export const TopCompanies = () => {

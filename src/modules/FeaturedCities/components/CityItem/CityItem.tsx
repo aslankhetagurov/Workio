@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { cityImageMap } from '@/modules/FeaturedCities/consts/cityImageMap';
-import { TCitySlug } from '@/consts/citySlugMap';
+import { TCitySlug } from '@/shared/consts/citySlugMap';
 import styles from './CityItem.module.scss';
 
 interface ICityItemProps {

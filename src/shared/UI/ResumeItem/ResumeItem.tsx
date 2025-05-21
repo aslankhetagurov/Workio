@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { GiMoneyStack } from 'react-icons/gi';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 
-import { ResumeWithUser } from '@/types/database.types';
-import defaultAvatar from '@/assets/default-avatar.png';
-import { formatDateToTimeAgo } from '@/helpers/formatDateToTimeAgo';
+import { ResumeWithUser } from '@/shared/types/database.types';
+import defaultAvatar from '@/shared/assets/images/default-avatar.png';
+import { formatDateToTimeAgo } from '@/shared/lib/formatDateToTimeAgo';
 import styles from './ResumeItem.module.scss';
 
 interface IResumeItemProps {

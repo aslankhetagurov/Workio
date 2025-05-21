@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
 import Menu from '../Menu/Menu';
-import logo from '@/assets/logo.webp';
-import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
+import logo from '@/shared/assets/images/logo.webp';
+import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import { selectUserData, toggleAuthModal } from '@/modules/Auth';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import UserMenu from '../UserMenu/UserMenu';

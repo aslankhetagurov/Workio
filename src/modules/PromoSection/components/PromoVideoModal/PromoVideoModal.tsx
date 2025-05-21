@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import CloseButton from '@/UI/CloseButton/CloseButton';
+import CloseButton from '@/shared/UI/CloseButton/CloseButton';
 import styles from './PromoVideoModal.module.scss';
 
 interface IPromoVideoModalProps {

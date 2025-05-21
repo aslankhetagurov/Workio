@@ -3,9 +3,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { IoIosSearch, IoIosArrowDown, IoIosPin } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
-import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
-import { useDebouncedWatch } from '@/hooks/useDebouncedWatch';
-import { professions, TProfessionsType } from '@/consts/professions';
+import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
+import { useDebouncedWatch } from '@/shared/hooks/useDebouncedWatch';
+import { professions, TProfessionsType } from '@/shared/consts/professions';
 import {
     ILocationItem,
     TLocationApiResponse,

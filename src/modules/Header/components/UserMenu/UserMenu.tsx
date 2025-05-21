@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useAppSelector } from '@/store/hooks';
 import { handleLogOut, selectUserData } from '@/modules/Auth';
-import defaultAvatar from '@/assets/default-avatar.png';
-import CloseButton from '@/UI/CloseButton/CloseButton';
+import defaultAvatar from '@/shared/assets/images/default-avatar.png';
+import CloseButton from '@/shared/UI/CloseButton/CloseButton';
 import styles from './UserMenu.module.scss';
 
 const UserMenu = () => {

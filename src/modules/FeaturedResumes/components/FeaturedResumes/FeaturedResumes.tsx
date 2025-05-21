@@ -2,11 +2,14 @@ import { ChangeEvent, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-import { jobCategories, TJobCategoriesWithAll } from '@/consts/jobCategories';
-import Spinner from '@/UI/Spinner/Spinner';
+import {
+    jobCategories,
+    TJobCategoriesWithAll,
+} from '@/shared/consts/jobCategories';
+import Spinner from '@/shared/UI/Spinner/Spinner';
 import { useGetFeaturedResumesQuery } from '../../api/featuredResumesApi';
-import ResumeItem from '@/UI/ResumeItem/ResumeItem';
-import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
+import ResumeItem from '@/shared/UI/ResumeItem/ResumeItem';
+import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import styles from './FeaturedResumes.module.scss';
 
 export const FeaturedResumes = () => {

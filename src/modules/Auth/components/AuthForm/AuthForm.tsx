@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
-import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
+import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import { useAuth } from '../../hooks/useAuth';
 import { selectAuthModalIsOpen } from '../../store/authSlice';
 import { useAppSelector } from '@/store/hooks';

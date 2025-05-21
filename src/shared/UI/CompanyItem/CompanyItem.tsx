@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { FaBuilding } from 'react-icons/fa';
 import { IoLocationOutline } from 'react-icons/io5';
 
-import { Tables } from '@/types/database.types';
-import companyLogo from '@/assets/company-logo.webp';
+import { Tables } from '@/shared/types/database.types';
+import companyLogo from '@/shared/assets/images/company-logo.webp';
 import PrimaryButton from '../PrimaryButton/PrimaryButton';
 import styles from './CompanyItem.module.scss';
 

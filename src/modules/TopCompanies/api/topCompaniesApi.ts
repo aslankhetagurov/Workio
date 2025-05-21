@@ -2,7 +2,7 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { toast } from 'sonner';
 
 import supabase from '../../../../supabaseClient';
-import { Tables } from '@/types/database.types';
+import { Tables } from '@/shared/types/database.types';
 
 export const topCompaniesApi = createApi({
     reducerPath: 'topCompaniesApi',

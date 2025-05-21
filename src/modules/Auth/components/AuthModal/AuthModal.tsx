@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import AuthForm from '../AuthForm/AuthForm';
 import { selectAuthModalIsOpen, toggleAuthModal } from '../../store/authSlice';
-import CloseButton from '@/UI/CloseButton/CloseButton';
+import CloseButton from '@/shared/UI/CloseButton/CloseButton';
 import styles from './AuthModal.module.scss';
 
 const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();

@@ -1,5 +1,5 @@
 import HeroSearchForm from '../HeroSearchForm/HeroSearchForm';
-import bg from '@/assets/job-bg.svg';
+import bg from '@/shared/assets/images/job-bg.svg';
 import styles from './HeroSection.module.scss';
 
 export const HeroSection = () => {

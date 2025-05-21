@@ -2,8 +2,8 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { toast } from 'sonner';
 
 import supabase from '../../../../supabaseClient';
-import { VacancyWithCompany } from '@/types/database.types';
-import { TJobCategoriesWithAll } from '@/consts/jobCategories';
+import { VacancyWithCompany } from '@/shared/types/database.types';
+import { TJobCategoriesWithAll } from '@/shared/consts/jobCategories';
 
 export const featuredVacanciesApi = createApi({
     reducerPath: 'featuredVacanciesApi',

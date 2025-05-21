@@ -5,7 +5,7 @@ import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import { useAppDispatch } from '@/store/hooks';
 import supabase from '../../../../supabaseClient';
 import { setUserData } from '../store/authSlice';
-import { Tables } from '@/types/database.types';
+import { Tables } from '@/shared/types/database.types';
 
 export const useInitAuth = () => {
     const dispatch = useAppDispatch();

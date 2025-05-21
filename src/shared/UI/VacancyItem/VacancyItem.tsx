@@ -3,10 +3,10 @@ import { GiMoneyStack } from 'react-icons/gi';
 import { FaBuilding } from 'react-icons/fa';
 import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 
-import { VacancyWithCompany } from '@/types/database.types';
-import companyLogo from '@/assets/company-logo.webp';
-import { formatToK } from '@/helpers/formatToK';
-import { formatDateToTimeAgo } from '@/helpers/formatDateToTimeAgo';
+import { VacancyWithCompany } from '@/shared/types/database.types';
+import companyLogo from '@/shared/assets/images/company-logo.webp';
+import { formatToK } from '@/shared/lib/formatToK';
+import { formatDateToTimeAgo } from '@/shared/lib/formatDateToTimeAgo';
 import styles from './VacancyItem.module.scss';
 
 interface IVacancyItemProps {

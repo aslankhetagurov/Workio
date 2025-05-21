@@ -1,6 +1,6 @@
-import Slider from '@/UI/Slider/Slider';
+import Slider from '@/shared/UI/Slider/Slider';
 import CityItem from '../CityItem/CityItem';
-import { citySlugMap, TCitySlug } from '@/consts/citySlugMap';
+import { citySlugMap, TCitySlug } from '@/shared/consts/citySlugMap';
 import styles from './FeaturedCities.module.scss';
 
 export const FeaturedCities = () => {

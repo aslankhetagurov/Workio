@@ -2,11 +2,14 @@ import { ChangeEvent, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-import { jobCategories, TJobCategoriesWithAll } from '@/consts/jobCategories';
+import {
+    jobCategories,
+    TJobCategoriesWithAll,
+} from '@/shared/consts/jobCategories';
 import { useGetFeaturedVacanciesQuery } from '../../api/featuredVacanciesApi';
-import VacancyItem from '@/UI/VacancyItem/VacancyItem';
-import Spinner from '@/UI/Spinner/Spinner';
-import PrimaryButton from '@/UI/PrimaryButton/PrimaryButton';
+import VacancyItem from '@/shared/UI/VacancyItem/VacancyItem';
+import Spinner from '@/shared/UI/Spinner/Spinner';
+import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import styles from './FeaturedVacancies.module.scss';
 
 export const FeaturedVacancies = () => {

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '@/store/index';
-import { Tables } from '@/types/database.types';
+import { Tables } from '@/shared/types/database.types';
 
 interface IAuthModalState {
     userData: Tables<'users'> | null;

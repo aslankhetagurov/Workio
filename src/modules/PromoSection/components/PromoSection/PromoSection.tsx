@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 
-import preview from '@/assets/promo-preview.webp';
+import preview from '@/shared/assets/images/promo-preview.webp';
 import styles from './PromoSection.module.scss';
 import PromoVideoModal from '../PromoVideoModal/PromoVideoModal';
 
