@@ -12,3 +12,8 @@
 @mixin transition($property: all) {
     transition: $property 0.3s ease;
 }
+
+@mixin placeholder {
+    font-size: 14px;
+    color: #b7b7b7;
+}
