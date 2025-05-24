@@ -1,10 +1,10 @@
 @use "@/shared/styles/abstracts/index.scss" as *;
 
 .resume-item {
-    border: 1px solid #dbdbdb;
+    border: 1px solid #f1f1f1;
     border-radius: 10px;
     width: 100%;
-    box-shadow: 5px 5px 15px #dbdbdb;
+    box-shadow: 5px 5px 15px #f3f3f3;
     transition: background-color 0.3s;
 
     &:hover {
@@ -16,6 +16,7 @@
         align-items: center;
         column-gap: 10px;
         padding: 20px 10px;
+        border-radius: 10px;
     }
 
     &__content {
