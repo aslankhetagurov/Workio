@@ -41,4 +41,14 @@
             }
         }
     }
+
+    &-reset {
+        background-color: #ffbaba;
+        color: #f27777;
+
+        &:hover {
+            background-color: #f27777;
+            color: #fff;
+        }
+    }
 }

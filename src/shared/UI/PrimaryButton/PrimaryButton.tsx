@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 
 import styles from './PrimaryButton.module.scss';
@@ -10,6 +10,7 @@ interface PrimaryButtonProps {
     type?: 'button' | 'submit' | 'reset';
     ariaLabel?: string;
     isLoading?: boolean;
+    style?: CSSProperties;
 }
 
 const PrimaryButton: FC<PrimaryButtonProps> = ({
@@ -17,8 +18,9 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
     onClick,
     disabled = false,
     type = 'button',
-    ariaLabel = 'Button',
+    ariaLabel = label,
     isLoading = false,
+    style,
 }) => {
     return (
         <button
@@ -26,7 +28,10 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
             aria-label={ariaLabel}
             onClick={onClick}
             disabled={disabled}
-            className={styles['primary-button']}
+            className={`${styles['primary-button']} ${
+                label === 'Reset' ? styles['primary-button-reset'] : ''
+            }`}
+            style={style}
         >
             {isLoading ? (
                 <ImSpinner2 className={styles['primary-button__spinner']} />
