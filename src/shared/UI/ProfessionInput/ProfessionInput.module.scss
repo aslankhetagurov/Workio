@@ -1,0 +1,41 @@
+.profession-input {
+    &__label {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    &__label-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: inline-block;
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+    }
+
+    &__input-wrapper {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    &__input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        position: relative;
+        padding-left: 25px;
+
+        &::placeholder {
+            font-size: 14px;
+            color: #b7b7b7;
+        }
+    }
+
+    &__icon {
+        font-size: 22px;
+        position: absolute;
+    }
+}
