@@ -6,12 +6,14 @@ interface DropDownListProps {
     list: TProfessionsType[];
     handleSetValue: (value: string) => void;
     showDropDown: boolean;
+    id: string;
 }
 
 const DropDownList = ({
     list,
     handleSetValue,
     showDropDown,
+    id,
 }: DropDownListProps) => {
     return (
         <ul
@@ -19,6 +21,7 @@ const DropDownList = ({
                 showDropDown && list.length ? styles['dropdown-list-show'] : ''
             }`}
             role="listbox"
+            id={id}
         >
             {list?.slice(0, 5).map((item) => {
                 return (
