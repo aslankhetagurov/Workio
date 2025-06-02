@@ -1,9 +1,8 @@
-import { TProfessionsType } from '@/shared/consts/professions';
 import PrimaryButton from '../PrimaryButton/PrimaryButton';
 import styles from './DropDownList.module.scss';
 
 interface DropDownListProps {
-    list: TProfessionsType[];
+    list: string[];
     handleSetValue: (value: string) => void;
     showDropDown: boolean;
     id: string;
@@ -23,11 +22,11 @@ const DropDownList = ({
             role="listbox"
             id={id}
         >
-            {list?.slice(0, 5).map((item) => {
+            {list?.slice(0, 5).map((item, i) => {
                 return (
                     <li
                         className={styles['dropdown-list__item']}
-                        key={item}
+                        key={`${item}-${i}`}
                         role="option"
                     >
                         <PrimaryButton
