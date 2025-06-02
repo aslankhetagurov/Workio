@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IoIosSearch, IoIosArrowDown, IoIosPin } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
 import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import { useDebouncedWatch } from '@/shared/hooks/useDebouncedWatch';
-import { professions, TProfessionsType } from '@/shared/consts/professions';
+import { TProfessionsType } from '@/shared/consts/professions';
 import {
     ILocationItem,
     TLocationApiResponse,
     useGetLocationsQuery,
 } from '@/store/api/locationApi';
+import ProfessionInput from '@/shared/UI/ProfessionInput/ProfessionInput';
 import styles from './HeroSearchForm.module.scss';
 
 interface IHeroSearchForm {
@@ -22,9 +22,6 @@ interface IHeroSearchForm {
 export type THeroSearchFormKeys = keyof IHeroSearchForm;
 
 const HeroSearchForm = () => {
-    const [filteredProfessions, setFilteredProfessions] = useState<
-        TProfessionsType[] | null
-    >(null);
     const navigate = useNavigate();
 
     const { register, handleSubmit, watch, setValue } =
@@ -41,14 +38,8 @@ const HeroSearchForm = () => {
         navigate(`/${select.toLowerCase()}?${params.toString()}`);
     };
 
-    const jobOrCompanyInput = watch('jobOrCompanyInput');
     const locationInput = watch('locationInput');
     const select = watch('select');
-
-    const debouncedJobOrCompanyInput = useDebouncedWatch(
-        jobOrCompanyInput,
-        500
-    );
     const debouncedLocation = useDebouncedWatch(locationInput, 300);
 
     const { data: locationList } = useGetLocationsQuery(debouncedLocation, {
@@ -61,35 +52,8 @@ const HeroSearchForm = () => {
               debouncedLocation.toLowerCase().trim()
             : null;
 
-    useEffect(() => {
-        const input = debouncedJobOrCompanyInput?.trim().toLowerCase();
-
-        if (!input || select === 'companies') {
-            setFilteredProfessions(null);
-            return;
-        }
-
-        const filteredProfessions = professions.filter((job) =>
-            job.toLowerCase().includes(input)
-        );
-
-        if (
-            filteredProfessions.length === 1 &&
-            filteredProfessions[0].toLowerCase() === input
-        ) {
-            setFilteredProfessions(null);
-        } else {
-            setFilteredProfessions(
-                filteredProfessions.length > 0 ? filteredProfessions : null
-            );
-        }
-    }, [debouncedJobOrCompanyInput]);
-
     const handleSetValue = (field: THeroSearchFormKeys, item: string) => {
         setValue(field, item);
-        if (field === 'jobOrCompanyInput') {
-            setFilteredProfessions(null);
-        }
     };
 
     const renderDropDownItems = (
@@ -130,24 +94,28 @@ const HeroSearchForm = () => {
 
     return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <label className={styles.form__label}>
-                <IoIosSearch className={styles.form__icon} />
-                <input
-                    className={styles.form__input}
+            {select === 'companies' ? (
+                <label className={styles.form__label} htmlFor="companyInput">
+                    <IoIosSearch className={styles.form__icon} />
+                    <input
+                        className={styles.form__input}
+                        type="text"
+                        {...register('jobOrCompanyInput')}
+                        placeholder="Company name"
+                        id="companyInput"
+                    />
+                </label>
+            ) : (
+                <ProfessionInput<IHeroSearchForm>
+                    register={register}
+                    setValue={setValue}
+                    watch={watch}
+                    customLabelClass={styles.form__label}
+                    customInputClass={styles.form__input}
                     placeholder="job title, keywords, or company"
-                    {...register('jobOrCompanyInput')}
-                    aria-expanded={
-                        !!filteredProfessions?.length &&
-                        select !== 'companies' &&
-                        !!jobOrCompanyInput
-                    }
+                    name="jobOrCompanyInput"
                 />
-
-                {!!filteredProfessions?.length &&
-                    select !== 'companies' &&
-                    jobOrCompanyInput &&
-                    renderDropDownItems(filteredProfessions)}
-            </label>
+            )}
 
             <label className={styles.form__label}>
                 <IoIosPin className={styles.form__icon} />
