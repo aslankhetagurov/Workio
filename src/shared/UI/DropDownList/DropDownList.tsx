@@ -6,6 +6,7 @@ interface DropDownListProps {
     handleSetValue: (value: string) => void;
     showDropDown: boolean;
     id: string;
+    itemsLimit?: number;
 }
 
 const DropDownList = ({
@@ -13,6 +14,7 @@ const DropDownList = ({
     handleSetValue,
     showDropDown,
     id,
+    itemsLimit = 5,
 }: DropDownListProps) => {
     return (
         <ul
@@ -22,7 +24,7 @@ const DropDownList = ({
             role="listbox"
             id={id}
         >
-            {list?.slice(0, 5).map((item, i) => {
+            {list?.slice(0, itemsLimit).map((item, i) => {
                 return (
                     <li
                         className={styles['dropdown-list__item']}
