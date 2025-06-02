@@ -11,7 +11,7 @@ import { IoIosSearch } from 'react-icons/io';
 
 import { useDebouncedWatch } from '@/shared/hooks/useDebouncedWatch';
 import { professions, TProfessionsType } from '@/shared/consts/professions';
-import DropDownList from '../DropDownList/DropDownList';
+import DropDownList from '../../UI/DropDownList/DropDownList';
 import styles from './ProfessionInput.module.scss';
 
 interface ProfessionInputProps<T extends FieldValues> {

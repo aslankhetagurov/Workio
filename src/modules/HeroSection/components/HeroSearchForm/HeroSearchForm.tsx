@@ -3,7 +3,7 @@ import { IoIosSearch, IoIosArrowDown } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
 import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
-import ProfessionInput from '@/shared/UI/ProfessionInput/ProfessionInput';
+import ProfessionInput from '@/shared/components/ProfessionInput/ProfessionInput';
 import LocationInput from '@/shared/components/LocationInput/LocationInput';
 import styles from './HeroSearchForm.module.scss';
 
