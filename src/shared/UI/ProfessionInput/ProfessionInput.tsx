@@ -141,14 +141,14 @@ const ProfessionInput = <T extends FieldValues>({
                     aria-autocomplete="list"
                     role="combobox"
                 />
-            </div>
 
-            <DropDownList
-                list={filteredProfessions || []}
-                handleSetValue={handleSetValue}
-                showDropDown={isOpenDropDown}
-                id={`${name}-dropdown-id`}
-            />
+                <DropDownList
+                    list={filteredProfessions || []}
+                    handleSetValue={handleSetValue}
+                    showDropDown={isOpenDropDown}
+                    id={`${name}-dropdown-id`}
+                />
+            </div>
         </label>
     );
 };
