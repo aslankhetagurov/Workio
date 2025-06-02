@@ -1,0 +1,154 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+    FieldValues,
+    Path,
+    PathValue,
+    UseFormRegister,
+    UseFormSetValue,
+    UseFormWatch,
+} from 'react-hook-form';
+import { IoIosPin } from 'react-icons/io';
+
+import DropDownList from '../../UI/DropDownList/DropDownList';
+import { useDebouncedWatch } from '@/shared/hooks/useDebouncedWatch';
+import { ILocationItem, useGetLocationsQuery } from '@/store/api/locationApi';
+import styles from './LocationInput.module.scss';
+
+interface ILocationInputProps<T extends FieldValues> {
+    register: UseFormRegister<T>;
+    watch: UseFormWatch<T>;
+    setValue: UseFormSetValue<T>;
+    name: Path<T>;
+    placeholder: string;
+    label?: string;
+    customLabelClass?: string;
+    customInputClass?: string;
+    customIconClass?: string;
+}
+
+const LocationInput = <T extends FieldValues>({
+    register,
+    watch,
+    setValue,
+    name,
+    label,
+    customLabelClass,
+    customInputClass,
+    customIconClass,
+    placeholder,
+}: ILocationInputProps<T>) => {
+    const [isOpenDropDown, setIsOpenDropDown] = useState(false);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const locationInput = watch(name);
+    const debouncedLocation = useDebouncedWatch(locationInput, 300);
+
+    const { ref: inputRegisterRef, ...inputProps } = register(name);
+
+    const { data: locationList } = useGetLocationsQuery(debouncedLocation, {
+        skip: !debouncedLocation,
+    });
+
+    useEffect(() => {
+        const input = debouncedLocation?.trim().toLowerCase();
+
+        if (!input || !filteredLocationList) {
+            return;
+        }
+
+        if (input && !isOpenDropDown) {
+            setIsOpenDropDown(true);
+        }
+
+        if (filteredLocationList[0].toLowerCase() === input) {
+            setIsOpenDropDown(false);
+        }
+    }, [debouncedLocation]);
+
+    useEffect(() => {
+        const handleClickOutside = (e: Event) => {
+            if (
+                inputRef.current &&
+                !inputRef.current.contains(e.target as Node)
+            ) {
+                setIsOpenDropDown(false);
+            }
+        };
+        const handleCloseDropDownViaEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                setIsOpenDropDown(false);
+            }
+        };
+
+        if (isOpenDropDown) {
+            window.addEventListener('pointerdown', handleClickOutside);
+            window.addEventListener('keydown', handleCloseDropDownViaEsc);
+        }
+
+        return () => {
+            window.removeEventListener('pointerdown', handleClickOutside);
+            window.removeEventListener('keydown', handleCloseDropDownViaEsc);
+        };
+    }, [isOpenDropDown]);
+
+    const handleSetValue = (value: string) => {
+        setValue(name, value as PathValue<T, typeof name>);
+    };
+
+    const handleFocus = () => setIsOpenDropDown(true);
+
+    const filteredLocationList = useMemo(
+        () =>
+            locationList?.map(
+                (location: ILocationItem) => location.display_place
+            ),
+        [locationList]
+    );
+
+    return (
+        <label
+            className={customLabelClass || styles['location-input__label']}
+            htmlFor={name}
+        >
+            <span className={styles['location-input__label-title']}>
+                {label}
+            </span>
+            <div className={styles['location-input__input-wrapper']}>
+                <IoIosPin
+                    className={
+                        customIconClass || styles['location-input__icon']
+                    }
+                />
+
+                <input
+                    className={
+                        customInputClass || styles['location-input__input']
+                    }
+                    type="text"
+                    placeholder={placeholder || ''}
+                    onFocus={handleFocus}
+                    {...inputProps}
+                    ref={(node) => {
+                        inputRegisterRef(node);
+                        inputRef.current = node;
+                    }}
+                    id={name}
+                    autoComplete={debouncedLocation ? 'off' : 'on'}
+                    aria-expanded={isOpenDropDown}
+                    aria-controls={`${name}-dropdown-id`}
+                    aria-autocomplete="list"
+                    role="combobox"
+                />
+
+                <DropDownList
+                    list={filteredLocationList || []}
+                    handleSetValue={handleSetValue}
+                    showDropDown={isOpenDropDown}
+                    id={`${name}-dropdown-id`}
+                />
+            </div>
+        </label>
+    );
+};
+
+export default LocationInput;
