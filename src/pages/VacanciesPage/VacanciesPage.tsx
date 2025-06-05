@@ -1,5 +1,11 @@
+import { Vacancies } from '@/modules/Vacancies';
+
 const VacanciesPage = () => {
-    return <h1>Vacancies Page</h1>;
+    return (
+        <>
+            <Vacancies />
+        </>
+    );
 };
 
 export default VacanciesPage;
