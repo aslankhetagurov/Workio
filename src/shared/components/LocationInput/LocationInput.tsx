@@ -1,31 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import {
-    FieldValues,
-    Path,
-    PathValue,
-    UseFormRegister,
-    UseFormSetValue,
-    UseFormWatch,
-} from 'react-hook-form';
+import { FieldValues, PathValue } from 'react-hook-form';
 import { IoIosPin } from 'react-icons/io';
 
 import DropDownList from '../../UI/DropDownList/DropDownList';
 import { useDebouncedWatch } from '@/shared/hooks/useDebouncedWatch';
 import { ILocationItem, useGetLocationsQuery } from '@/store/api/locationApi';
 import { useCloseViaClickOutsideAndEsc } from '@/shared/hooks/useCloseViaClickOutsideAndEsc';
+import { IAutocompleteInputProps } from '@/shared/types/IAutocompleteInputProps.types';
 import styles from './LocationInput.module.scss';
-
-interface ILocationInputProps<T extends FieldValues> {
-    register: UseFormRegister<T>;
-    watch: UseFormWatch<T>;
-    setValue: UseFormSetValue<T>;
-    name: Path<T>;
-    placeholder: string;
-    label?: string;
-    customLabelClass?: string;
-    customInputClass?: string;
-    customIconClass?: string;
-}
 
 const LocationInput = <T extends FieldValues>({
     register,
@@ -37,7 +19,7 @@ const LocationInput = <T extends FieldValues>({
     customInputClass,
     customIconClass,
     placeholder,
-}: ILocationInputProps<T>) => {
+}: IAutocompleteInputProps<T>) => {
     const [isOpenDropDown, setIsOpenDropDown] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
     useCloseViaClickOutsideAndEsc(inputRef, isOpenDropDown, setIsOpenDropDown);

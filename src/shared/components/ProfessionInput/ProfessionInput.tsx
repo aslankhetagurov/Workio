@@ -1,31 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-    FieldValues,
-    UseFormRegister,
-    UseFormSetValue,
-    UseFormWatch,
-    Path,
-    PathValue,
-} from 'react-hook-form';
+import { FieldValues, PathValue } from 'react-hook-form';
 import { IoIosSearch } from 'react-icons/io';
 
 import { useDebouncedWatch } from '@/shared/hooks/useDebouncedWatch';
 import { professions, TProfessionsType } from '@/shared/consts/professions';
 import DropDownList from '../../UI/DropDownList/DropDownList';
 import { useCloseViaClickOutsideAndEsc } from '@/shared/hooks/useCloseViaClickOutsideAndEsc';
+import { IAutocompleteInputProps } from '@/shared/types/IAutocompleteInputProps.types';
 import styles from './ProfessionInput.module.scss';
-
-interface ProfessionInputProps<T extends FieldValues> {
-    register: UseFormRegister<T>;
-    watch: UseFormWatch<T>;
-    setValue: UseFormSetValue<T>;
-    name: Path<T>;
-    placeholder: string;
-    label?: string;
-    customLabelClass?: string;
-    customInputClass?: string;
-    customIconClass?: string;
-}
 
 const ProfessionInput = <T extends FieldValues>({
     register,
@@ -37,7 +19,7 @@ const ProfessionInput = <T extends FieldValues>({
     customInputClass,
     customIconClass,
     placeholder,
-}: ProfessionInputProps<T>) => {
+}: IAutocompleteInputProps<T>) => {
     const [filteredProfessions, setFilteredProfessions] = useState<
         TProfessionsType[] | null
     >(null);
