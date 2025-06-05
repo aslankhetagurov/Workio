@@ -12,6 +12,7 @@ import { IoIosSearch } from 'react-icons/io';
 import { useDebouncedWatch } from '@/shared/hooks/useDebouncedWatch';
 import { professions, TProfessionsType } from '@/shared/consts/professions';
 import DropDownList from '../../UI/DropDownList/DropDownList';
+import { useCloseViaClickOutsideAndEsc } from '@/shared/hooks/useCloseViaClickOutsideAndEsc';
 import styles from './ProfessionInput.module.scss';
 
 interface ProfessionInputProps<T extends FieldValues> {
@@ -42,6 +43,7 @@ const ProfessionInput = <T extends FieldValues>({
     >(null);
     const [isOpenDropDown, setIsOpenDropDown] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
+    useCloseViaClickOutsideAndEsc(inputRef, isOpenDropDown, setIsOpenDropDown);
 
     const professionInput = watch(name);
     const debouncedProfessionInput = useDebouncedWatch(professionInput, 500);
@@ -75,32 +77,6 @@ const ProfessionInput = <T extends FieldValues>({
             );
         }
     }, [debouncedProfessionInput]);
-
-    useEffect(() => {
-        const handleClickOutside = (e: Event) => {
-            if (
-                inputRef.current &&
-                !inputRef.current.contains(e.target as Node)
-            ) {
-                setIsOpenDropDown(false);
-            }
-        };
-        const handleCloseDropDownViaEsc = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                setIsOpenDropDown(false);
-            }
-        };
-
-        if (isOpenDropDown) {
-            window.addEventListener('pointerdown', handleClickOutside);
-            window.addEventListener('keydown', handleCloseDropDownViaEsc);
-        }
-
-        return () => {
-            window.removeEventListener('pointerdown', handleClickOutside);
-            window.removeEventListener('keydown', handleCloseDropDownViaEsc);
-        };
-    }, [isOpenDropDown]);
 
     const handleSetValue = (value: string) => {
         setValue(name, value as PathValue<T, typeof name>);

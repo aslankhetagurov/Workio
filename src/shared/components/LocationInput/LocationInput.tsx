@@ -12,6 +12,7 @@ import { IoIosPin } from 'react-icons/io';
 import DropDownList from '../../UI/DropDownList/DropDownList';
 import { useDebouncedWatch } from '@/shared/hooks/useDebouncedWatch';
 import { ILocationItem, useGetLocationsQuery } from '@/store/api/locationApi';
+import { useCloseViaClickOutsideAndEsc } from '@/shared/hooks/useCloseViaClickOutsideAndEsc';
 import styles from './LocationInput.module.scss';
 
 interface ILocationInputProps<T extends FieldValues> {
@@ -39,6 +40,7 @@ const LocationInput = <T extends FieldValues>({
 }: ILocationInputProps<T>) => {
     const [isOpenDropDown, setIsOpenDropDown] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
+    useCloseViaClickOutsideAndEsc(inputRef, isOpenDropDown, setIsOpenDropDown);
 
     const locationInput = watch(name);
     const debouncedLocation = useDebouncedWatch(locationInput, 300);
@@ -64,32 +66,6 @@ const LocationInput = <T extends FieldValues>({
             setIsOpenDropDown(false);
         }
     }, [debouncedLocation]);
-
-    useEffect(() => {
-        const handleClickOutside = (e: Event) => {
-            if (
-                inputRef.current &&
-                !inputRef.current.contains(e.target as Node)
-            ) {
-                setIsOpenDropDown(false);
-            }
-        };
-        const handleCloseDropDownViaEsc = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                setIsOpenDropDown(false);
-            }
-        };
-
-        if (isOpenDropDown) {
-            window.addEventListener('pointerdown', handleClickOutside);
-            window.addEventListener('keydown', handleCloseDropDownViaEsc);
-        }
-
-        return () => {
-            window.removeEventListener('pointerdown', handleClickOutside);
-            window.removeEventListener('keydown', handleCloseDropDownViaEsc);
-        };
-    }, [isOpenDropDown]);
 
     const handleSetValue = (value: string) => {
         setValue(name, value as PathValue<T, typeof name>);
