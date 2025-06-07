@@ -1,0 +1,14 @@
+.items {
+    &__list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 3rem;
+        margin-bottom: 5rem;
+    }
+
+    &__btn-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
