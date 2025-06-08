@@ -57,10 +57,10 @@ export const vacanciesApi = createApi({
                             query = query.gte('created_at', createdAt);
                         }
                         if (salaryMin) {
-                            query = query.gte('salary_from', salaryMin);
+                            query = query.gte('salary_per_month', salaryMin);
                         }
                         if (salaryMax) {
-                            query = query.lte('salary_to', salaryMax);
+                            query = query.lte('salary_per_month', salaryMax);
                         }
                     }
                     const { data, error } = await query;
