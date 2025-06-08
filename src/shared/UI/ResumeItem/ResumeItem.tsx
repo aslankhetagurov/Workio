@@ -5,6 +5,7 @@ import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 import { ResumeWithUser } from '@/shared/types/database.types';
 import defaultAvatar from '@/shared/assets/images/default-avatar.png';
 import { formatDateToTimeAgo } from '@/shared/lib/formatDateToTimeAgo';
+import { formatToK } from '@/shared/lib/formatToK';
 import styles from './ResumeItem.module.scss';
 
 interface IResumeItemProps {
@@ -12,7 +13,7 @@ interface IResumeItemProps {
 }
 
 const ResumeItem = ({ data }: IResumeItemProps) => {
-    const { id, title, location, created_at, salary_per_hour, users, skills } =
+    const { id, title, location, created_at, salary_per_month, users, skills } =
         data;
 
     return (
@@ -77,7 +78,7 @@ const ResumeItem = ({ data }: IResumeItemProps) => {
                                     aria-hidden="true"
                                 />
                                 <span className={styles['resume-item__text']}>
-                                    {salary_per_hour} / hour
+                                    {formatToK(salary_per_month)} / month
                                 </span>
                             </li>
                         </ul>

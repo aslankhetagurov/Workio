@@ -19,12 +19,11 @@ const VacancyItem = ({ data }: IVacancyItemProps) => {
         title,
         location,
         created_at,
-        salary_from,
-        salary_to,
         employment,
         accessibility,
         urgent,
         companies,
+        salary_per_month,
     } = data;
 
     return (
@@ -91,12 +90,9 @@ const VacancyItem = ({ data }: IVacancyItemProps) => {
                                         style={{ fontSize: '16px' }}
                                     />
                                 </span>
+
                                 <span className={styles['vacancy-item__text']}>
-                                    {formatToK(salary_from)}
-                                </span>
-                                -
-                                <span className={styles['vacancy-item__text']}>
-                                    {formatToK(salary_to)}
+                                    {formatToK(salary_per_month)} per Month
                                 </span>
                             </li>
                         </ul>
