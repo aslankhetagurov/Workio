@@ -10,14 +10,12 @@ import {
     TAccessibilityWithAll,
 } from '@/shared/consts/accessibility';
 import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
-import { setFilters } from '../../store/vacanciesSlice';
-import { useAppDispatch } from '@/store/hooks';
 import ProfessionInput from '@/shared/components/ProfessionInput/ProfessionInput';
 import LocationInput from '@/shared/components/LocationInput/LocationInput';
 import { getDateHoursAgo } from '@/shared/lib/getDateHoursAgo';
-import styles from './VacanciesSearchForm.module.scss';
+import styles from './JobSearchForm.module.scss';
 
-export interface IVacanciesSearchForm {
+export interface IJobSearchFormForm {
     keywords: string;
     location: string;
     category: '' | TJobCategories;
@@ -36,9 +34,13 @@ const createdAtFilterMap = {
     'Last 30 days': 24 * 30,
 } as const;
 
-const VacanciesSearchForm = () => {
+export interface IJobSearchFormProps {
+    onSubmit: (filters: IJobSearchFormForm) => void;
+}
+
+const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
     const { register, handleSubmit, reset, setValue, watch } =
-        useForm<IVacanciesSearchForm>({
+        useForm<IJobSearchFormForm>({
             mode: 'onBlur',
             defaultValues: {
                 createdAt: 'All',
@@ -47,10 +49,8 @@ const VacanciesSearchForm = () => {
             },
         });
 
-    const dispatch = useAppDispatch();
-
-    const onSubmit: SubmitHandler<IVacanciesSearchForm> = (filters) => {
-        dispatch(setFilters(filters));
+    const handleFormSubmit: SubmitHandler<IJobSearchFormForm> = (filters) => {
+        onSubmit(filters);
     };
 
     const handleResetForm = () => {
@@ -58,8 +58,8 @@ const VacanciesSearchForm = () => {
     };
 
     return (
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <ProfessionInput<IVacanciesSearchForm>
+        <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
+            <ProfessionInput<IJobSearchFormForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
@@ -70,7 +70,7 @@ const VacanciesSearchForm = () => {
                 label="Keyword"
             />
 
-            <LocationInput<IVacanciesSearchForm>
+            <LocationInput<IJobSearchFormForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
@@ -104,7 +104,7 @@ const VacanciesSearchForm = () => {
                     className={styles['form__label-title']}
                     htmlFor="salaryMin"
                 >
-                    Salary
+                    Salary Per Month
                 </label>
 
                 <div className={styles.form__inputs}>
@@ -217,7 +217,7 @@ const VacanciesSearchForm = () => {
             <div className={styles.form__buttons}>
                 <PrimaryButton
                     label="Search"
-                    ariaLabel="Search vacancies"
+                    ariaLabel="Search job"
                     type="submit"
                 />
                 <PrimaryButton
@@ -230,4 +230,4 @@ const VacanciesSearchForm = () => {
     );
 };
 
-export default VacanciesSearchForm;
+export default JobSearchForm;

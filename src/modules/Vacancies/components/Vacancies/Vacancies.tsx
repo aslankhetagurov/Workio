@@ -1,5 +1,5 @@
 import VacanciesList from '../VacanciesList/VacanciesList';
-import VacanciesSearchForm from '../VacanciesSearchForm/VacanciesSearchForm';
+import VacanciesSearch from '../VacanciesSearch/VacanciesSearch';
 import styles from './Vacancies.module.scss';
 
 export const Vacancies = () => {
@@ -10,7 +10,7 @@ export const Vacancies = () => {
             </div>
             <main className={styles.vacancies__main}>
                 <aside className={styles.vacancies__form} role="search">
-                    <VacanciesSearchForm />
+                    <VacanciesSearch />
                 </aside>
 
                 <div className={styles.vacancies__results}>

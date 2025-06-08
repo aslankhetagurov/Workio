@@ -2,8 +2,8 @@ import { toast } from 'sonner';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { VacancyWithCompany } from '@/shared/types/database.types';
-import { IVacanciesSearchForm } from '../components/VacanciesSearchForm/VacanciesSearchForm';
 import supabase from '../../../../supabaseClient';
+import { IJobSearchFormForm } from '@/shared/components/JobSearchForm/JobSearchForm';
 
 export const vacanciesApi = createApi({
     reducerPath: 'vacanciesApi',
@@ -12,7 +12,7 @@ export const vacanciesApi = createApi({
         getVacancies: builder.query<
             VacancyWithCompany[],
             {
-                filters: IVacanciesSearchForm | null;
+                filters: IJobSearchFormForm | null;
                 limit: number;
                 offset: number;
             }
