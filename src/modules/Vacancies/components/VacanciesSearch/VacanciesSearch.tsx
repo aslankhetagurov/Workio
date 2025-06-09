@@ -1,5 +1,5 @@
 import JobSearchForm, {
-    IJobSearchFormForm,
+    IJobSearchForm,
 } from '@/shared/components/JobSearchForm/JobSearchForm';
 import { setFilters } from '../../store/vacanciesSlice';
 import { useAppDispatch } from '@/store/hooks';
@@ -7,7 +7,7 @@ import { useAppDispatch } from '@/store/hooks';
 const VacanciesSearch = () => {
     const dispatch = useAppDispatch();
 
-    const onSubmit = (filters: IJobSearchFormForm) => {
+    const onSubmit = (filters: IJobSearchForm) => {
         dispatch(setFilters(filters));
     };
 

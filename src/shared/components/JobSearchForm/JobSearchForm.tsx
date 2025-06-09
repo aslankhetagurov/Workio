@@ -15,7 +15,7 @@ import LocationInput from '@/shared/components/LocationInput/LocationInput';
 import { getDateHoursAgo } from '@/shared/lib/getDateHoursAgo';
 import styles from './JobSearchForm.module.scss';
 
-export interface IJobSearchFormForm {
+export interface IJobSearchForm {
     keywords: string;
     location: string;
     category: '' | TJobCategories;
@@ -35,12 +35,12 @@ const createdAtFilterMap = {
 } as const;
 
 export interface IJobSearchFormProps {
-    onSubmit: (filters: IJobSearchFormForm) => void;
+    onSubmit: (filters: IJobSearchForm) => void;
 }
 
 const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
     const { register, handleSubmit, reset, setValue, watch } =
-        useForm<IJobSearchFormForm>({
+        useForm<IJobSearchForm>({
             mode: 'onBlur',
             defaultValues: {
                 createdAt: 'All',
@@ -49,7 +49,7 @@ const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
             },
         });
 
-    const handleFormSubmit: SubmitHandler<IJobSearchFormForm> = (filters) => {
+    const handleFormSubmit: SubmitHandler<IJobSearchForm> = (filters) => {
         onSubmit(filters);
     };
 
@@ -59,7 +59,7 @@ const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
 
     return (
         <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
-            <ProfessionInput<IJobSearchFormForm>
+            <ProfessionInput<IJobSearchForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
@@ -70,7 +70,7 @@ const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
                 label="Keyword"
             />
 
-            <LocationInput<IJobSearchFormForm>
+            <LocationInput<IJobSearchForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
