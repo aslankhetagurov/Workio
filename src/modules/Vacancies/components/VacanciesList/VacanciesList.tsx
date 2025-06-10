@@ -4,7 +4,7 @@ import { useAppSelector } from '@/store/hooks';
 import VacancyItem from '@/shared/UI/VacancyItem/VacancyItem';
 import { VacancyWithCompany } from '@/shared/types/database.types';
 import PaginatedItemsList from '@/shared/components/PaginatedItemsList/PaginatedItemsList';
-import { IVacanciesSearchForm } from '../VacanciesSearchForm/VacanciesSearchForm';
+import { IJobSearchForm } from '@/shared/components/JobSearchForm/JobSearchForm';
 
 const renderItem = (itemData: VacancyWithCompany) => (
     <VacancyItem key={itemData.id} data={itemData} />
@@ -14,7 +14,7 @@ const VacanciesList = () => {
     const vacanciesSearchFilters = useAppSelector(selectVacanciesSearchFilters);
 
     return (
-        <PaginatedItemsList<VacancyWithCompany, IVacanciesSearchForm | null>
+        <PaginatedItemsList<VacancyWithCompany, IJobSearchForm | null>
             filters={vacanciesSearchFilters}
             queryHook={useGetVacanciesQuery}
             renderItem={renderItem}

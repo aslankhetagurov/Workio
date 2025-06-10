@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { IVacanciesSearchForm } from '../components/VacanciesSearchForm/VacanciesSearchForm';
 import { RootState } from '@/store';
+import { IJobSearchForm } from '@/shared/components/JobSearchForm/JobSearchForm';
 
 interface IVacanciesSlice {
-    vacanciesSearchFilters: IVacanciesSearchForm | null;
+    vacanciesSearchFilters: IJobSearchForm | null;
 }
 
 const initialState: IVacanciesSlice = {
