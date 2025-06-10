@@ -1,5 +1,11 @@
+import { Resumes } from '@/modules/Resumes';
+
 const ResumesPage = () => {
-    return <h1>Resumes Page</h1>;
+    return (
+        <>
+            <Resumes />
+        </>
+    );
 };
 
 export default ResumesPage;
