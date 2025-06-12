@@ -51,7 +51,7 @@ export const resumesApi = createApi({
                             query = query.ilike('title', `%${keywords}%`);
                         }
                         if (location) {
-                            query = query.eq('location', location);
+                            query = query.ilike('location', `%${location}%`);
                         }
                         if (createdAt && createdAt !== 'All') {
                             query = query.gte('created_at', createdAt);
