@@ -1,0 +1,23 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.companies {
+    &__header {
+        height: 10rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $accent-bg-color;
+        margin-bottom: 4rem;
+    }
+
+    &__title {
+        font-size: 2.2rem;
+        font-weight: 700;
+    }
+
+    &__main {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        column-gap: 3rem;
+    }
+}

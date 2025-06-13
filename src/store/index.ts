@@ -9,18 +9,21 @@ import { vacanciesApi } from '@/modules/Vacancies/api/vacanciesApi';
 import { vacanciesReducer } from '@/modules/Vacancies/store/vacanciesSlice';
 import { resumesReducer } from '@/modules/Resumes';
 import { resumesApi } from '@/modules/Resumes';
+import { companiesApi, companiesReducer } from '@/modules/Companies';
 
 const store = configureStore({
     reducer: {
         authReducer,
-        vacanciesReducer,
-        resumesReducer,
         [locationApi.reducerPath]: locationApi.reducer,
         [featuredVacanciesApi.reducerPath]: featuredVacanciesApi.reducer,
         [topCompaniesApi.reducerPath]: topCompaniesApi.reducer,
         [featuredResumesApi.reducerPath]: featuredResumesApi.reducer,
         [vacanciesApi.reducerPath]: vacanciesApi.reducer,
         [resumesApi.reducerPath]: resumesApi.reducer,
+        [companiesApi.reducerPath]: companiesApi.reducer,
+        vacanciesReducer,
+        resumesReducer,
+        companiesReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -29,7 +32,8 @@ const store = configureStore({
             topCompaniesApi.middleware,
             featuredResumesApi.middleware,
             vacanciesApi.middleware,
-            resumesApi.middleware
+            resumesApi.middleware,
+            companiesApi.middleware
         ),
 });
 

@@ -1,0 +1,57 @@
+@use "@/shared/styles/abstracts/index" as *;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    background-color: $accent-bg-color;
+    padding: 20px;
+    border-radius: 5px;
+    height: min-content;
+
+    &__input {
+        width: 100%;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        padding-left: 25px;
+
+        &::placeholder {
+            @include placeholder;
+        }
+    }
+
+    &__input-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    &__icon {
+        position: absolute;
+        left: 2px;
+    }
+
+    &__label-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: inline-block;
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+    }
+
+    &__categories {
+        width: 100%;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    &__buttons {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+    }
+}

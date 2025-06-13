@@ -1,5 +1,11 @@
+import { Companies } from '@/modules/Companies';
+
 const CompaniesPage = () => {
-    return <h1>Companies Page</h1>;
+    return (
+        <>
+            <Companies />
+        </>
+    );
 };
 
 export default CompaniesPage;
