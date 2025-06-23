@@ -1,0 +1,10 @@
+.description {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+
+    &__title {
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+}

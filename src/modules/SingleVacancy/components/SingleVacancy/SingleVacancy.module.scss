@@ -1,0 +1,13 @@
+.vacancy {
+    &__main {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        column-gap: 50px;
+    }
+
+    &__aside {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+}
