@@ -5,6 +5,7 @@ import { VacancyWithCompany } from '@/shared/types/database.types';
 import supabase from '@/../supabaseClient';
 
 export const singleVacancyApi = createApi({
+    reducerPath: 'singleVacancyApi',
     baseQuery: fakeBaseQuery(),
     endpoints: (build) => ({
         getVacancy: build.query<VacancyWithCompany, string>({
