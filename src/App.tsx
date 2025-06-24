@@ -12,7 +12,8 @@ import CompaniesPage from './pages/CompaniesPage/CompaniesPage';
 import ResumesPage from './pages/ResumesPage/ResumesPage';
 import ContactPage from './pages/ContactPage/ContactPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
-import VacancyPage from './pages/SingleVacancyPage/SingleVacancyPage';
+import SingleVacancyPage from './pages/SingleVacancyPage/SingleVacancyPage';
+import SingleResumePage from './pages/SingleResumePage/SingleResumePage';
 import './App.scss';
 
 function App() {
@@ -31,10 +32,14 @@ function App() {
                         <Route path="/vacancies" element={<VacanciesPage />} />
                         <Route
                             path="/vacancies/:vacancyId"
-                            element={<VacancyPage />}
+                            element={<SingleVacancyPage />}
                         />
                         <Route path="/companies" element={<CompaniesPage />} />
                         <Route path="/resumes" element={<ResumesPage />} />
+                        <Route
+                            path="/resumes/:resumeId"
+                            element={<SingleResumePage />}
+                        />
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>

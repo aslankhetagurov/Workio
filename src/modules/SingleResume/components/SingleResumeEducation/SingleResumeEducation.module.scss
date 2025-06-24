@@ -1,0 +1,16 @@
+.education {
+    &__title {
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    &__item {
+        display: flex;
+        column-gap: 30px;
+    }
+
+    &__info-item-main {
+        font-weight: 700;
+    }
+}

@@ -1,0 +1,120 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.resume-main {
+    display: flex;
+    column-gap: 20px;
+    background-color: $accent-bg-color;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+
+    &__avatar {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        object-fit: cover;
+        align-self: center;
+    }
+
+    &__inner {
+        width: 100%;
+    }
+
+    &__header {
+        margin-bottom: 15px;
+        display: flex;
+        column-gap: 30px;
+    }
+
+    &__username-wrapper {
+        flex-shrink: 0;
+        padding: 0 20px;
+        border-radius: 10px;
+    }
+
+    &__username {
+        font-size: 2.4rem;
+        font-weight: 700;
+        text-wrap: nowrap;
+    }
+
+    &__resume-title {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        border-radius: 10px;
+        height: 60px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    &__info-wrapper {
+        display: flex;
+        column-gap: 30px;
+        width: 100%;
+    }
+
+    &__other-info-items,
+    &__info-items {
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
+        padding: 10px;
+        border-radius: 10px;
+        min-height: 100%;
+        width: 100%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    &__info-item {
+        font-weight: 700;
+    }
+
+    &__other-info-item,
+    &__info-item {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+    }
+
+    &__info-icon {
+        color: $hover-color;
+        font-size: 20px;
+    }
+
+    &__other-item-title {
+        font-weight: 700;
+        margin-right: 10px;
+    }
+
+    &__skills {
+        margin-top: 20px;
+    }
+
+    &__skills-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 2rem;
+    }
+
+    &__skills-items {
+        display: flex;
+        column-gap: 20px;
+        flex-wrap: wrap;
+    }
+    &__skills-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 20px;
+        background-color: $hover-color;
+        color: #fff;
+        border-radius: 50px;
+        font-weight: 700;
+    }
+}

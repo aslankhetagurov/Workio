@@ -1,0 +1,38 @@
+.experience {
+    &__title {
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    &__time {
+        max-width: 250px;
+        width: 100%;
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+
+    &__item {
+        display: flex;
+        column-gap: 20px;
+    }
+
+    &__company-name {
+        font-weight: 700;
+    }
+
+    &__position {
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    &__responsibilities-item {
+        list-style: disc;
+        list-style-position: inside;
+    }
+}

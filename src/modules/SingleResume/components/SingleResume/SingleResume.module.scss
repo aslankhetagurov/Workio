@@ -1,0 +1,9 @@
+.resume {
+    &__content {
+        display: flex;
+        flex-direction: column;
+        max-width: 1000px;
+        margin: 0 auto;
+        row-gap: 30px;
+    }
+}
