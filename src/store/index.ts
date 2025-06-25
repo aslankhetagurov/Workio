@@ -5,13 +5,13 @@ import { locationApi } from './api/locationApi';
 import { featuredVacanciesApi } from '@/modules/FeaturedVacancies';
 import { topCompaniesApi } from '@/modules/TopCompanies';
 import { featuredResumesApi } from '@/modules/FeaturedResumes';
-import { vacanciesApi } from '@/modules/Vacancies/api/vacanciesApi';
-import { vacanciesReducer } from '@/modules/Vacancies/store/vacanciesSlice';
 import { resumesReducer } from '@/modules/Resumes';
 import { resumesApi } from '@/modules/Resumes';
 import { companiesApi, companiesReducer } from '@/modules/Companies';
 import { singleVacancyApi } from '@/modules/SingleVacancy';
 import { singleResumeApi } from '@/modules/SingleResume';
+import { vacanciesApi } from '@/modules/Vacancies';
+import { vacanciesReducer } from '@/modules/Vacancies';
 
 const store = configureStore({
     reducer: {
