@@ -4,9 +4,9 @@ import { useGetVacancyQuery } from '../../api/singleVacancyApi';
 import SingleVacancyHeader from '../SingleVacancyHeader/SingleVacancyHeader';
 import ErrorComponent from '@/shared/UI/ErrorComponent/ErrorComponent';
 import SingleVacancyOverview from '../SingleVacancyOverview/SingleVacancyOverview';
-import SingleVacancyCompany from '../SingleVacancyCompany/SingleVacancyCompany';
 import SingleVacancyDescription from '../SingleVacancyDescription/SingleVacancyDescription';
 import Spinner from '@/shared/UI/Spinner/Spinner';
+import CompanyInfo from '@/shared/components/CompanyInfo/CompanyInfo';
 import styles from './SingleVacancy.module.scss';
 
 export const SingleVacancy = () => {
@@ -44,7 +44,7 @@ export const SingleVacancy = () => {
                     aria-label="Vacancy details"
                 >
                     <SingleVacancyOverview vacancyData={vacancyData} />
-                    <SingleVacancyCompany companyData={vacancyData.companies} />
+                    <CompanyInfo companyData={vacancyData.companies} />
                 </aside>
             </main>
         </section>
