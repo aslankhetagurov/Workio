@@ -2,13 +2,17 @@ import { Link } from 'react-router-dom';
 
 import { CompanyWithUser } from '@/shared/types/database.types';
 import companyLogo from '@/shared/assets/images/company-logo.webp';
-import styles from './SingleVacancyCompany.module.scss';
+import styles from './CompanyInfo.module.scss';
 
-interface SingleVacancyCompanyProps {
+interface CompanyInfoProps {
     companyData: CompanyWithUser;
+    isSingleCompany?: boolean;
 }
 
-const SingleVacancyCompany = ({ companyData }: SingleVacancyCompanyProps) => {
+const CompanyInfo = ({
+    companyData,
+    isSingleCompany = false,
+}: CompanyInfoProps) => {
     const {
         logo_url,
         name,
@@ -25,19 +29,23 @@ const SingleVacancyCompany = ({ companyData }: SingleVacancyCompanyProps) => {
         <article className={styles.company}>
             <header className={styles.company__header}>
                 <img
-                    className={styles.company__logo}
+                    className={`${styles.company__logo} ${
+                        isSingleCompany ? styles['company__single-logo'] : ''
+                    }`}
                     src={logo_url || companyLogo}
                     alt={`${name} logo`}
                 />
-                <div className={styles['company__header-info']}>
-                    <h4 className={styles.company__title}>{name}</h4>
-                    <Link
-                        className={styles.company__link}
-                        to={`/companies/${id}`}
-                    >
-                        View company profile
-                    </Link>
-                </div>
+                {!isSingleCompany && (
+                    <div className={styles['company__header-info']}>
+                        <h4 className={styles.company__title}>{name}</h4>
+                        <Link
+                            className={styles.company__link}
+                            to={`/companies/${id}`}
+                        >
+                            View company profile
+                        </Link>
+                    </div>
+                )}
             </header>
 
             <ul className={styles.company__info}>
@@ -111,4 +119,4 @@ const SingleVacancyCompany = ({ companyData }: SingleVacancyCompanyProps) => {
     );
 };
 
-export default SingleVacancyCompany;
+export default CompanyInfo;
