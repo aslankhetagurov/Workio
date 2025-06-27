@@ -6,7 +6,7 @@ export const Companies = () => {
     return (
         <section className={styles.companies}>
             <div className={styles.companies__header}>
-                <h1 className={styles.companies__title}>Resumes</h1>
+                <h1 className={styles.companies__title}>Companies</h1>
             </div>
             <main className={styles.companies__main}>
                 <aside className={styles.companies__form} role="search">
