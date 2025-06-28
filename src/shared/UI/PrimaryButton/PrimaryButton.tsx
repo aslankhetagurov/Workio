@@ -11,6 +11,9 @@ interface PrimaryButtonProps {
     ariaLabel?: string;
     isLoading?: boolean;
     style?: CSSProperties;
+    active?: boolean;
+    className?: string;
+    counter?: number;
 }
 
 const PrimaryButton: FC<PrimaryButtonProps> = ({
@@ -21,6 +24,9 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
     ariaLabel = label,
     isLoading = false,
     style,
+    active = false,
+    className,
+    counter,
 }) => {
     return (
         <button
@@ -30,6 +36,8 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
             disabled={disabled}
             className={`${styles['primary-button']} ${
                 label === 'Reset' ? styles['primary-button-reset'] : ''
+            } ${active ? styles['primary-button-active'] : ''} ${
+                className ?? ''
             }`}
             style={style}
         >
@@ -37,6 +45,11 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
                 <ImSpinner2 className={styles['primary-button__spinner']} />
             ) : (
                 label
+            )}
+            {counter && (
+                <span className={styles['primary-button__counter']}>
+                    {counter}
+                </span>
             )}
         </button>
     );
