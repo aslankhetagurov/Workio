@@ -1,0 +1,15 @@
+.rating {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+
+    &__grade {
+        font-weight: 700;
+        font-size: inherit;
+    }
+
+    &__icon {
+        color: gold;
+        font-size: inherit;
+    }
+}
