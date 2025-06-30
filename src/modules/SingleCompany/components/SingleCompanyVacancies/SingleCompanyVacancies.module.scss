@@ -1,0 +1,13 @@
+.vacancies {
+    &__title {
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+}

@@ -14,6 +14,7 @@ import ContactPage from './pages/ContactPage/ContactPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import SingleVacancyPage from './pages/SingleVacancyPage/SingleVacancyPage';
 import SingleResumePage from './pages/SingleResumePage/SingleResumePage';
+import SingleCompanyPage from './pages/SingleCompanyPage/SingleCompanyPage';
 import './App.scss';
 
 function App() {
@@ -35,6 +36,10 @@ function App() {
                             element={<SingleVacancyPage />}
                         />
                         <Route path="/companies" element={<CompaniesPage />} />
+                        <Route
+                            path="/companies/:companyId"
+                            element={<SingleCompanyPage />}
+                        />
                         <Route path="/resumes" element={<ResumesPage />} />
                         <Route
                             path="/resumes/:resumeId"

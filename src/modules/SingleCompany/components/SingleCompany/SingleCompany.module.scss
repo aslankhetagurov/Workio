@@ -1,0 +1,28 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.company {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    column-gap: 30px;
+
+    &__title {
+        font-weight: 700;
+        font-size: 2.5rem;
+    }
+
+    &__rating {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+    }
+
+    &__reviews {
+        color: $hover-color;
+        text-decoration-line: underline;
+        text-decoration-style: dashed;
+
+        &:hover {
+            text-decoration-style: solid;
+        }
+    }
+}
