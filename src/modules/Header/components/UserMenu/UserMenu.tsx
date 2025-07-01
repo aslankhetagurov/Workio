@@ -4,6 +4,7 @@ import { useAppSelector } from '@/store/hooks';
 import { handleLogOut, selectUserData } from '@/modules/Auth';
 import defaultAvatar from '@/shared/assets/images/default-avatar.png';
 import CloseButton from '@/shared/UI/CloseButton/CloseButton';
+import { Link } from 'react-router-dom';
 import styles from './UserMenu.module.scss';
 
 const UserMenu = () => {
@@ -74,6 +75,29 @@ const UserMenu = () => {
                         {userData.full_name}
                     </span>
                 </div>
+
+                {userData && userData.role === 'applicant' && (
+                    <div className={styles['user-menu__links']}>
+                        <Link
+                            className={styles['user-menu__link']}
+                            to="/applicant/resumes"
+                            aria-label="Go to my resumes page"
+                            onClick={handleUserMenu}
+                        >
+                            My resumes
+                        </Link>
+
+                        <Link
+                            className={styles['user-menu__link']}
+                            to="/applicant/create-resume"
+                            aria-label="Go to create resume page"
+                            onClick={handleUserMenu}
+                        >
+                            Create a resume
+                        </Link>
+                    </div>
+                )}
+
                 <button
                     className={styles['user-menu__logout-btn']}
                     onClick={handleLogOut}
