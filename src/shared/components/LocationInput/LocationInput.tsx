@@ -19,6 +19,7 @@ const LocationInput = <T extends FieldValues>({
     customInputClass,
     customIconClass,
     placeholder,
+    icon = true,
 }: IAutocompleteInputProps<T>) => {
     const [isOpenDropDown, setIsOpenDropDown] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -32,6 +33,14 @@ const LocationInput = <T extends FieldValues>({
     const { data: locationList } = useGetLocationsQuery(debouncedLocation, {
         skip: !debouncedLocation,
     });
+
+    const filteredLocationList = useMemo(
+        () =>
+            locationList?.map(
+                (location: ILocationItem) => location.display_place
+            ),
+        [locationList]
+    );
 
     useEffect(() => {
         const input = debouncedLocation?.trim().toLowerCase();
@@ -53,15 +62,15 @@ const LocationInput = <T extends FieldValues>({
         setValue(name, value as PathValue<T, typeof name>);
     };
 
-    const handleFocus = () => setIsOpenDropDown(true);
-
-    const filteredLocationList = useMemo(
-        () =>
-            locationList?.map(
-                (location: ILocationItem) => location.display_place
-            ),
-        [locationList]
-    );
+    const handleFocus = () => {
+        if (
+            filteredLocationList &&
+            !filteredLocationList[0].toLowerCase() ===
+                debouncedLocation?.trim().toLowerCase()
+        ) {
+            setIsOpenDropDown(true);
+        }
+    };
 
     return (
         <label
@@ -72,11 +81,13 @@ const LocationInput = <T extends FieldValues>({
                 {label}
             </span>
             <div className={styles['location-input__input-wrapper']}>
-                <IoIosPin
-                    className={
-                        customIconClass || styles['location-input__icon']
-                    }
-                />
+                {icon && (
+                    <IoIosPin
+                        className={
+                            customIconClass || styles['location-input__icon']
+                        }
+                    />
+                )}
 
                 <input
                     className={
