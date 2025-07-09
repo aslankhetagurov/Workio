@@ -16,4 +16,5 @@ export interface IAutocompleteInputProps<T extends FieldValues> {
     customLabelClass?: string;
     customInputClass?: string;
     customIconClass?: string;
+    icon?: boolean;
 }

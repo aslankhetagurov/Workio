@@ -19,6 +19,7 @@ const ProfessionInput = <T extends FieldValues>({
     customInputClass,
     customIconClass,
     placeholder,
+    icon = true,
 }: IAutocompleteInputProps<T>) => {
     const [filteredProfessions, setFilteredProfessions] = useState<
         TProfessionsType[] | null
@@ -75,11 +76,14 @@ const ProfessionInput = <T extends FieldValues>({
                 {label}
             </span>
             <div className={styles['profession-input__input-wrapper']}>
-                <IoIosSearch
-                    className={
-                        customIconClass || styles['profession-input__icon']
-                    }
-                />
+                {icon && (
+                    <IoIosSearch
+                        className={
+                            customIconClass || styles['profession-input__icon']
+                        }
+                    />
+                )}
+
                 <input
                     className={
                         customInputClass || styles['profession-input__input']
