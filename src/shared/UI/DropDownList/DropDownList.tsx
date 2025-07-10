@@ -1,21 +1,23 @@
 import PrimaryButton from '../PrimaryButton/PrimaryButton';
 import styles from './DropDownList.module.scss';
 
-interface DropDownListProps {
-    list: string[];
+interface DropDownListProps<T> {
+    list: readonly T[];
     handleSetValue: (value: string) => void;
     showDropDown: boolean;
-    id: string;
+    id?: string;
     itemsLimit?: number;
+    topMargin?: number;
 }
 
-const DropDownList = ({
+const DropDownList = <T extends string>({
     list,
     handleSetValue,
     showDropDown,
     id,
-    itemsLimit = 5,
-}: DropDownListProps) => {
+    itemsLimit,
+    topMargin,
+}: DropDownListProps<T>) => {
     return (
         <ul
             className={`${styles['dropdown-list']} ${
@@ -23,6 +25,7 @@ const DropDownList = ({
             }`}
             role="listbox"
             id={id}
+            style={{ top: `${topMargin}px` }}
         >
             {list?.slice(0, itemsLimit).map((item, i) => {
                 return (
