@@ -1,4 +1,4 @@
-const employment = [
+export const employment = [
     'Full time',
     'Part time',
     'Freelance',
