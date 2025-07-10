@@ -2,7 +2,7 @@ import { Tables } from '@/shared/types/database.types';
 import styles from './SingleResumeEducation.module.scss';
 
 interface SingleResumeEducationProps {
-    education?: Tables<'educations'>[];
+    education?: Tables<'education'>[];
 }
 
 const SingleResumeEducation = ({ education }: SingleResumeEducationProps) => {

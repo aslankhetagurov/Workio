@@ -35,7 +35,7 @@ export const SingleResume = () => {
             <ErrorComponent errorMessage="Resume not found or data is incomplete. Please try again later." />
         );
 
-    const { about_me, educations } = resumeData;
+    const { about_me, education } = resumeData;
 
     return (
         <section className={styles.resume} aria-labelledby="resume-heading">
@@ -43,7 +43,7 @@ export const SingleResume = () => {
 
             <main className={styles.resume__content}>
                 <SingleResumeAbout aboutText={about_me} />
-                <SingleResumeEducation education={educations} />
+                <SingleResumeEducation education={education} />
                 <SingleResumeExperience resumeData={resumeData} />
             </main>
         </section>

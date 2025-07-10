@@ -89,18 +89,20 @@ const SingleResumeExperience = ({
                                         }
                                         role="list"
                                     >
-                                        {description.map((item, i) => (
-                                            <li
-                                                className={
-                                                    styles[
-                                                        'experience__responsibilities-item'
-                                                    ]
-                                                }
-                                                key={item + i}
-                                            >
-                                                {item}
-                                            </li>
-                                        ))}
+                                        {description
+                                            .split('.')
+                                            .map((item, i) => (
+                                                <li
+                                                    className={
+                                                        styles[
+                                                            'experience__responsibilities-item'
+                                                        ]
+                                                    }
+                                                    key={item + i}
+                                                >
+                                                    {item}
+                                                </li>
+                                            ))}
                                     </ul>
                                 </div>
                             </li>

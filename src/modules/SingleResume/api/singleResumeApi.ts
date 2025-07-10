@@ -17,7 +17,7 @@ export const singleResumeApi = createApi({
                     const { data, error } = await supabase
                         .from('resumes')
                         .select(
-                            '*, users(*), work_experiences(*), educations(*)'
+                            '*, users(*), work_experiences(*), education(*)'
                         )
                         .eq('id', id)
                         .single();
