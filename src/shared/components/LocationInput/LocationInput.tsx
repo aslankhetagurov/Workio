@@ -20,6 +20,7 @@ const LocationInput = <T extends FieldValues>({
     customIconClass,
     placeholder,
     icon = true,
+    required = false,
 }: IAutocompleteInputProps<T>) => {
     const [isOpenDropDown, setIsOpenDropDown] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -28,7 +29,9 @@ const LocationInput = <T extends FieldValues>({
     const locationInput = watch(name);
     const debouncedLocation = useDebouncedWatch(locationInput, 300);
 
-    const { ref: inputRegisterRef, ...inputProps } = register(name);
+    const { ref: inputRegisterRef, ...inputProps } = register(name, {
+        required: required,
+    });
 
     const { data: locationList } = useGetLocationsQuery(debouncedLocation, {
         skip: !debouncedLocation,

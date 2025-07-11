@@ -20,6 +20,7 @@ const ProfessionInput = <T extends FieldValues>({
     customIconClass,
     placeholder,
     icon = true,
+    required = false,
 }: IAutocompleteInputProps<T>) => {
     const [filteredProfessions, setFilteredProfessions] = useState<
         TProfessionsType[] | null
@@ -31,7 +32,9 @@ const ProfessionInput = <T extends FieldValues>({
     const professionInput = watch(name);
     const debouncedProfessionInput = useDebouncedWatch(professionInput, 500);
 
-    const { ref: inputRegisterRef, ...inputProps } = register(name);
+    const { ref: inputRegisterRef, ...inputProps } = register(name, {
+        required: required,
+    });
 
     useEffect(() => {
         const input = debouncedProfessionInput?.trim().toLowerCase();
