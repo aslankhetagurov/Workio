@@ -3,7 +3,7 @@ import styles from './DropDownList.module.scss';
 
 interface DropDownListProps<T> {
     list: readonly T[];
-    handleSetValue: (value: string) => void;
+    handleSetValue: (value: T) => void;
     showDropDown: boolean;
     id?: string;
     itemsLimit?: number;
