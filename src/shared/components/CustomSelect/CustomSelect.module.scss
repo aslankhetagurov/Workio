@@ -1,0 +1,33 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.select {
+    position: relative;
+
+    &__label {
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+
+    &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:focus {
+            outline: 3px solid #55a4ff;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        right: 10px;
+        font-size: 18px;
+    }
+
+    &__selected {
+        color: $hover-color;
+        font-weight: 700;
+        outline: 1px solid $hover-color;
+    }
+}
