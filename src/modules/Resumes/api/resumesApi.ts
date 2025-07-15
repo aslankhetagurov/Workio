@@ -4,6 +4,7 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ResumeWithUser } from '@/shared/types/database.types';
 import supabase from '@/../supabaseClient';
 import { IJobSearchForm } from '@/shared/components/JobSearchForm/JobSearchForm';
+import { IResumeCreationForm } from '@/modules/ResumeCreation/types/IResumeCreationForm.types';
 
 export const resumesApi = createApi({
     reducerPath: 'resumesApi',
@@ -88,7 +89,72 @@ export const resumesApi = createApi({
                 }
             },
         }),
+
+        createResume: builder.mutation<
+            { resumeId: string },
+            { data: IResumeCreationForm; userId: string }
+        >({
+            queryFn: async (args) => {
+                const { data, userId } = args;
+                const { education, work_experiences, ...resumeData } = data;
+
+                try {
+                    const { data, error } = await supabase
+                        .from('resumes')
+                        .insert({ ...resumeData, user_id: userId })
+                        .select()
+                        .single();
+
+                    if (error) throw error;
+
+                    const resumeId = data.id;
+
+                    const { error: educationInsertError } = await supabase
+                        .from('education')
+                        .insert(
+                            education.map((e) => ({
+                                resume_id: resumeId,
+                                ...e,
+                            }))
+                        );
+
+                    const { error: workInsertError } = await supabase
+                        .from('work_experiences')
+                        .insert(
+                            work_experiences.map((w) => ({
+                                resume_id: resumeId,
+                                ...w,
+                            }))
+                        );
+
+                    if (educationInsertError || workInsertError) {
+                        await supabase
+                            .from('resumes')
+                            .delete()
+                            .eq('id', resumeId);
+                        throw educationInsertError || workInsertError;
+                    }
+
+                    return { data: { resumeId } };
+                } catch (error) {
+                    console.error('Failed to create resume:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to create resume: ${error.message}`
+                            : 'Failed to create resume'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to create resume',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
-export const { useGetResumesQuery } = resumesApi;
+export const { useGetResumesQuery, useCreateResumeMutation } = resumesApi;
