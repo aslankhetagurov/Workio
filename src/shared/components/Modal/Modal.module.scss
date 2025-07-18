@@ -1,0 +1,44 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1001;
+    backdrop-filter: brightness(0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+        visibility 0.3s,
+        opacity 0.3s;
+
+    &_show {
+        pointer-events: visible;
+        opacity: 1;
+    }
+}
+.modal {
+    width: 100%;
+    max-width: 500px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 20px;
+    padding: 20px;
+    padding-bottom: 40px;
+    position: relative;
+    cursor: default;
+    transform: translateY(-100px);
+    opacity: 0;
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+
+    &_show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
