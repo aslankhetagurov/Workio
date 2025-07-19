@@ -154,7 +154,72 @@ export const resumesApi = createApi({
                 }
             },
         }),
+
+        getApplicantResumes: builder.query<ResumeWithUser[], string>({
+            queryFn: async (id) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('resumes')
+                        .select('*, users(*)')
+                        .eq('user_id', id);
+
+                    if (error) throw error;
+
+                    return { data };
+                } catch (error) {
+                    console.error('Failed to fetch resumes:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to fetch resumes: ${error.message}`
+                            : 'Failed to fetch resumes'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to fetch resumes',
+                        },
+                    };
+                }
+            },
+        }),
+
+        deleteResume: builder.mutation<void, string>({
+            queryFn: async (id) => {
+                try {
+                    const { error } = await supabase
+                        .from('resumes')
+                        .delete()
+                        .eq('id', id);
+
+                    if (error) throw error;
+
+                    return { data: undefined };
+                } catch (error) {
+                    console.error('Failed to delete resume:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to delete resume: ${error.message}`
+                            : 'Failed to delete resume'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to delete resume',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
-export const { useGetResumesQuery, useCreateResumeMutation } = resumesApi;
+export const {
+    useGetResumesQuery,
+    useCreateResumeMutation,
+    useGetApplicantResumesQuery,
+    useDeleteResumeMutation,
+} = resumesApi;
