@@ -4,7 +4,7 @@ import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 import { useAppDispatch } from '@/store/hooks';
 import supabase from '../../../../supabaseClient';
-import { setUserData } from '../store/authSlice';
+import { setUserData, setUserDataIsLoading } from '../store/authSlice';
 import { Tables } from '@/shared/types/database.types';
 
 export const useInitAuth = () => {
@@ -19,6 +19,7 @@ export const useInitAuth = () => {
                     dispatch(setUserData(null));
                     return;
                 }
+                dispatch(setUserDataIsLoading(true));
 
                 (async () => {
                     const { data: userInfo, error } = await supabase
@@ -42,6 +43,7 @@ export const useInitAuth = () => {
                             })
                         );
                     }
+                    dispatch(setUserDataIsLoading(false));
                 })();
             }
         );
