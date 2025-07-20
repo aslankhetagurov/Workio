@@ -15,6 +15,7 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import SingleVacancyPage from './pages/SingleVacancyPage/SingleVacancyPage';
 import SingleResumePage from './pages/SingleResumePage/SingleResumePage';
 import SingleCompanyPage from './pages/SingleCompanyPage/SingleCompanyPage';
+import ApplicantResumesPage from './pages/ApplicantResumesPage/ApplicantResumesPage';
 import ResumeCreationPage from './pages/ResumeCreationPage/ResumeCreationPage';
 import './App.scss';
 
@@ -47,6 +48,10 @@ function App() {
                             element={<SingleResumePage />}
                         />
                         <Route path="/contact" element={<ContactPage />} />
+                        <Route
+                            path="/applicant/resumes"
+                            element={<ApplicantResumesPage />}
+                        />
                         <Route
                             path="/applicant/create-resume"
                             element={<ResumeCreationPage />}

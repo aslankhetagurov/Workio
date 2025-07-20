@@ -35,7 +35,9 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
             onClick={onClick}
             disabled={disabled}
             className={`${styles['primary-button']} ${
-                label === 'Reset' ? styles['primary-button-reset'] : ''
+                label === 'Reset' || label === 'Delete'
+                    ? styles['primary-button-reset']
+                    : ''
             } ${active ? styles['primary-button-active'] : ''} ${
                 className ?? ''
             }`}
