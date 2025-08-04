@@ -4,7 +4,11 @@ import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 import { useAppDispatch } from '@/store/hooks';
 import supabase from '../../../../supabaseClient';
-import { setUserData, setUserDataIsLoading } from '../store/authSlice';
+import {
+    setCompanyData,
+    setUserData,
+    setUserDataIsLoading,
+} from '../store/authSlice';
 import { Tables } from '@/shared/types/database.types';
 
 export const useInitAuth = () => {
@@ -42,6 +46,25 @@ export const useInitAuth = () => {
                                 ...userInfo,
                             })
                         );
+
+                        if (userInfo.role === 'employer') {
+                            const { data: companyData, error } = await supabase
+                                .from('companies')
+                                .select('*')
+                                .eq('user_id', session?.user.id)
+                                .single<Tables<'companies'>>();
+
+                            if (error) {
+                                toast.error(
+                                    'Error fetching company data. Please try again later.'
+                                );
+                                console.error(error);
+                            }
+
+                            if (companyData) {
+                                dispatch(setCompanyData(companyData));
+                            }
+                        }
                     }
                     dispatch(setUserDataIsLoading(false));
                 })();
