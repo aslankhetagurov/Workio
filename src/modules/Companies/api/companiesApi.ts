@@ -4,6 +4,7 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CompanyWithUser } from '@/shared/types/database.types';
 import supabase from '@/../supabaseClient';
 import { ICompanySearchForm } from '../components/CompaniesSearchForm/CompaniesSearchForm';
+import { ICompanyCreateForm } from '@/modules/CompanyCreate';
 
 export const companiesApi = createApi({
     reducerPath: 'companiesApi',
@@ -64,7 +65,43 @@ export const companiesApi = createApi({
                 }
             },
         }),
+
+        createCompany: builder.mutation<
+            { companyId: string },
+            { companyData: ICompanyCreateForm }
+        >({
+            queryFn: async ({ companyData }) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('companies')
+                        .insert(companyData)
+                        .select()
+                        .single();
+
+                    if (error) throw error;
+
+                    const companyId = data.id;
+
+                    return { data: { companyId } };
+                } catch (error) {
+                    console.error('Failed to create company:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to create company: ${error.message}`
+                            : 'Failed to create company'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to create company',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
-export const { useGetCompaniesQuery } = companiesApi;
+export const { useGetCompaniesQuery, useCreateCompanyMutation } = companiesApi;
