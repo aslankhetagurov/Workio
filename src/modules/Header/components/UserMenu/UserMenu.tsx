@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useAppSelector } from '@/store/hooks';
-import { handleLogOut, selectUserData } from '@/modules/Auth';
+import {
+    handleLogOut,
+    selectCompanyData,
+    selectUserData,
+} from '@/modules/Auth';
 import defaultAvatar from '@/shared/assets/images/default-avatar.png';
 import CloseButton from '@/shared/UI/CloseButton/CloseButton';
 import { Link } from 'react-router-dom';
@@ -10,6 +14,7 @@ import styles from './UserMenu.module.scss';
 const UserMenu = () => {
     const [userMenuShow, setUserMenuShow] = useState(false);
     const userData = useAppSelector(selectUserData);
+    const companyData = useAppSelector(selectCompanyData);
     const userMenuRef = useRef<HTMLDivElement>(null);
 
     if (!userData) return null;
@@ -89,12 +94,36 @@ const UserMenu = () => {
 
                         <Link
                             className={styles['user-menu__link']}
-                            to="/applicant/create-resume"
+                            to="/applicant/resume-creation"
                             aria-label="Go to create resume page"
                             onClick={handleUserMenu}
                         >
                             Create a resume
                         </Link>
+                    </div>
+                )}
+
+                {userData && userData.role === 'employer' && (
+                    <div className={styles['user-menu__links']}>
+                        {companyData ? (
+                            <Link
+                                className={styles['user-menu__link']}
+                                to={`/companies/${companyData?.id}`}
+                                aria-label="Go to my company page"
+                                onClick={handleUserMenu}
+                            >
+                                My company
+                            </Link>
+                        ) : (
+                            <Link
+                                className={styles['user-menu__link']}
+                                to="/employer/company-creation"
+                                aria-label="Go to create vacancy page"
+                                onClick={handleUserMenu}
+                            >
+                                Create a company
+                            </Link>
+                        )}
                     </div>
                 )}
 
