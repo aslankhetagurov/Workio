@@ -7,12 +7,14 @@ interface IAuthModalState {
     userData: Tables<'users'> | null;
     authModalIsOpen: boolean;
     isLoading: boolean;
+    companyData: Tables<'companies'> | null;
 }
 
 const initialState: IAuthModalState = {
     userData: null,
     authModalIsOpen: false,
     isLoading: false,
+    companyData: null,
 };
 
 const authSlice = createSlice({
@@ -28,16 +30,28 @@ const authSlice = createSlice({
         setUserDataIsLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
         },
+        setCompanyData: (
+            state,
+            action: PayloadAction<Tables<'companies'> | null>
+        ) => {
+            state.companyData = action.payload;
+        },
     },
 });
 
-export const { setUserData, toggleAuthModal, setUserDataIsLoading } =
-    authSlice.actions;
+export const {
+    setUserData,
+    toggleAuthModal,
+    setUserDataIsLoading,
+    setCompanyData,
+} = authSlice.actions;
 
 export const selectAuthModalIsOpen = (state: RootState) =>
     state.authReducer.authModalIsOpen;
 export const selectUserData = (state: RootState) => state.authReducer.userData;
 export const selectUserDataIsLoading = (state: RootState) =>
     state.authReducer.isLoading;
+export const selectCompanyData = (state: RootState) =>
+    state.authReducer.companyData;
 
 export const authReducer = authSlice.reducer;
