@@ -1,23 +1,24 @@
+import { TSeletcOptionObject } from '@/shared/components/CustomSelect/CustomSelect';
 import PrimaryButton from '../PrimaryButton/PrimaryButton';
 import styles from './DropDownList.module.scss';
 
-interface DropDownListProps<T> {
-    list: readonly T[];
-    handleSetValue: (value: T) => void;
+interface DropDownListProps {
+    list: readonly (string | TSeletcOptionObject)[];
+    handleSetValue: (value: string) => void;
     showDropDown: boolean;
     id?: string;
     itemsLimit?: number;
     topMargin?: number;
 }
 
-const DropDownList = <T extends string>({
+const DropDownList = ({
     list,
     handleSetValue,
     showDropDown,
     id,
     itemsLimit,
     topMargin,
-}: DropDownListProps<T>) => {
+}: DropDownListProps) => {
     return (
         <ul
             className={`${styles['dropdown-list']} ${
@@ -27,17 +28,21 @@ const DropDownList = <T extends string>({
             id={id}
             style={{ top: `${topMargin}px` }}
         >
-            {list?.slice(0, itemsLimit).map((item, i) => {
+            {list.slice(0, itemsLimit).map((item, i) => {
+                const key = typeof item === 'string' ? item : item.value;
+                const label = typeof item === 'string' ? item : item.label;
+                const value = typeof item === 'string' ? item : item.value;
+
                 return (
                     <li
                         className={styles['dropdown-list__item']}
-                        key={`${item}-${i}`}
+                        key={`${key}-${i}`}
                         role="option"
                     >
                         <PrimaryButton
-                            label={item}
-                            ariaLabel={item}
-                            onClick={() => handleSetValue(item)}
+                            label={label}
+                            ariaLabel={label}
+                            onClick={() => handleSetValue(value)}
                         />
                     </li>
                 );

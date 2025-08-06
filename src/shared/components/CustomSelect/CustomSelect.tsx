@@ -5,8 +5,13 @@ import { IoIosArrowDown } from 'react-icons/io';
 import DropDownList from '@/shared/UI/DropDownList/DropDownList';
 import styles from './CustomSelect.module.scss';
 
+export interface TSeletcOptionObject {
+    label: string;
+    value: string;
+}
+
 interface CustomSelectProps<
-    TOption extends string,
+    TOption extends string | TSeletcOptionObject,
     TFormValues extends FieldValues
 > {
     name: Path<TFormValues>;
@@ -21,7 +26,10 @@ interface CustomSelectProps<
     customSelectRef?: Ref<HTMLButtonElement>;
 }
 
-const CustomSelect = <TOption extends string, TFormValues extends FieldValues>({
+const CustomSelect = <
+    TOption extends string | TSeletcOptionObject,
+    TFormValues extends FieldValues
+>({
     name,
     control,
     options,
@@ -41,9 +49,13 @@ const CustomSelect = <TOption extends string, TFormValues extends FieldValues>({
     const [isOpen, setIsOpen] = useState(false);
     const selectRef = useRef<HTMLDivElement>(null);
 
-    const selected = options.find((opt) => opt === field.value);
+    const selected = options.find((opt) =>
+        typeof opt === 'string'
+            ? opt === field.value
+            : opt.value === field.value
+    );
 
-    const handleSetValue = (value: TOption) => {
+    const handleSetValue = (value: string) => {
         setIsOpen(false);
         field.onChange(value);
     };
@@ -83,7 +95,11 @@ const CustomSelect = <TOption extends string, TFormValues extends FieldValues>({
                     aria-controls={`${name}-dropdown-id`}
                     ref={customSelectRef}
                 >
-                    <span>{selected || placeholder}</span>
+                    <span>
+                        {typeof selected === 'string'
+                            ? selected
+                            : selected?.label || placeholder}
+                    </span>
                     <IoIosArrowDown className={styles.select__icon} />
                 </button>
             </div>
