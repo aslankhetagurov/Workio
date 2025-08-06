@@ -48,7 +48,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
             ) : (
                 label
             )}
-            {counter && (
+            {(counter || counter === 0) && (
                 <span className={styles['primary-button__counter']}>
                     {counter}
                 </span>
