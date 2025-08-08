@@ -124,6 +124,15 @@ const UserMenu = () => {
                                 Create a company
                             </Link>
                         )}
+
+                        <Link
+                            className={styles['user-menu__link']}
+                            to="/employer/vacancy-creation"
+                            aria-label="Go to create vacancy page"
+                            onClick={handleUserMenu}
+                        >
+                            Create a vacancy
+                        </Link>
                     </div>
                 )}
 
