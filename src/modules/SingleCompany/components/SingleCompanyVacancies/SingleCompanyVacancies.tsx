@@ -11,7 +11,7 @@ const SingleCompanyVacancies = ({ vacancies }: SingleCompanyVacanciesProps) => {
         return (
             <section>
                 <h2 className={styles.vacancies__title}>Company Vacancies</h2>
-                <p role="status">No vacancies yet...</p>;
+                <p role="status">No vacancies yet...</p>
             </section>
         );
 
