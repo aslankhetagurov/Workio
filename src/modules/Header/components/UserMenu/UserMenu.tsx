@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useAppSelector } from '@/store/hooks';
 import {
@@ -8,7 +9,6 @@ import {
 } from '@/modules/Auth';
 import defaultAvatar from '@/shared/assets/images/default-avatar.png';
 import CloseButton from '@/shared/UI/CloseButton/CloseButton';
-import { Link } from 'react-router-dom';
 import styles from './UserMenu.module.scss';
 
 const UserMenu = () => {
@@ -124,6 +124,15 @@ const UserMenu = () => {
                                 Create a company
                             </Link>
                         )}
+
+                        <Link
+                            className={styles['user-menu__link']}
+                            to="/employer/vacancies"
+                            aria-label="Go to my vacancies page"
+                            onClick={handleUserMenu}
+                        >
+                            My vacancies
+                        </Link>
 
                         <Link
                             className={styles['user-menu__link']}
