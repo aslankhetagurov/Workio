@@ -125,7 +125,72 @@ export const vacanciesApi = createApi({
                 }
             },
         }),
+
+        getEmployerVacancies: builder.query<VacancyWithCompany[], string>({
+            queryFn: async (id) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('vacancies')
+                        .select('*, companies(*)')
+                        .eq('company_id', id);
+
+                    if (error) throw error;
+
+                    return { data };
+                } catch (error) {
+                    console.error('Failed to fetch vacancies:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to fetch vacancies: ${error.message}`
+                            : 'Failed to fetch vacancies'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to fetch vacancies',
+                        },
+                    };
+                }
+            },
+        }),
+
+        deleteVacancy: builder.mutation<void, string>({
+            queryFn: async (id) => {
+                try {
+                    const { error } = await supabase
+                        .from('vacancies')
+                        .delete()
+                        .eq('id', id);
+
+                    if (error) throw error;
+
+                    return { data: undefined };
+                } catch (error) {
+                    console.error('Failed to delete vacancy:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to delete vacancy: ${error.message}`
+                            : 'Failed to delete vacancy'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to delete vacancy',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
-export const { useGetVacanciesQuery, useCreateVacancyMutation } = vacanciesApi;
+export const {
+    useGetVacanciesQuery,
+    useCreateVacancyMutation,
+    useGetEmployerVacanciesQuery,
+    useDeleteVacancyMutation,
+} = vacanciesApi;
