@@ -4,6 +4,7 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { VacancyWithCompany } from '@/shared/types/database.types';
 import supabase from '../../../../supabaseClient';
 import { IJobSearchForm } from '@/shared/components/JobSearchForm/JobSearchForm';
+import { IVacancyCreationForm } from '@/modules/VacancyCreation/types/IVacancyCreationForm.types';
 
 export const vacanciesApi = createApi({
     reducerPath: 'vacanciesApi',
@@ -88,7 +89,43 @@ export const vacanciesApi = createApi({
                 }
             },
         }),
+
+        createVacancy: builder.mutation<
+            { vacancyId: string },
+            { vacancyData: IVacancyCreationForm }
+        >({
+            queryFn: async ({ vacancyData }) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('vacancies')
+                        .insert(vacancyData)
+                        .select()
+                        .single();
+
+                    if (error) throw error;
+
+                    const vacancyId = data.id;
+
+                    return { data: { vacancyId } };
+                } catch (error) {
+                    console.error('Failed to create vacancy:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to create vacancy: ${error.message}`
+                            : 'Failed to create vacancy'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to create vacancy',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
-export const { useGetVacanciesQuery } = vacanciesApi;
+export const { useGetVacanciesQuery, useCreateVacancyMutation } = vacanciesApi;
