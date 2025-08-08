@@ -1,6 +1,6 @@
 @use "@/shared/styles/abstracts/index.scss" as *;
 
-.resume {
+.item {
     border: 1px solid $light-gray;
     border-radius: 10px;
     padding: 20px;
@@ -38,6 +38,9 @@
 
     &__buttons {
         margin-top: 20px;
+        display: flex;
+        align-items: center;
+        column-gap: 30px;
     }
 
     &__info {
