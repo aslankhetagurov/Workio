@@ -1,10 +1,10 @@
 import { toast } from 'sonner';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { VacancyWithCompany } from '@/shared/types/database.types';
+import { Tables, VacancyWithCompany } from '@/shared/types/database.types';
 import supabase from '../../../../supabaseClient';
 import { IJobSearchForm } from '@/shared/components/JobSearchForm/JobSearchForm';
-import { IVacancyCreationForm } from '@/modules/VacancyCreation/types/IVacancyCreationForm.types';
+import { IVacancyForm } from '@/shared/components/VacancyForm/VacancyForm';
 
 export const vacanciesApi = createApi({
     reducerPath: 'vacanciesApi',
@@ -92,7 +92,7 @@ export const vacanciesApi = createApi({
 
         createVacancy: builder.mutation<
             { vacancyId: string },
-            { vacancyData: IVacancyCreationForm }
+            { vacancyData: IVacancyForm }
         >({
             queryFn: async ({ vacancyData }) => {
                 try {
@@ -126,12 +126,12 @@ export const vacanciesApi = createApi({
             },
         }),
 
-        getEmployerVacancies: builder.query<VacancyWithCompany[], string>({
+        getEmployerVacancies: builder.query<Tables<'vacancies'>[], string>({
             queryFn: async (id) => {
                 try {
                     const { data, error } = await supabase
                         .from('vacancies')
-                        .select('*, companies(*)')
+                        .select('*')
                         .eq('company_id', id);
 
                     if (error) throw error;
@@ -185,6 +185,39 @@ export const vacanciesApi = createApi({
                 }
             },
         }),
+
+        editVacancy: builder.mutation<
+            string,
+            { vacancyId: string; data: IVacancyForm }
+        >({
+            queryFn: async ({ vacancyId, data }) => {
+                try {
+                    const { error } = await supabase
+                        .from('vacancies')
+                        .update(data)
+                        .eq('id', vacancyId);
+
+                    if (error) throw error;
+
+                    return { data: undefined };
+                } catch (error) {
+                    console.error('Failed to edit vacancy:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to edit vacancy: ${error.message}`
+                            : 'Failed to edit vacancy'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to edit vacancy',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
@@ -193,4 +226,5 @@ export const {
     useCreateVacancyMutation,
     useGetEmployerVacanciesQuery,
     useDeleteVacancyMutation,
+    useEditVacancyMutation,
 } = vacanciesApi;
