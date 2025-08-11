@@ -1,8 +1,3 @@
 export { Vacancies } from './components/Vacancies/Vacancies';
-export {
-    vacanciesApi,
-    useCreateVacancyMutation,
-    useDeleteVacancyMutation,
-    useGetEmployerVacanciesQuery,
-} from './api/vacanciesApi';
-export { vacanciesReducer } from './store/vacanciesSlice';
+export * from './api/vacanciesApi';
+export * from './store/vacanciesSlice';
