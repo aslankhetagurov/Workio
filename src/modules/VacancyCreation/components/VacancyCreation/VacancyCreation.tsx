@@ -1,4 +1,4 @@
-import VacancyCreationForm from '../VacancyCreationForm/VacancyCreationForm';
+import VacancyForm from '@/shared/components/VacancyForm/VacancyForm';
 import styles from './VacancyCreation.module.scss';
 
 export const VacancyCreation = () => {
@@ -9,7 +9,7 @@ export const VacancyCreation = () => {
             </header>
 
             <main className={styles.vacancy__main}>
-                <VacancyCreationForm />
+                <VacancyForm type="create" />
             </main>
         </section>
     );

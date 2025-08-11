@@ -3,8 +3,7 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { IVacancyCreationForm } from '../../types/IVacancyCreationForm.types';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectCompanyData } from '@/modules/Auth';
 import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import CustomSelect from '@/shared/components/CustomSelect/CustomSelect';
@@ -13,17 +12,47 @@ import LocationInput from '@/shared/components/LocationInput/LocationInput';
 import { jobCategories, TJobCategories } from '@/shared/consts/jobCategories';
 import { employment, TEmployment } from '@/shared/consts/employment';
 import { accessibility, TAccessibility } from '@/shared/consts/accessibility';
-import { useCreateVacancyMutation } from '@/modules/Vacancies';
-import styles from './VacancyCreationForm.module.scss';
+import {
+    selectEditableVacancy,
+    setEditableVacancy,
+    useCreateVacancyMutation,
+    useEditVacancyMutation,
+} from '@/modules/Vacancies';
+import styles from './VacancyForm.module.scss';
 
-const VacancyCreationForm = () => {
+export interface IVacancyForm {
+    category: TJobCategories;
+    title: string;
+    location: string;
+    employment: TEmployment;
+    accessibility: TAccessibility;
+    urgent: string;
+    hours: number;
+    salary_per_month: number;
+    description: string;
+    key_responsibilities: string;
+    skill_and_experience: string;
+}
+
+interface IVacancyFormProps {
+    type: 'create' | 'edit';
+}
+
+const VacancyForm = ({ type }: IVacancyFormProps) => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
     const companyData = useAppSelector(selectCompanyData);
+
+    const editableVacancy = useAppSelector(selectEditableVacancy);
+
     const [createVacancy, { error }] = useCreateVacancyMutation();
+    const [editVacancy, { error: editVacancyError }] = useEditVacancyMutation();
 
     const { register, handleSubmit, reset, setValue, watch, control } =
-        useForm<IVacancyCreationForm>({
+        useForm<IVacancyForm>({
             mode: 'onBlur',
+            defaultValues: editableVacancy ?? undefined,
         });
 
     const categoryRef = useRef<HTMLButtonElement>(null);
@@ -38,7 +67,7 @@ const VacancyCreationForm = () => {
         urgent: urgentRef,
     };
 
-    const onError = (errors: FieldErrors<IVacancyCreationForm>) => {
+    const onError = (errors: FieldErrors<IVacancyForm>) => {
         for (const key of Object.keys(
             selectRefs
         ) as (keyof typeof selectRefs)[]) {
@@ -49,9 +78,7 @@ const VacancyCreationForm = () => {
         }
     };
 
-    const handleFormSubmit: SubmitHandler<IVacancyCreationForm> = async (
-        formData
-    ) => {
+    const handleFormSubmit: SubmitHandler<IVacancyForm> = async (formData) => {
         if (!formData) return;
 
         const allData = {
@@ -65,23 +92,47 @@ const VacancyCreationForm = () => {
         }
 
         try {
-            await createVacancy({
-                vacancyData: allData,
-            }).unwrap();
-            toast.success('Vacancy successfully created!');
+            type === 'create' &&
+                (await createVacancy({
+                    vacancyData: allData,
+                }).unwrap());
+
+            type === 'edit' &&
+                editableVacancy &&
+                (await editVacancy({
+                    data: allData,
+                    vacancyId: editableVacancy.id,
+                }).unwrap());
+
+            toast.success(
+                `Vacancy successfully ${
+                    type === 'create' ? 'created' : 'edited'
+                }!`
+            );
             navigate('/employer/vacancies');
         } catch (err) {
-            toast.error('Failed to create vacancy');
+            toast.error(`Failed to ${type} vacancyt`);
             console.error(err);
+        } finally {
+            editableVacancy && handleClearEditableVacancy();
         }
+    };
+
+    const handleClearEditableVacancy = () => {
+        dispatch(setEditableVacancy(null));
+    };
+
+    const handleCancelEdit = () => {
+        navigate(-1);
+        handleClearEditableVacancy();
     };
 
     const handleResetForm = () => {
         reset();
     };
 
-    if (error) {
-        toast.error('Failed to create vacancy');
+    if (error || editVacancyError) {
+        toast.error(`Failed to ${type} vacancyt`);
         console.error(error);
         return null;
     }
@@ -91,7 +142,7 @@ const VacancyCreationForm = () => {
             className={styles.form}
             onSubmit={handleSubmit(handleFormSubmit, onError)}
         >
-            <CustomSelect<TJobCategories, IVacancyCreationForm>
+            <CustomSelect<TJobCategories, IVacancyForm>
                 name="category"
                 control={control}
                 options={jobCategories}
@@ -102,7 +153,7 @@ const VacancyCreationForm = () => {
                 customSelectRef={categoryRef}
             />
 
-            <ProfessionInput<IVacancyCreationForm>
+            <ProfessionInput<IVacancyForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
@@ -115,7 +166,7 @@ const VacancyCreationForm = () => {
                 required={true}
             />
 
-            <LocationInput<IVacancyCreationForm>
+            <LocationInput<IVacancyForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
@@ -128,7 +179,7 @@ const VacancyCreationForm = () => {
                 required={true}
             />
 
-            <CustomSelect<TEmployment, IVacancyCreationForm>
+            <CustomSelect<TEmployment, IVacancyForm>
                 name="employment"
                 control={control}
                 options={employment}
@@ -139,7 +190,7 @@ const VacancyCreationForm = () => {
                 customSelectRef={employmentRef}
             />
 
-            <CustomSelect<TAccessibility, IVacancyCreationForm>
+            <CustomSelect<TAccessibility, IVacancyForm>
                 name="accessibility"
                 control={control}
                 options={accessibility}
@@ -150,7 +201,7 @@ const VacancyCreationForm = () => {
                 customSelectRef={accessibilityRef}
             />
 
-            <CustomSelect<'Yes' | 'No', IVacancyCreationForm>
+            <CustomSelect<'Yes' | 'No', IVacancyForm>
                 name="urgent"
                 control={control}
                 options={['Yes', 'No']}
@@ -251,19 +302,27 @@ const VacancyCreationForm = () => {
 
             <div className={styles.form__buttons}>
                 <PrimaryButton
-                    label="Create Resume"
-                    ariaLabel="Create Resume"
+                    label={`${type === 'create' ? 'Create' : 'Edit'} Vacancy`}
+                    ariaLabel={`${type} Vacancy`}
                     type="submit"
                 />
 
-                <PrimaryButton
-                    label="Reset"
-                    ariaLabel="Reset form"
-                    onClick={handleResetForm}
-                />
+                {type === 'create' ? (
+                    <PrimaryButton
+                        label="Reset"
+                        ariaLabel="Reset form"
+                        onClick={handleResetForm}
+                    />
+                ) : (
+                    <PrimaryButton
+                        label="Cancel"
+                        ariaLabel="Cancel vacancy change"
+                        onClick={handleCancelEdit}
+                    />
+                )}
             </div>
         </form>
     );
 };
 
-export default VacancyCreationForm;
+export default VacancyForm;
