@@ -21,40 +21,84 @@ import {
     educationDegree,
     TEducationDegree,
 } from '@/shared/consts/educationDegree';
-import { IResumeCreationForm } from '../../types/IResumeCreationForm.types';
-import { emptyEducation } from '../../consts/emptyEducation';
-import { emptyWorkExperiences } from '../../consts/emptyWorkExperiences';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectUserData } from '@/modules/Auth';
 import { gender, TGender } from '@/shared/consts/gender';
-import styles from './ResumeCreationForm.module.scss';
-import { useCreateResumeMutation } from '@/modules/Resumes';
+import {
+    selectEditableResume,
+    setEditableResume,
+    useCreateResumeMutation,
+    useEditResumeMutation,
+} from '@/modules/Resumes';
+import { emptyEducation, emptyWorkExperiences } from '@/modules/ResumeCreation';
+import styles from './ResumeForm.module.scss';
 
-const ResumeCreationForm = () => {
+interface IResumeFormProps {
+    type: 'create' | 'edit';
+}
+
+export interface IResumeForm {
+    title: string;
+    location: string;
+    category: TJobCategories;
+    employment: TEmployment;
+    accessibility: TAccessibility;
+    salary_per_month: number;
+    date_of_birth: string;
+    about_me: string;
+    gender: 'Male' | 'Female';
+    skills: string[];
+    education: {
+        institution: string;
+        location: string;
+        degree: TEducationDegree | null;
+        field_of_study: string;
+        graduation_year: number | null;
+        id?: string;
+    }[];
+    work_experiences: {
+        company_name: string;
+        position: string;
+        start_date: string;
+        end_date: string | null;
+        location: string;
+        description: string;
+        id?: string;
+    }[];
+}
+
+const ResumeForm = ({ type }: IResumeFormProps) => {
+    const user = useAppSelector(selectUserData);
+    const editableResume = useAppSelector(selectEditableResume);
+    const dispatch = useAppDispatch();
+
     const { register, handleSubmit, reset, setValue, watch, control } =
-        useForm<IResumeCreationForm>({
+        useForm<IResumeForm>({
             mode: 'onBlur',
-            defaultValues: {
-                education: [
-                    {
-                        institution: '',
-                        location: '',
-                        degree: null,
-                        field_of_study: '',
-                        graduation_year: null,
-                    },
-                ],
-                work_experiences: [
-                    {
-                        company_name: '',
-                        position: '',
-                        start_date: '',
-                        end_date: null,
-                        location: '',
-                        description: '',
-                    },
-                ],
-            },
+            defaultValues:
+                type === 'create'
+                    ? {
+                          education: [
+                              {
+                                  institution: '',
+                                  location: '',
+                                  degree: null,
+                                  field_of_study: '',
+                                  graduation_year: null,
+                              },
+                          ],
+                          work_experiences: [
+                              {
+                                  company_name: '',
+                                  position: '',
+                                  start_date: '',
+                                  end_date: null,
+                                  location: '',
+                                  description: '',
+                              },
+                          ],
+                      }
+                    : editableResume ?? undefined,
         });
 
     const categoryRef = useRef<HTMLButtonElement>(null);
@@ -92,11 +136,12 @@ const ResumeCreationForm = () => {
         name: 'work_experiences',
     });
 
-    const user = useAppSelector(selectUserData);
-
     const [createResume, { error }] = useCreateResumeMutation();
+    const [editResume, { error: editResumeError }] = useEditResumeMutation();
 
-    const [skills, setSkills] = useState<string[] | []>([]);
+    const [skills, setSkills] = useState<string[] | []>(
+        editableResume?.skills ?? []
+    );
     const [skillInput, setSkillInput] = useState<string>('');
     const navigate = useNavigate();
 
@@ -107,7 +152,7 @@ const ResumeCreationForm = () => {
         setSkillInput('');
     };
 
-    const onError = (errors: FieldErrors<IResumeCreationForm>) => {
+    const onError = (errors: FieldErrors<IResumeForm>) => {
         for (const key of Object.keys(
             selectRefs
         ) as (keyof typeof selectRefs)[]) {
@@ -120,8 +165,6 @@ const ResumeCreationForm = () => {
         if (Array.isArray(errors.education)) {
             for (let i = 0; i < errors.education.length; i++) {
                 if (errors.education[i]?.degree) {
-                    console.log('lol focus');
-
                     degreeRefs.current[i]!.current!.focus();
                     return;
                 }
@@ -129,14 +172,11 @@ const ResumeCreationForm = () => {
         }
     };
 
-    const handleFormSubmit: SubmitHandler<IResumeCreationForm> = async (
-        formData
-    ) => {
+    const handleFormSubmit: SubmitHandler<IResumeForm> = async (formData) => {
         const allData = { ...formData, skills };
-        console.log(allData);
 
         if (!user?.id) {
-            toast.error('You must be logged in to create a resume');
+            toast.error(`You must be logged in to ${type} a resume`);
             return;
         }
 
@@ -146,17 +186,44 @@ const ResumeCreationForm = () => {
         }
 
         try {
-            await createResume({ data: allData, userId: user?.id }).unwrap();
-            toast.success('Resume successfully created!');
+            type === 'create' &&
+                (await createResume({
+                    data: allData,
+                    userId: user?.id,
+                }).unwrap());
+
+            type === 'edit' &&
+                editableResume &&
+                (await editResume({
+                    data: allData,
+                    resumeId: editableResume.id,
+                }).unwrap());
+
+            toast.success(
+                `Resume successfully ${
+                    type === 'create' ? 'created' : 'edited'
+                }!`
+            );
             navigate('/applicant/resumes');
         } catch (err) {
-            toast.error('Failed to create resume');
+            toast.error(`Failed to ${type} resume`);
             console.error(err);
+        } finally {
+            editableResume && handleClearEditableResume();
         }
+    };
+
+    const handleClearEditableResume = () => {
+        dispatch(setEditableResume(null));
     };
 
     const handleResetForm = () => {
         reset();
+    };
+
+    const handleCancelEdit = () => {
+        navigate(-1);
+        handleClearEditableResume();
     };
 
     const deleteSkill = (skill: string) => {
@@ -164,9 +231,9 @@ const ResumeCreationForm = () => {
         setSkills(newSkills);
     };
 
-    if (error) {
-        toast.error('Failed to create resume');
-        console.error(error);
+    if (error || editResumeError) {
+        toast.error(`Failed to ${type} resume`);
+        console.error(error || editResumeError);
         return null;
     }
 
@@ -175,7 +242,7 @@ const ResumeCreationForm = () => {
             className={styles.form}
             onSubmit={handleSubmit(handleFormSubmit, onError)}
         >
-            <CustomSelect<TJobCategories, IResumeCreationForm>
+            <CustomSelect<TJobCategories, IResumeForm>
                 name="category"
                 control={control}
                 options={jobCategories}
@@ -186,7 +253,7 @@ const ResumeCreationForm = () => {
                 customSelectRef={categoryRef}
             />
 
-            <ProfessionInput<IResumeCreationForm>
+            <ProfessionInput<IResumeForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
@@ -199,7 +266,7 @@ const ResumeCreationForm = () => {
                 required={true}
             />
 
-            <LocationInput<IResumeCreationForm>
+            <LocationInput<IResumeForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
@@ -212,7 +279,7 @@ const ResumeCreationForm = () => {
                 required={true}
             />
 
-            <CustomSelect<TEmployment, IResumeCreationForm>
+            <CustomSelect<TEmployment, IResumeForm>
                 name="employment"
                 control={control}
                 options={employment}
@@ -223,7 +290,7 @@ const ResumeCreationForm = () => {
                 customSelectRef={employmentRef}
             />
 
-            <CustomSelect<TAccessibility, IResumeCreationForm>
+            <CustomSelect<TAccessibility, IResumeForm>
                 name="accessibility"
                 control={control}
                 options={accessibility}
@@ -234,7 +301,7 @@ const ResumeCreationForm = () => {
                 customSelectRef={accessibilityRef}
             />
 
-            <CustomSelect<TGender, IResumeCreationForm>
+            <CustomSelect<TGender, IResumeForm>
                 name="gender"
                 control={control}
                 options={gender}
@@ -396,7 +463,7 @@ const ResumeCreationForm = () => {
                                 />
                             </div>
 
-                            <LocationInput<IResumeCreationForm>
+                            <LocationInput<IResumeForm>
                                 register={register}
                                 setValue={setValue}
                                 watch={watch}
@@ -409,7 +476,7 @@ const ResumeCreationForm = () => {
                                 required={true}
                             />
 
-                            <CustomSelect<TEducationDegree, IResumeCreationForm>
+                            <CustomSelect<TEducationDegree, IResumeForm>
                                 name={`education.${i}.degree`}
                                 control={control}
                                 options={educationDegree}
@@ -494,18 +561,14 @@ const ResumeCreationForm = () => {
                         className={styles['form__experiences-fields']}
                         key={field.id}
                     >
-                        {!!i && ( // Don't show remove button for the first item
-                            <div className={styles['form__experiences-remove']}>
-                                <CloseButton
-                                    onClick={() => workRemove(i)}
-                                    customIconClass={
-                                        styles['form__remove-icon']
-                                    }
-                                    ariaLabel="Remove work experience"
-                                    title="Remove work experience"
-                                />
-                            </div>
-                        )}
+                        <div className={styles['form__experiences-remove']}>
+                            <CloseButton
+                                onClick={() => workRemove(i)}
+                                customIconClass={styles['form__remove-icon']}
+                                ariaLabel="Remove work experience"
+                                title="Remove work experience"
+                            />
+                        </div>
 
                         <div
                             className={styles['form__experiences-institution']}
@@ -531,7 +594,7 @@ const ResumeCreationForm = () => {
                             />
                         </div>
 
-                        <ProfessionInput<IResumeCreationForm>
+                        <ProfessionInput<IResumeForm>
                             register={register}
                             setValue={setValue}
                             watch={watch}
@@ -544,7 +607,7 @@ const ResumeCreationForm = () => {
                             required={true}
                         />
 
-                        <LocationInput<IResumeCreationForm>
+                        <LocationInput<IResumeForm>
                             register={register}
                             setValue={setValue}
                             watch={watch}
@@ -622,28 +685,40 @@ const ResumeCreationForm = () => {
 
                 <div className={styles['form__education-btn']}>
                     <PrimaryButton
-                        label="Add More"
+                        label={`${
+                            !workFields.length
+                                ? 'Add Work Experience'
+                                : 'Add More'
+                        }`}
                         onClick={() => workAppend(emptyWorkExperiences)}
-                        style={{ maxWidth: '150px' }}
+                        style={{ maxWidth: 'max-content', minWidth: '150px' }}
                     />
                 </div>
             </div>
 
             <div className={styles.form__buttons}>
                 <PrimaryButton
-                    label="Create Resume"
-                    ariaLabel="Create Resume"
+                    label={`${type === 'create' ? 'Create' : 'Edit'} Resume`}
+                    ariaLabel={`${type} Resume`}
                     type="submit"
                 />
 
-                <PrimaryButton
-                    label="Reset"
-                    ariaLabel="Reset form"
-                    onClick={handleResetForm}
-                />
+                {type === 'create' ? (
+                    <PrimaryButton
+                        label="Reset"
+                        ariaLabel="Reset form"
+                        onClick={handleResetForm}
+                    />
+                ) : (
+                    <PrimaryButton
+                        label="Cancel"
+                        ariaLabel="Cancel resume change"
+                        onClick={handleCancelEdit}
+                    />
+                )}
             </div>
         </form>
     );
 };
 
-export default ResumeCreationForm;
+export default ResumeForm;

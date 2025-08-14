@@ -1,11 +1,10 @@
-import { IResumeCreationForm } from '../types/IResumeCreationForm.types';
+import { IResumeForm } from '@/shared/components/ResumeForm/ResumeForm';
 
-export const emptyWorkExperiences: IResumeCreationForm['work_experiences'][0] =
-    {
-        company_name: '',
-        position: '',
-        start_date: '',
-        end_date: null,
-        location: '',
-        description: '',
-    };
+export const emptyWorkExperiences: IResumeForm['work_experiences'][0] = {
+    company_name: '',
+    position: '',
+    start_date: '',
+    end_date: null,
+    location: '',
+    description: '',
+};

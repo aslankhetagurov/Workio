@@ -1,4 +1,4 @@
-import ResumeCreationForm from '../ResumeCreationForm/ResumeCreationForm';
+import ResumeForm from '@/shared/components/ResumeForm/ResumeForm';
 import styles from './ResumeCreation.module.scss';
 
 export const ResumeCreation = () => {
@@ -9,7 +9,7 @@ export const ResumeCreation = () => {
             </header>
 
             <main className={styles.resume__main}>
-                <ResumeCreationForm />
+                <ResumeForm type="create" />
             </main>
         </section>
     );
