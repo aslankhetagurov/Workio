@@ -1,10 +1,12 @@
+import { useEffect } from 'react';
+
 import { useAppSelector } from '@/store/hooks';
-import styles from './EmployerVacanciesList.module.scss';
 import { selectCompanyData, selectUserDataIsLoading } from '@/modules/Auth';
 import Spinner from '@/shared/UI/Spinner/Spinner';
 import ErrorComponent from '@/shared/UI/ErrorComponent/ErrorComponent';
-import { useGetEmployerVacanciesQuery } from '@/modules/Vacancies/api/vacanciesApi';
 import EmployerVacanciesItem from '../EmployerVacanciesItem/EmployerVacanciesItem';
+import { useGetEmployerVacanciesQuery } from '@/modules/Vacancies';
+import styles from './EmployerVacanciesList.module.scss';
 
 const EmployerVacanciesList = () => {
     const company = useAppSelector(selectCompanyData);
@@ -16,6 +18,10 @@ const EmployerVacanciesList = () => {
         error,
         refetch,
     } = useGetEmployerVacanciesQuery(company?.id ?? '', { skip: !company });
+
+    useEffect(() => {
+        company && refetch();
+    }, []);
 
     if (userDataIsLoading || !company || isFetching)
         return (

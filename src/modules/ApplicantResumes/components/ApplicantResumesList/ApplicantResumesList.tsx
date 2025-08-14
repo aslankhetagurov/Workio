@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import ApplicantResumeItem from '../ApplicantResumeItem/ApplicantResumeItem';
 import { useAppSelector } from '@/store/hooks';
 import { selectUserData, selectUserDataIsLoading } from '@/modules/Auth';
@@ -16,6 +18,10 @@ const ApplicantResumesList = () => {
         error,
         refetch,
     } = useGetApplicantResumesQuery(user?.id ?? '', { skip: !user });
+
+    useEffect(() => {
+        user && refetch();
+    }, []);
 
     if (userDataIsLoading || !user || isFetching)
         return (
