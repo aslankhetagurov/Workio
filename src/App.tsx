@@ -20,6 +20,7 @@ import ResumeCreationPage from './pages/ResumeCreationPage/ResumeCreationPage';
 import CompanyCreatePage from './pages/CompanyCreatePage/CompanyCreatePage';
 import VacancyCreationPage from './pages/VacancyCreationPage/VacancyCreationPage';
 import EmployerVacanciesPage from './pages/EmployerVacanciesPage/EmployerVacanciesPage';
+import VacancyEditingPage from './pages/VacancyEditingPage/VacancyEditingPage';
 import './App.scss';
 
 function App() {
@@ -66,6 +67,10 @@ function App() {
                         <Route
                             path="/employer/vacancy-creation"
                             element={<VacancyCreationPage />}
+                        />
+                        <Route
+                            path="/employer/vacancy-editing"
+                            element={<VacancyEditingPage />}
                         />
                         <Route
                             path="/employer/vacancies"

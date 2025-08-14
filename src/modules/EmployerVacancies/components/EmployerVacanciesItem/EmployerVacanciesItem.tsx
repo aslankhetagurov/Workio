@@ -3,7 +3,11 @@ import { toast } from 'sonner';
 
 import { VacancyWithCompany } from '@/shared/types/database.types';
 import VacancyAndResumeItemContent from '@/shared/UI/VacancyAndResumeItemContent/VacancyAndResumeItemContent';
-import { useDeleteVacancyMutation } from '@/modules/Vacancies';
+import {
+    setEditableVacancy,
+    useDeleteVacancyMutation,
+} from '@/modules/Vacancies';
+import { useAppDispatch } from '@/store/hooks';
 
 interface IEmployerVacanciesItemProps {
     vacancyData: VacancyWithCompany;
@@ -14,6 +18,7 @@ const EmployerVacanciesItem = ({
     vacancyData,
     refetch,
 }: IEmployerVacanciesItemProps) => {
+    const dispatch = useAppDispatch();
     const { id } = vacancyData;
 
     const [deleteVacancy] = useDeleteVacancyMutation();
@@ -34,7 +39,9 @@ const EmployerVacanciesItem = ({
         }
     };
 
-    const handleDispatchData = () => {};
+    const handleDispatchData = () => {
+        dispatch(setEditableVacancy(vacancyData));
+    };
 
     return (
         <VacancyAndResumeItemContent
