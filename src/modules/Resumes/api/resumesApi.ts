@@ -1,10 +1,13 @@
 import { toast } from 'sonner';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { ResumeWithUser } from '@/shared/types/database.types';
+import {
+    ResumeWithExperiencesAndEducations,
+    ResumeWithUser,
+} from '@/shared/types/database.types';
 import supabase from '@/../supabaseClient';
 import { IJobSearchForm } from '@/shared/components/JobSearchForm/JobSearchForm';
-import { IResumeCreationForm } from '@/modules/ResumeCreation/types/IResumeCreationForm.types';
+import { IResumeForm } from '@/shared/components/ResumeForm/ResumeForm';
 
 export const resumesApi = createApi({
     reducerPath: 'resumesApi',
@@ -92,7 +95,7 @@ export const resumesApi = createApi({
 
         createResume: builder.mutation<
             { resumeId: string },
-            { data: IResumeCreationForm; userId: string }
+            { data: IResumeForm; userId: string }
         >({
             queryFn: async (args) => {
                 const { data, userId } = args;
@@ -155,12 +158,15 @@ export const resumesApi = createApi({
             },
         }),
 
-        getApplicantResumes: builder.query<ResumeWithUser[], string>({
+        getApplicantResumes: builder.query<
+            ResumeWithExperiencesAndEducations[],
+            string
+        >({
             queryFn: async (id) => {
                 try {
                     const { data, error } = await supabase
                         .from('resumes')
-                        .select('*, users(*)')
+                        .select('*, work_experiences(*), education(*)')
                         .eq('user_id', id);
 
                     if (error) throw error;
@@ -214,6 +220,97 @@ export const resumesApi = createApi({
                 }
             },
         }),
+
+        editResume: builder.mutation<
+            string,
+            { resumeId: string; data: IResumeForm }
+        >({
+            queryFn: async ({ resumeId, data }) => {
+                const { education, work_experiences, ...mainData } = data;
+
+                try {
+                    await Promise.all(
+                        education.map(async (edu) => {
+                            try {
+                                const { error } = edu.id
+                                    ? await supabase
+                                          .from('education')
+                                          .update(edu)
+                                          .match({
+                                              resume_id: resumeId,
+                                              id: edu.id,
+                                          })
+                                    : await supabase.from('education').insert({
+                                          resume_id: resumeId,
+                                          ...edu,
+                                      });
+
+                                if (error) throw error;
+                            } catch (err) {
+                                console.error(
+                                    'Failed to edit education record',
+                                    err
+                                );
+                                throw err;
+                            }
+                        })
+                    );
+
+                    await Promise.all(
+                        work_experiences.map(async (exp) => {
+                            try {
+                                const { error } = exp.id
+                                    ? await supabase
+                                          .from('work_experiences')
+                                          .update(exp)
+                                          .match({
+                                              resume_id: resumeId,
+                                              id: exp.id,
+                                          })
+                                    : await supabase
+                                          .from('work_experiences')
+                                          .insert({
+                                              resume_id: resumeId,
+                                              ...exp,
+                                          });
+
+                                if (error) throw error;
+                            } catch (err) {
+                                console.error(
+                                    'Failed to edit work experience record',
+                                    err
+                                );
+                                throw err;
+                            }
+                        })
+                    );
+
+                    const { error } = await supabase
+                        .from('resumes')
+                        .update(mainData)
+                        .eq('id', resumeId);
+
+                    if (error) throw error;
+
+                    return { data: undefined };
+                } catch (error) {
+                    console.error('Failed to edit resume:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to edit resume: ${error.message}`
+                            : 'Failed to edit resume'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to edit resume',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
@@ -222,4 +319,5 @@ export const {
     useCreateResumeMutation,
     useGetApplicantResumesQuery,
     useDeleteResumeMutation,
+    useEditResumeMutation,
 } = resumesApi;
