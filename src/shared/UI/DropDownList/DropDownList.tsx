@@ -9,6 +9,7 @@ interface DropDownListProps {
     id?: string;
     itemsLimit?: number;
     topMargin?: number;
+    customClass?: string;
 }
 
 const DropDownList = ({
@@ -18,12 +19,13 @@ const DropDownList = ({
     id,
     itemsLimit,
     topMargin,
+    customClass,
 }: DropDownListProps) => {
     return (
         <ul
             className={`${styles['dropdown-list']} ${
                 showDropDown && list.length ? styles['dropdown-list-show'] : ''
-            }`}
+            } ${customClass}`}
             role="listbox"
             id={id}
             style={{ top: `${topMargin}px` }}
