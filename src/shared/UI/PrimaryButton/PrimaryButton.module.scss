@@ -10,6 +10,8 @@
     width: 100%;
     font-weight: 700;
     position: relative;
+    display: flex;
+    align-items: center;
     transition:
         background-color 0.3s,
         color 0.3s,
@@ -57,7 +59,8 @@
         color: #fff;
     }
 
-    &__counter {
+    &__counter,
+    &__icon {
         background-color: $accent-bg-color;
         margin-left: 5px;
         border-radius: 50%;
@@ -65,5 +68,14 @@
         padding: 0 2px;
         height: 24px;
         color: $hover-color;
+        line-height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__disabled {
+        opacity: 0.6;
+        pointer-events: none;
     }
 }

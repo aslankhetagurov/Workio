@@ -1,4 +1,4 @@
-import { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, JSX } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 
 import styles from './PrimaryButton.module.scss';
@@ -14,6 +14,8 @@ interface PrimaryButtonProps {
     active?: boolean;
     className?: string;
     counter?: number;
+    icon?: JSX.Element;
+    isShowIcon?: boolean;
 }
 
 const PrimaryButton: FC<PrimaryButtonProps> = ({
@@ -27,6 +29,8 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
     active = false,
     className,
     counter,
+    icon,
+    isShowIcon,
 }) => {
     return (
         <button
@@ -34,13 +38,13 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
             aria-label={ariaLabel}
             onClick={onClick}
             disabled={disabled}
-            className={`${styles['primary-button']} ${
+            className={`${styles['primary-button']}  ${
                 label === 'Reset' || label === 'Delete'
                     ? styles['primary-button-reset']
                     : ''
             } ${active ? styles['primary-button-active'] : ''} ${
                 className ?? ''
-            }`}
+            } ${disabled && styles['primary-button__disabled']}`}
             style={style}
         >
             {isLoading ? (
@@ -48,10 +52,15 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
             ) : (
                 label
             )}
+
             {(counter || counter === 0) && (
                 <span className={styles['primary-button__counter']}>
                     {counter}
                 </span>
+            )}
+
+            {isShowIcon && (
+                <span className={styles['primary-button__icon']}>{icon}</span>
             )}
         </button>
     );
