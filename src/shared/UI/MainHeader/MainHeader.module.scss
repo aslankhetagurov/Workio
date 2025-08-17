@@ -1,0 +1,15 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.header {
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $accent-bg-color;
+    margin-bottom: 4rem;
+
+    &__title {
+        font-size: 2.2rem;
+        font-weight: 700;
+    }
+}
