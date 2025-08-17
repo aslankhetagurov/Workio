@@ -20,6 +20,7 @@ import ResumeCreationPage from './pages/ResumeCreationPage/ResumeCreationPage';
 import CompanyCreatePage from './pages/CompanyCreatePage/CompanyCreatePage';
 import VacancyCreationPage from './pages/VacancyCreationPage/VacancyCreationPage';
 import EmployerVacanciesPage from './pages/EmployerVacanciesPage/EmployerVacanciesPage';
+import ResumeEditingPage from './pages/ResumeEditingPage/ResumeEditingPage';
 import VacancyEditingPage from './pages/VacancyEditingPage/VacancyEditingPage';
 import './App.scss';
 
@@ -59,6 +60,10 @@ function App() {
                         <Route
                             path="/applicant/resume-creation"
                             element={<ResumeCreationPage />}
+                        />
+                        <Route
+                            path="/applicant/resume-editing"
+                            element={<ResumeEditingPage />}
                         />
                         <Route
                             path="/employer/company-creation"
