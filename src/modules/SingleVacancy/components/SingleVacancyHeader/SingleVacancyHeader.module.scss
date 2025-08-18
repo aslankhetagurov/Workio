@@ -28,12 +28,25 @@
         align-items: center;
     }
 
-    &__bookmark {
-        font-size: 30px;
+    &__favorite,
+    &__favorite-active {
+        font-size: 34px;
         line-height: 0;
+        color: #c9c9c9;
+        transition:
+            color 0.3s,
+            transform 0.3s;
 
         &:hover {
-            color: gold;
+            color: #ff9d9d;
         }
+
+        &:active {
+            transform: scale(0.9);
+        }
+    }
+
+    &__favorite-active {
+        color: #ff7373;
     }
 }
