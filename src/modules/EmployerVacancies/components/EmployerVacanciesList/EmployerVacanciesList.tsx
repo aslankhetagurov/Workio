@@ -23,7 +23,7 @@ const EmployerVacanciesList = () => {
         company && refetch();
     }, []);
 
-    if (userDataIsLoading || !company || isFetching)
+    if (userDataIsLoading || isFetching)
         return (
             <div role="status" aria-busy="true" aria-live="polite">
                 <Spinner />
