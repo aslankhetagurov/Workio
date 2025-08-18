@@ -22,8 +22,9 @@ import VacancyCreationPage from './pages/VacancyCreationPage/VacancyCreationPage
 import EmployerVacanciesPage from './pages/EmployerVacanciesPage/EmployerVacanciesPage';
 import ResumeEditingPage from './pages/ResumeEditingPage/ResumeEditingPage';
 import VacancyEditingPage from './pages/VacancyEditingPage/VacancyEditingPage';
-import './App.scss';
 import FavoriteVacanciesPage from './pages/FavoriteVacancies/FavoriteVacanciesPage';
+import ApplicationsPage from './pages/ApplicationsPage/ApplicationsPage';
+import './App.scss';
 
 function App() {
     useInitAuth();
@@ -65,6 +66,10 @@ function App() {
                         <Route
                             path="/applicant/resume-editing"
                             element={<ResumeEditingPage />}
+                        />
+                        <Route
+                            path="/applicant/applications"
+                            element={<ApplicationsPage />}
                         />
                         <Route
                             path="/applicant/favorite-vacancies"
