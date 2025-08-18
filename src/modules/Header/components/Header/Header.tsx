@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { MdOutlineAssignment, MdFavoriteBorder } from 'react-icons/md';
 
 import Menu from '../Menu/Menu';
 import logo from '@/shared/assets/images/logo.webp';
@@ -32,7 +33,41 @@ export const Header = () => {
             <Menu />
 
             {userData ? (
-                <UserMenu />
+                <div className={styles.header__user}>
+                    <Link
+                        to={
+                            userData.role === 'applicant'
+                                ? '/applicant/applications'
+                                : '/employer/applications'
+                        }
+                        className={styles['header__applications-link']}
+                        title="Applications"
+                    >
+                        <MdOutlineAssignment
+                            className={styles.header__applications}
+                        />
+                    </Link>
+
+                    <Link
+                        to={
+                            userData.role === 'applicant'
+                                ? '/applicant/favorite-vacancies'
+                                : '/employer/favorite-resumes'
+                        }
+                        className={styles['header__favorites-link']}
+                        title={
+                            userData.role === 'applicant'
+                                ? 'Favorite vacancies'
+                                : 'Favorite resumes'
+                        }
+                    >
+                        <MdFavoriteBorder
+                            className={styles.header__favorites}
+                        />
+                    </Link>
+
+                    <UserMenu />
+                </div>
             ) : (
                 <div className={styles.header__auth}>
                     <PrimaryButton

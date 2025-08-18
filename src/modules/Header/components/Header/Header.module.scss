@@ -31,6 +31,49 @@
         color: #338fbe;
     }
 
+    &__user {
+        display: flex;
+        align-items: center;
+        column-gap: 20px;
+    }
+
+    &__favorites-link,
+    &__applications-link {
+        line-height: 0;
+    }
+
+    &__favorites {
+        font-size: 34px;
+        line-height: 0;
+        transition:
+            color 0.3s,
+            transform 0.3s;
+
+        &:hover {
+            color: #ff9d9d;
+        }
+
+        &:active {
+            transform: scale(0.9);
+        }
+    }
+
+    &__applications {
+        font-size: 34px;
+        line-height: 0;
+        transition:
+            color 0.3s,
+            transform 0.3s;
+
+        &:hover {
+            color: $hover-color;
+        }
+
+        &:active {
+            transform: scale(0.9);
+        }
+    }
+
     &__auth {
         @include flex-align-center;
     }
