@@ -1,7 +1,11 @@
 import { toast } from 'sonner';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Tables, VacancyWithCompany } from '@/shared/types/database.types';
+import {
+    FavoriteVacancyWithVacancy,
+    Tables,
+    VacancyWithCompany,
+} from '@/shared/types/database.types';
 import supabase from '../../../../supabaseClient';
 import { IJobSearchForm } from '@/shared/components/JobSearchForm/JobSearchForm';
 import { IVacancyForm } from '@/shared/components/VacancyForm/VacancyForm';
@@ -9,6 +13,7 @@ import { IVacancyForm } from '@/shared/components/VacancyForm/VacancyForm';
 export const vacanciesApi = createApi({
     reducerPath: 'vacanciesApi',
     baseQuery: fakeBaseQuery(),
+    tagTypes: ['FavoriteVacancies', 'vacancy'],
     endpoints: (builder) => ({
         getVacancies: builder.query<
             VacancyWithCompany[],
@@ -94,6 +99,7 @@ export const vacanciesApi = createApi({
             { vacancyId: string },
             { vacancyData: IVacancyForm }
         >({
+            invalidatesTags: ['vacancy'],
             queryFn: async ({ vacancyData }) => {
                 try {
                     const { data, error } = await supabase
@@ -127,6 +133,7 @@ export const vacanciesApi = createApi({
         }),
 
         getEmployerVacancies: builder.query<Tables<'vacancies'>[], string>({
+            providesTags: ['vacancy'],
             queryFn: async (id) => {
                 try {
                     const { data, error } = await supabase
@@ -157,6 +164,7 @@ export const vacanciesApi = createApi({
         }),
 
         deleteVacancy: builder.mutation<void, string>({
+            invalidatesTags: ['vacancy'],
             queryFn: async (id) => {
                 try {
                     const { error } = await supabase
@@ -190,6 +198,7 @@ export const vacanciesApi = createApi({
             string,
             { vacancyId: string; data: IVacancyForm }
         >({
+            invalidatesTags: ['vacancy'],
             queryFn: async ({ vacancyId, data }) => {
                 try {
                     const { error } = await supabase
@@ -218,6 +227,93 @@ export const vacanciesApi = createApi({
                 }
             },
         }),
+
+        toggleFavoriteVacancy: builder.mutation<
+            { status: 'added' | 'removed'; id?: string },
+            { vacancy_id: string; user_id: string }
+        >({
+            invalidatesTags: ['FavoriteVacancies'],
+            queryFn: async ({ vacancy_id, user_id }) => {
+                try {
+                    const { data: existing, error: findError } = await supabase
+                        .from('favorite_vacancies')
+                        .select('id')
+                        .eq('vacancy_id', vacancy_id)
+                        .eq('user_id', user_id)
+                        .maybeSingle();
+
+                    if (findError) throw findError;
+
+                    if (existing) {
+                        const { error: removeError } = await supabase
+                            .from('favorite_vacancies')
+                            .delete()
+                            .eq('id', existing.id);
+
+                        if (removeError) throw removeError;
+
+                        return { data: { status: 'removed' } };
+                    } else {
+                        const { data, error: addError } = await supabase
+                            .from('favorite_vacancies')
+                            .insert({ vacancy_id, user_id })
+                            .select('id')
+                            .single();
+
+                        if (addError) throw addError;
+                        if (!data?.id)
+                            throw new Error('No ID returned from server');
+
+                        return { data: { status: 'added', id: data.id } };
+                    }
+                } catch (error) {
+                    console.error('Toggle favorite error:', error);
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error:
+                                error instanceof Error
+                                    ? error.message
+                                    : 'Unknown error',
+                        },
+                    };
+                }
+            },
+        }),
+
+        getFavoriteVacancies: builder.query<
+            FavoriteVacancyWithVacancy[],
+            string
+        >({
+            providesTags: ['FavoriteVacancies'],
+            queryFn: async (userId) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('favorite_vacancies')
+                        .select('*, vacancies(*, companies(*))')
+                        .eq('user_id', userId);
+
+                    if (error) throw error;
+
+                    return { data };
+                } catch (error) {
+                    console.error('Failed to fetch vacancies:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to fetch vacancies: ${error.message}`
+                            : 'Failed to fetch vacancies'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to fetch vacancies',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
@@ -227,4 +323,6 @@ export const {
     useGetEmployerVacanciesQuery,
     useDeleteVacancyMutation,
     useEditVacancyMutation,
+    useGetFavoriteVacanciesQuery,
+    useToggleFavoriteVacancyMutation,
 } = vacanciesApi;
