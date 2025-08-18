@@ -111,7 +111,7 @@ const VacancyForm = ({ type }: IVacancyFormProps) => {
             );
             navigate('/employer/vacancies');
         } catch (err) {
-            toast.error(`Failed to ${type} vacancyt`);
+            toast.error(`Failed to ${type} vacancy`);
             console.error(err);
         } finally {
             editableVacancy && handleClearEditableVacancy();
@@ -132,7 +132,7 @@ const VacancyForm = ({ type }: IVacancyFormProps) => {
     };
 
     if (error || editVacancyError) {
-        toast.error(`Failed to ${type} vacancyt`);
+        toast.error(`Failed to ${type} vacancy`);
         console.error(error);
         return null;
     }
@@ -316,7 +316,7 @@ const VacancyForm = ({ type }: IVacancyFormProps) => {
                 ) : (
                     <PrimaryButton
                         label="Cancel"
-                        ariaLabel="Cancel vacancy change"
+                        ariaLabel="Cancel vacancy edit"
                         onClick={handleCancelEdit}
                     />
                 )}
