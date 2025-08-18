@@ -51,8 +51,7 @@ export const useInitAuth = () => {
                             const { data: companyData, error } = await supabase
                                 .from('companies')
                                 .select('*')
-                                .eq('user_id', session?.user.id)
-                                .single<Tables<'companies'>>();
+                                .eq('user_id', session?.user.id);
 
                             if (error) {
                                 toast.error(
@@ -61,8 +60,8 @@ export const useInitAuth = () => {
                                 console.error(error);
                             }
 
-                            if (companyData) {
-                                dispatch(setCompanyData(companyData));
+                            if (companyData?.length) {
+                                dispatch(setCompanyData(companyData[0]));
                             }
                         }
                     }
