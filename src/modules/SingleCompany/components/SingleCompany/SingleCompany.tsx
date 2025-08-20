@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import ErrorComponent from '@/shared/UI/ErrorComponent/ErrorComponent';
-import { useGetCompanyQuery } from '../../api/SingleCompanyApi';
 import Spinner from '@/shared/UI/Spinner/Spinner';
 import CompanyInfo from '@/shared/components/CompanyInfo/CompanyInfo';
 import SingleCompanyAbout from '../SingleCompanyAbout/SingleCompanyAbout';
@@ -12,6 +11,7 @@ import { TCurrentTab } from '../../types/SingleCompany.types';
 import SingleCompanyTabs from '../SingleCompanyTabs/SingleCompanyTabs';
 import RatingDisplay from '@/shared/components/RatingDisplay/RatingDisplay';
 import { formatReviews } from '../../lib/formatReviews';
+import { useGetCompanyQuery } from '@/modules/Companies';
 import styles from './SingleCompany.module.scss';
 
 export const SingleCompany = () => {
@@ -46,13 +46,13 @@ export const SingleCompany = () => {
             <ErrorComponent errorMessage="Company not found or data is incomplete. Please try again later." />
         );
 
-    const { description, name, vacancies, average_rating, company_reviews } =
-        companyData;
+    const { description, name, average_rating } = companyData;
+    const { company_reviews, vacancies, ...mainData } = companyData;
 
     return (
         <section className={styles.company}>
             <aside className={styles.company__aside}>
-                <CompanyInfo companyData={companyData} isSingleCompany={true} />
+                <CompanyInfo companyData={mainData} isSingleCompany={true} />
             </aside>
 
             <main className={styles.company__main}>

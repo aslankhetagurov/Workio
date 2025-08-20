@@ -1,14 +1,19 @@
 import { toast } from 'sonner';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { CompanyWithUser } from '@/shared/types/database.types';
+import {
+    CompanyWithUser,
+    CompanyWithUserAndVacanciesAndReviews,
+    Tables,
+} from '@/shared/types/database.types';
 import supabase from '@/../supabaseClient';
 import { ICompanySearchForm } from '../components/CompaniesSearchForm/CompaniesSearchForm';
-import { ICompanyCreateForm } from '@/modules/CompanyCreate';
+import { ICompanyForm } from '@/shared/components/CompanyForm/CompanyForm';
 
 export const companiesApi = createApi({
     reducerPath: 'companiesApi',
     baseQuery: fakeBaseQuery(),
+    tagTypes: ['company'],
     endpoints: (builder) => ({
         getCompanies: builder.query<
             CompanyWithUser[],
@@ -66,9 +71,46 @@ export const companiesApi = createApi({
             },
         }),
 
+        getCompany: builder.query<
+            CompanyWithUserAndVacanciesAndReviews,
+            string
+        >({
+            providesTags: ['company'],
+            queryFn: async (id) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('companies')
+                        .select('*, users(*), vacancies(*), company_reviews(*)')
+                        .eq('id', id)
+                        .single();
+
+                    if (error) throw error;
+
+                    return { data };
+                } catch (error) {
+                    console.error('Failed to fetch company:', error);
+
+                    if (error instanceof Error) {
+                        toast.error(
+                            `Failed to fetch company: ${error.message}`
+                        );
+                    } else {
+                        toast.error('Failed to fetch company');
+                    }
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to load',
+                        },
+                    };
+                }
+            },
+        }),
+
         createCompany: builder.mutation<
-            { companyId: string },
-            { companyData: ICompanyCreateForm }
+            Tables<'companies'>,
+            { companyData: ICompanyForm }
         >({
             queryFn: async ({ companyData }) => {
                 try {
@@ -80,9 +122,7 @@ export const companiesApi = createApi({
 
                     if (error) throw error;
 
-                    const companyId = data.id;
-
-                    return { data: { companyId } };
+                    return { data };
                 } catch (error) {
                     console.error('Failed to create company:', error);
 
@@ -101,7 +141,74 @@ export const companiesApi = createApi({
                 }
             },
         }),
+
+        editCompany: builder.mutation<
+            Tables<'companies'>,
+            { companyId: string; data: ICompanyForm }
+        >({
+            invalidatesTags: ['company'],
+            queryFn: async ({ companyId, data }) => {
+                try {
+                    const { data: resData, error } = await supabase
+                        .from('companies')
+                        .update(data)
+                        .eq('id', companyId)
+                        .select()
+                        .single();
+
+                    if (error) throw error;
+
+                    return { data: resData };
+                } catch (error) {
+                    console.error('Failed to edit company information:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to edit company information: ${error.message}`
+                            : 'Failed to edit company information'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to edit company information',
+                        },
+                    };
+                }
+            },
+        }),
+
+        deleteCompany: builder.mutation<void, string>({
+            queryFn: async (id) => {
+                try {
+                    const { error } = await supabase
+                        .from('companies')
+                        .delete()
+                        .eq('id', id);
+
+                    if (error) throw error;
+
+                    return { data: undefined };
+                } catch (error) {
+                    console.error('Failed to delete company:', error);
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to delete company',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
-export const { useGetCompaniesQuery, useCreateCompanyMutation } = companiesApi;
+export const {
+    useGetCompaniesQuery,
+    useCreateCompanyMutation,
+    useEditCompanyMutation,
+    useGetCompanyQuery,
+    useDeleteCompanyMutation,
+    useLazyGetCompanyQuery,
+} = companiesApi;
