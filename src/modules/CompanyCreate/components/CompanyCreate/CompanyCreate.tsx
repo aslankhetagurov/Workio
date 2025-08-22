@@ -1,15 +1,14 @@
-import CompanyCreateForm from '../CompanyCreateForm/CompanyCreateForm';
+import CompanyForm from '@/shared/components/CompanyForm/CompanyForm';
 import styles from './CompanyCreate.module.scss';
+import MainHeader from '@/shared/UI/MainHeader/MainHeader';
 
 export const CompanyCreate = () => {
     return (
         <section className={styles.company}>
-            <header className={styles.company__header}>
-                <h1 className={styles.company__title}>Create a company</h1>
-            </header>
+            <MainHeader title="Create a Company" />
 
             <main>
-                <CompanyCreateForm />
+                <CompanyForm type="create" />
             </main>
         </section>
     );

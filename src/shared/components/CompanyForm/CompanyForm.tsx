@@ -8,20 +8,42 @@ import {
     companySizeRanges,
     TCompanySizeRanges,
 } from '@/shared/consts/companySizeRanges';
-import { useAppSelector } from '@/store/hooks';
-import { selectUserData } from '@/modules/Auth';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { selectUserData, setCompanyData } from '@/modules/Auth';
 import CustomSelect from '@/shared/components/CustomSelect/CustomSelect';
 import LocationInput from '@/shared/components/LocationInput/LocationInput';
 import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
-import { ICompanyCreateForm } from '../../types/ICompanyCreateForm.types';
-import { useCreateCompanyMutation } from '@/modules/Companies';
-import styles from './CompanyCreateForm.module.scss';
+import {
+    selectEditableCompany,
+    setEditableCompany,
+    useCreateCompanyMutation,
+    useEditCompanyMutation,
+} from '@/modules/Companies';
+import styles from './CompanyForm.module.scss';
 
-const CompanyCreateForm = () => {
+export interface ICompanyForm {
+    name: string;
+    industry: TJobCategories;
+    description: string;
+    location: string;
+    founded_year: number;
+    size_range: string;
+    website: string | null;
+}
+
+interface ICompanyFormProps {
+    type: 'create' | 'edit';
+}
+
+const CompanyForm = ({ type }: ICompanyFormProps) => {
     const user = useAppSelector(selectUserData);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const categoryRef = useRef<HTMLButtonElement>(null);
     const sizeRangeRef = useRef<HTMLButtonElement>(null);
+    const [createCompany, { error }] = useCreateCompanyMutation();
+    const [editCompany, { error: editCompanyError }] = useEditCompanyMutation();
+    const editableCompany = useAppSelector(selectEditableCompany);
 
     const selectRefs = {
         industry: categoryRef,
@@ -36,13 +58,12 @@ const CompanyCreateForm = () => {
         watch,
         control,
         formState: { errors },
-    } = useForm<ICompanyCreateForm>({
+    } = useForm<ICompanyForm>({
         mode: 'onBlur',
+        defaultValues: editableCompany ?? undefined,
     });
 
-    const [createCompany, { error }] = useCreateCompanyMutation();
-
-    const onError = (errors: FieldErrors<ICompanyCreateForm>) => {
+    const onError = (errors: FieldErrors<ICompanyForm>) => {
         for (const key of Object.keys(
             selectRefs
         ) as (keyof typeof selectRefs)[]) {
@@ -53,24 +74,40 @@ const CompanyCreateForm = () => {
         }
     };
 
-    const handleFormSubmit: SubmitHandler<ICompanyCreateForm> = async (
-        formData
-    ) => {
+    const handleFormSubmit: SubmitHandler<ICompanyForm> = async (formData) => {
         const allData = { ...formData, user_id: user?.id };
 
         if (!user?.id) {
-            toast.error('You must be logged in to create a company');
+            toast.error(`You must be logged in to ${type} a company`);
             return;
         }
 
         try {
-            const data = await createCompany({
-                companyData: allData,
-            }).unwrap();
-            toast.success('Company successfully created!');
-            navigate(`/companies/${data.companyId}`);
+            const data =
+                type === 'create'
+                    ? await createCompany({
+                          companyData: allData,
+                      }).unwrap()
+                    : type === 'edit' && editableCompany
+                    ? await editCompany({
+                          data: allData,
+                          companyId: editableCompany.id,
+                      }).unwrap()
+                    : null;
+
+            console.log(data);
+
+            if (data) {
+                dispatch(setCompanyData(data));
+                toast.success(
+                    `Company successfully ${
+                        type === 'create' ? 'created' : 'edited'
+                    }!`
+                );
+                navigate(`/companies/${data?.id}`);
+            }
         } catch (err) {
-            toast.error('Failed to create company');
+            toast.error(`Failed to ${type} company`);
             console.error(err);
         }
     };
@@ -79,8 +116,17 @@ const CompanyCreateForm = () => {
         reset();
     };
 
-    if (error) {
-        toast.error('Failed to create company');
+    const handleClearEditableCompany = () => {
+        dispatch(setEditableCompany(null));
+    };
+
+    const handleCancelEdit = () => {
+        navigate(-1);
+        handleClearEditableCompany();
+    };
+
+    if (error || editCompanyError) {
+        toast.error(`Failed to ${type} company`);
         console.error(error);
         return null;
     }
@@ -106,7 +152,7 @@ const CompanyCreateForm = () => {
                 />
             </div>
 
-            <LocationInput<ICompanyCreateForm>
+            <LocationInput<ICompanyForm>
                 register={register}
                 setValue={setValue}
                 watch={watch}
@@ -119,7 +165,7 @@ const CompanyCreateForm = () => {
                 required={true}
             />
 
-            <CustomSelect<TJobCategories, ICompanyCreateForm>
+            <CustomSelect<TJobCategories, ICompanyForm>
                 name="industry"
                 control={control}
                 options={jobCategories}
@@ -130,7 +176,7 @@ const CompanyCreateForm = () => {
                 customSelectRef={categoryRef}
             />
 
-            <CustomSelect<TCompanySizeRanges, ICompanyCreateForm>
+            <CustomSelect<TCompanySizeRanges, ICompanyForm>
                 name="size_range"
                 control={control}
                 options={companySizeRanges}
@@ -207,19 +253,27 @@ const CompanyCreateForm = () => {
 
             <div className={styles.form__buttons}>
                 <PrimaryButton
-                    label="Create Company"
-                    ariaLabel="Create Company"
+                    label={`${type === 'create' ? 'Create' : 'Edit'} Company`}
+                    ariaLabel={`${type} Company`}
                     type="submit"
                 />
 
-                <PrimaryButton
-                    label="Reset"
-                    ariaLabel="Reset form"
-                    onClick={handleResetForm}
-                />
+                {type === 'create' ? (
+                    <PrimaryButton
+                        label="Reset"
+                        ariaLabel="Reset form"
+                        onClick={handleResetForm}
+                    />
+                ) : (
+                    <PrimaryButton
+                        label="Cancel"
+                        ariaLabel="Cancel company edit"
+                        onClick={handleCancelEdit}
+                    />
+                )}
             </div>
         </form>
     );
 };
 
-export default CompanyCreateForm;
+export default CompanyForm;
