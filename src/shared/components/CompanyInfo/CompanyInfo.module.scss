@@ -80,4 +80,51 @@
             transform: scale(0.95);
         }
     }
+
+    &__edit {
+        display: block;
+        margin-top: 20px;
+        padding: 1rem 1.5rem;
+        @include flex-center;
+        min-height: 35px;
+        border-radius: 5px;
+        background-color: $button-bg-color;
+        color: $hover-color;
+        width: 100%;
+        font-weight: 700;
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        transition:
+            background-color 0.3s,
+            color 0.3s,
+            transform 0.3s;
+
+        &:hover {
+            background-color: $hover-color;
+            color: #fff;
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+
+    &__delete {
+        padding: 1rem 1.5rem;
+    }
+
+    &__modal-title {
+        display: block;
+        font-weight: 700;
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+    &__modal-buttons {
+        display: flex;
+        align-items: center;
+        column-gap: 30px;
+    }
 }

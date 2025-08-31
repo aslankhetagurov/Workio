@@ -95,8 +95,6 @@ const CompanyForm = ({ type }: ICompanyFormProps) => {
                       }).unwrap()
                     : null;
 
-            console.log(data);
-
             if (data) {
                 dispatch(setCompanyData(data));
                 toast.success(
