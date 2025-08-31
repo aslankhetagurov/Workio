@@ -22,8 +22,8 @@ import VacancyCreationPage from './pages/VacancyCreationPage/VacancyCreationPage
 import EmployerVacanciesPage from './pages/EmployerVacanciesPage/EmployerVacanciesPage';
 import ResumeEditingPage from './pages/ResumeEditingPage/ResumeEditingPage';
 import VacancyEditingPage from './pages/VacancyEditingPage/VacancyEditingPage';
-import FavoriteVacanciesPage from './pages/FavoriteVacancies/FavoriteVacanciesPage';
-import ApplicationsPage from './pages/ApplicationsPage/ApplicationsPage';
+import FavoriteVacanciesPage from './pages/FavoriteVacanciesPage/FavoriteVacanciesPage';
+import CompanyEditingPage from './pages/CompanyEditingPage/CompanyEditingPage';
 import './App.scss';
 
 function App() {
@@ -68,10 +68,6 @@ function App() {
                             element={<ResumeEditingPage />}
                         />
                         <Route
-                            path="/applicant/applications"
-                            element={<ApplicationsPage />}
-                        />
-                        <Route
                             path="/applicant/favorite-vacancies"
                             element={<FavoriteVacanciesPage />}
                         />
@@ -90,6 +86,10 @@ function App() {
                         <Route
                             path="/employer/vacancies"
                             element={<EmployerVacanciesPage />}
+                        />
+                        <Route
+                            path="/employer/company-editing"
+                            element={<CompanyEditingPage />}
                         />
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>
