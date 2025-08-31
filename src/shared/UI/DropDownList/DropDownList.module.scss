@@ -19,7 +19,8 @@
         visibility 0.3s,
         opacity 0.3s;
     max-height: 300px;
-    overflow-x: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     &::-webkit-scrollbar {
         width: 10px;
