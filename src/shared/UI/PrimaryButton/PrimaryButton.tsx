@@ -16,6 +16,8 @@ interface PrimaryButtonProps {
     counter?: number;
     icon?: JSX.Element;
     isShowIcon?: boolean;
+    redStyle?: boolean;
+    greenStyle?: boolean;
 }
 
 const PrimaryButton: FC<PrimaryButtonProps> = ({
@@ -31,6 +33,8 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
     counter,
     icon,
     isShowIcon,
+    redStyle,
+    greenStyle,
 }) => {
     return (
         <button
@@ -39,12 +43,14 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({
             onClick={onClick}
             disabled={disabled}
             className={`${styles['primary-button']}  ${
-                label === 'Reset' || label === 'Delete'
+                label === 'Reset' || label === 'Delete' || redStyle
                     ? styles['primary-button-reset']
                     : ''
             } ${active ? styles['primary-button-active'] : ''} ${
                 className ?? ''
-            } ${disabled && styles['primary-button__disabled']}`}
+            } ${disabled ? styles['primary-button__disabled'] : ''} ${
+                greenStyle ? styles['primary-button__green-style'] : ''
+            }`}
             style={style}
         >
             {isLoading ? (

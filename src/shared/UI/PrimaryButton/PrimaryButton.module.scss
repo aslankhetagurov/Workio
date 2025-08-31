@@ -78,4 +78,14 @@
         opacity: 0.6;
         pointer-events: none;
     }
+
+    &__green-style {
+        background-color: #d6fede;
+        color: #7ddb93;
+
+        &:hover {
+            background-color: #7ddb93;
+            color: #fff;
+        }
+    }
 }
