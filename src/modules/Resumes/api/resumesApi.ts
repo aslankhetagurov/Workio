@@ -2,6 +2,7 @@ import { toast } from 'sonner';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import {
+    FavoriteResumeWithResume,
     ResumeWithExperiencesAndEducations,
     ResumeWithUser,
 } from '@/shared/types/database.types';
@@ -12,6 +13,7 @@ import { IResumeForm } from '@/shared/components/ResumeForm/ResumeForm';
 export const resumesApi = createApi({
     reducerPath: 'resumesApi',
     baseQuery: fakeBaseQuery(),
+    tagTypes: ['FavoriteResumes'],
     endpoints: (builder) => ({
         getResumes: builder.query<
             ResumeWithUser[],
@@ -311,6 +313,90 @@ export const resumesApi = createApi({
                 }
             },
         }),
+
+        toggleFavoriteResume: builder.mutation<
+            { status: 'added' | 'removed'; id?: string },
+            { resume_id: string; user_id: string }
+        >({
+            invalidatesTags: ['FavoriteResumes'],
+            queryFn: async ({ resume_id, user_id }) => {
+                try {
+                    const { data: existing, error: findError } = await supabase
+                        .from('favorite_resumes')
+                        .select('id')
+                        .eq('resume_id', resume_id)
+                        .eq('user_id', user_id)
+                        .maybeSingle();
+
+                    if (findError) throw findError;
+
+                    if (existing) {
+                        const { error: removeError } = await supabase
+                            .from('favorite_resumes')
+                            .delete()
+                            .eq('id', existing.id);
+
+                        if (removeError) throw removeError;
+
+                        return { data: { status: 'removed' } };
+                    } else {
+                        const { data, error: addError } = await supabase
+                            .from('favorite_resumes')
+                            .insert({ resume_id, user_id })
+                            .select('id')
+                            .single();
+
+                        if (addError) throw addError;
+                        if (!data?.id)
+                            throw new Error('No ID returned from server');
+
+                        return { data: { status: 'added', id: data.id } };
+                    }
+                } catch (error) {
+                    console.error('Toggle favorite error:', error);
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error:
+                                error instanceof Error
+                                    ? error.message
+                                    : 'Unknown error',
+                        },
+                    };
+                }
+            },
+        }),
+
+        getFavoriteResumes: builder.query<FavoriteResumeWithResume[], string>({
+            providesTags: ['FavoriteResumes'],
+            queryFn: async (userId) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('favorite_resumes')
+                        .select('*, resumes(*, users(*))')
+                        .eq('user_id', userId);
+
+                    if (error) throw error;
+
+                    return { data };
+                } catch (error) {
+                    console.error('Failed to fetch favorite resumes:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to fetch favorite resumes: ${error.message}`
+                            : 'Failed to fetch favorite resumes'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to fetch favorite resumes',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
@@ -320,4 +406,6 @@ export const {
     useGetApplicantResumesQuery,
     useDeleteResumeMutation,
     useEditResumeMutation,
+    useGetFavoriteResumesQuery,
+    useToggleFavoriteResumeMutation,
 } = resumesApi;
