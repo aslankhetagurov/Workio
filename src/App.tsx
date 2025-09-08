@@ -24,6 +24,7 @@ import ResumeEditingPage from './pages/ResumeEditingPage/ResumeEditingPage';
 import VacancyEditingPage from './pages/VacancyEditingPage/VacancyEditingPage';
 import FavoriteVacanciesPage from './pages/FavoriteVacanciesPage/FavoriteVacanciesPage';
 import CompanyEditingPage from './pages/CompanyEditingPage/CompanyEditingPage';
+import FavoritesResumesPage from './pages/FavoritesResumesPage/FavoritesResumesPage';
 import './App.scss';
 
 function App() {
@@ -90,6 +91,10 @@ function App() {
                         <Route
                             path="/employer/company-editing"
                             element={<CompanyEditingPage />}
+                        />
+                        <Route
+                            path="/employer/favorite-resumes"
+                            element={<FavoritesResumesPage />}
                         />
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>
