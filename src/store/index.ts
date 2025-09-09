@@ -12,8 +12,8 @@ import { singleVacancyApi } from '@/modules/SingleVacancy';
 import { singleResumeApi } from '@/modules/SingleResume';
 import { vacanciesApi } from '@/modules/Vacancies';
 import { vacanciesReducer } from '@/modules/Vacancies';
-import { singleCompanyApi } from '@/modules/SingleCompany';
 import { applicationsApi } from '@/modules/Applications';
+import { invitationsApi } from './api/invitationsApi';
 
 const store = configureStore({
     reducer: {
@@ -27,8 +27,8 @@ const store = configureStore({
         [companiesApi.reducerPath]: companiesApi.reducer,
         [singleVacancyApi.reducerPath]: singleVacancyApi.reducer,
         [singleResumeApi.reducerPath]: singleResumeApi.reducer,
-        [singleCompanyApi.reducerPath]: singleCompanyApi.reducer,
         [applicationsApi.reducerPath]: applicationsApi.reducer,
+        [invitationsApi.reducerPath]: invitationsApi.reducer,
         vacanciesReducer,
         resumesReducer,
         companiesReducer,
@@ -44,8 +44,8 @@ const store = configureStore({
             companiesApi.middleware,
             singleVacancyApi.middleware,
             singleResumeApi.middleware,
-            singleCompanyApi.middleware,
-            applicationsApi.middleware
+            applicationsApi.middleware,
+            invitationsApi.middleware
         ),
 });
 
