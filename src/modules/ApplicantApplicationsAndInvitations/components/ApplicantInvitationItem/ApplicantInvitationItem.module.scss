@@ -1,6 +1,6 @@
 @use "@/shared/styles/abstracts/index.scss" as *;
 
-.application {
+.invitation {
     border: 1px solid #f1f1f1;
     border-radius: 10px;
     width: 100%;
@@ -41,7 +41,8 @@
         display: flex;
         align-items: center;
         column-gap: 10px;
-        border-radius: 2px;
+        border: 1px solid $light-gray;
+        border-radius: 5px;
 
         &:hover {
             background-color: $accent-bg-color;
@@ -74,14 +75,18 @@
         font-weight: 700;
     }
 
-    &__other-info {
+    &__subtitle {
+        font-size: 14px;
+    }
+
+    &__info {
         display: flex;
         column-gap: 10px;
         font-size: 12px;
         flex-wrap: wrap;
     }
 
-    &__other-info-item {
+    &__info-item {
         display: flex;
         align-items: center;
         column-gap: 2px;
@@ -116,5 +121,11 @@
             background-color: #f27777;
             color: #fff;
         }
+    }
+
+    &__buttons {
+        display: flex;
+        align-items: center;
+        column-gap: 30px;
     }
 }

@@ -1,27 +1,30 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
-import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import { FaBuilding } from 'react-icons/fa';
+import { IoLocationOutline, IoTimeOutline } from 'react-icons/io5';
 import { GiMoneyStack } from 'react-icons/gi';
 
 import { ApplicationWithRelations } from '@/shared/types/database.types';
+
+import { formatDateToDayAndMonthAndYear } from '@/shared/lib/formatDateToDayAndMonthAndYear';
 import { formatDateToTimeAgo } from '@/shared/lib/formatDateToTimeAgo';
 import { formatToK } from '@/shared/lib/formatToK';
-import { formatDateToDayAndMonthAndYear } from '@/shared/lib/formatDateToDayAndMonthAndYear';
 import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import Modal from '@/shared/components/Modal/Modal';
 import {
     useDeleteApplicationMutation,
     useSetApplicationStatusMutation,
-} from '@/modules/Applications/api/applicationsApi';
-import styles from './ApplicationsItem.module.scss';
+} from '@/store/api/applicationsApi';
+import styles from './ApplicantApplicationItem.module.scss';
 
-interface IApplicationsItemProps {
+interface IApplicantApplicationsItemProps {
     applicationData: ApplicationWithRelations;
 }
 
-const ApplicationsItem = ({ applicationData }: IApplicationsItemProps) => {
+const ApplicantApplicationItem = ({
+    applicationData,
+}: IApplicantApplicationsItemProps) => {
     const [setApplicationStatus] = useSetApplicationStatusMutation();
     const [deleteApplication] = useDeleteApplicationMutation();
 
@@ -77,17 +80,15 @@ const ApplicationsItem = ({ applicationData }: IApplicationsItemProps) => {
                 >
                     <div className={styles.application__vacancy}>
                         <div className={styles['application__vacancy-top']}>
-                            <span>Vacancy</span>
+                            <span className={styles.application__subtitle}>
+                                Vacancy
+                            </span>
                             <h4 className={styles.application__title}>
                                 {vacancies?.title}
                             </h4>
                         </div>
-                        <ul className={styles['application__other-info']}>
-                            <li
-                                className={
-                                    styles['application__other-info-item']
-                                }
-                            >
+                        <ul className={styles.application__info}>
+                            <li className={styles['application__info-item']}>
                                 <span aria-hidden="true">
                                     <FaBuilding />
                                 </span>
@@ -95,11 +96,7 @@ const ApplicationsItem = ({ applicationData }: IApplicationsItemProps) => {
                                     {vacancies?.companies?.name}
                                 </span>
                             </li>
-                            <li
-                                className={
-                                    styles['application__other-info-item']
-                                }
-                            >
+                            <li className={styles['application__info-item']}>
                                 <span aria-hidden="true">
                                     <IoLocationOutline />
                                 </span>
@@ -107,11 +104,7 @@ const ApplicationsItem = ({ applicationData }: IApplicationsItemProps) => {
                                     {vacancies?.location}
                                 </span>
                             </li>
-                            <li
-                                className={
-                                    styles['application__other-info-item']
-                                }
-                            >
+                            <li className={styles['application__info-item']}>
                                 <span aria-hidden="true">
                                     <IoTimeOutline />
                                 </span>
@@ -119,11 +112,7 @@ const ApplicationsItem = ({ applicationData }: IApplicationsItemProps) => {
                                     {formatDateToTimeAgo(vacancies.created_at)}
                                 </span>
                             </li>
-                            <li
-                                className={
-                                    styles['application__other-info-item']
-                                }
-                            >
+                            <li className={styles['application__info-item']}>
                                 <span aria-hidden="true">
                                     <GiMoneyStack
                                         style={{ fontSize: '16px' }}
@@ -146,14 +135,14 @@ const ApplicationsItem = ({ applicationData }: IApplicationsItemProps) => {
                         style={{ width: '200px' }}
                         onClick={handleToggleModal}
                     />
-                ) : (
+                ) : status === 'pending' ? (
                     <PrimaryButton
                         label="Cancel application"
                         ariaLabel="Cancel apply to job vacancy"
                         style={{ width: '200px' }}
                         onClick={handleToggleModal}
                     />
-                )}
+                ) : null}
 
                 <Modal isOpen={isOpenDeleteModal} onClose={handleToggleModal}>
                     <div className={styles.application__modal}>
@@ -183,4 +172,4 @@ const ApplicationsItem = ({ applicationData }: IApplicationsItemProps) => {
     );
 };
 
-export default ApplicationsItem;
+export default ApplicantApplicationItem;

@@ -1,9 +1,9 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { toast } from 'sonner';
 
-import supabase from '../../../../supabaseClient';
+import supabase from '../../../supabaseClient';
 import { ApplicationWithRelations } from '@/shared/types/database.types';
-import { TApplicationStatus } from '../consts/applicationStatus';
+import { TApplicationStatus } from '../../shared/consts/applicationStatus';
 
 export const applicationsApi = createApi({
     reducerPath: 'applicationsApi',
@@ -55,6 +55,43 @@ export const applicationsApi = createApi({
                             '*, vacancies(*, companies(*)), resumes(*), users(*)'
                         )
                         .eq('user_id', userId)
+                        .order('created_at', { ascending: false });
+
+                    if (error) throw error;
+
+                    return { data };
+                } catch (error) {
+                    console.error('Failed to fetch applications:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to fetch applications: ${error.message}`
+                            : 'Failed to fetch applications'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to fetch applications',
+                        },
+                    };
+                }
+            },
+        }),
+
+        getEmployerApplications: builder.query<
+            ApplicationWithRelations[],
+            string
+        >({
+            providesTags: ['application'],
+            queryFn: async (companyId) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('applications')
+                        .select(
+                            '*, vacancies(*, companies(*)), resumes(*), users(*)'
+                        )
+                        .eq('vacancies.company_id', companyId)
                         .order('created_at', { ascending: false });
 
                     if (error) throw error;
@@ -155,4 +192,5 @@ export const {
     useGetApplicationsQuery,
     useSetApplicationStatusMutation,
     useDeleteApplicationMutation,
+    useGetEmployerApplicationsQuery,
 } = applicationsApi;

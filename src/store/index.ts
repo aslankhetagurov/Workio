@@ -12,8 +12,8 @@ import { singleVacancyApi } from '@/modules/SingleVacancy';
 import { singleResumeApi } from '@/modules/SingleResume';
 import { vacanciesApi } from '@/modules/Vacancies';
 import { vacanciesReducer } from '@/modules/Vacancies';
-import { applicationsApi } from '@/modules/Applications';
 import { invitationsApi } from './api/invitationsApi';
+import { applicationsApi } from './api/applicationsApi';
 
 const store = configureStore({
     reducer: {
