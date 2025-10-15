@@ -26,6 +26,7 @@ import FavoriteVacanciesPage from './pages/FavoriteVacanciesPage/FavoriteVacanci
 import CompanyEditingPage from './pages/CompanyEditingPage/CompanyEditingPage';
 import FavoritesResumesPage from './pages/FavoritesResumesPage/FavoritesResumesPage';
 import ApplicantApplicationsAndInvitationsPage from './pages/ApplicantApplicationsAndInvitationsPage/ApplicantApplicationsAndInvitationsPage';
+import { EmployerApplicationsAndInvitations } from './modules/EmployerApplicationsAndInvitations';
 import './App.scss';
 
 function App() {
@@ -74,6 +75,10 @@ function App() {
                             element={
                                 <ApplicantApplicationsAndInvitationsPage />
                             }
+                        />
+                        <Route
+                            path="/employer/applications-and-invitations"
+                            element={<EmployerApplicationsAndInvitations />}
                         />
                         <Route
                             path="/applicant/favorite-vacancies"

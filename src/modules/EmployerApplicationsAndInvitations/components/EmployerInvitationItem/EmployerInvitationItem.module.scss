@@ -1,0 +1,122 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.invitation {
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 5px 5px 15px #f3f3f3;
+    transition: background-color 0.3s;
+    list-style: none;
+    padding: 10px 20px;
+
+    &__top {
+        margin-bottom: 10px;
+    }
+
+    &__status {
+        font-weight: 700;
+        padding: 5px 10px;
+        border-radius: 3px;
+        width: fit-content;
+        color: #fff;
+    }
+
+    &__status-pending {
+        background-color: #ffdb8b;
+    }
+
+    &__status-approved {
+        background-color: #7ddb93;
+    }
+
+    &__status-rejected {
+        background-color: #ff9494;
+    }
+
+    &__status-cancelled {
+        background-color: #d8d8d8;
+    }
+
+    &__link {
+        display: flex;
+        align-items: center;
+        border: 1px solid $light-gray;
+        border-radius: 5px;
+
+        &:hover {
+            background-color: $accent-bg-color;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        row-gap: 10px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    &__logo {
+        width: 55px;
+        height: 55px;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    &__resume {
+        display: flex;
+        flex-direction: column;
+        padding: 5px 10px;
+    }
+
+    &__username {
+        font-weight: 700;
+    }
+
+    &__info {
+        display: flex;
+        column-gap: 10px;
+        font-size: 12px;
+        flex-wrap: wrap;
+    }
+
+    &__info-item {
+        display: flex;
+        align-items: center;
+        column-gap: 2px;
+    }
+
+    &__title {
+        font-weight: 700;
+    }
+
+    &__subtitle {
+        font-size: 14px;
+    }
+
+    &__salary-icon {
+        font-size: 16px;
+    }
+
+    &__text {
+        display: inline-block;
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__modal-title {
+        display: block;
+        font-weight: 700;
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+    &__modal-buttons {
+        display: flex;
+        align-items: center;
+        column-gap: 30px;
+    }
+}
