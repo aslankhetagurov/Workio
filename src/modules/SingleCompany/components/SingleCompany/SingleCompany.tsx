@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import ErrorComponent from '@/shared/UI/ErrorComponent/ErrorComponent';
 import Spinner from '@/shared/UI/Spinner/Spinner';
@@ -16,7 +16,10 @@ import styles from './SingleCompany.module.scss';
 
 export const SingleCompany = () => {
     const { companyId } = useParams();
-    const [currentTab, setCurrentTab] = useState<TCurrentTab>('about');
+    const location = useLocation();
+    const initialTab = location.state?.tab || 'about';
+
+    const [currentTab, setCurrentTab] = useState<TCurrentTab>(initialTab);
 
     if (!companyId)
         return (

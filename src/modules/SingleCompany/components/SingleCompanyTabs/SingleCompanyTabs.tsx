@@ -25,7 +25,6 @@ const SingleCompanyTabs = ({
                         ariaLabel="Company about"
                         onClick={() => handleSetCurrentTub('about')}
                         active={currentTab === 'about'}
-                        disabled={currentTab === 'about'}
                         className={styles.tabs__btn}
                     />
                 </li>
@@ -36,7 +35,6 @@ const SingleCompanyTabs = ({
                         ariaLabel="Company Vacancies"
                         onClick={() => handleSetCurrentTub('vacancies')}
                         active={currentTab === 'vacancies'}
-                        disabled={currentTab === 'vacancies'}
                         className={styles.tabs__btn}
                         counter={vacanciesCount}
                     />
@@ -48,7 +46,6 @@ const SingleCompanyTabs = ({
                         ariaLabel="Company Reviews"
                         onClick={() => handleSetCurrentTub('reviews')}
                         active={currentTab === 'reviews'}
-                        disabled={currentTab === 'reviews'}
                         className={styles.tabs__btn}
                     />
                 </li>

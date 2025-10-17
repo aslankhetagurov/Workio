@@ -51,7 +51,8 @@ const CompanyItem = ({ companyData }: ICompanyItemProps) => {
 
             <Link
                 className={styles['company-item__link-vacancies']}
-                to={`/companies/${id}/vacancies`}
+                to={`/companies/${id}`}
+                state={{ tab: 'vacancies' }}
             >
                 <PrimaryButton
                     label="Show All Vacancies"
