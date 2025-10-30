@@ -17,7 +17,7 @@ import DropDownList from '@/shared/UI/DropDownList/DropDownList';
 import {
     useGetApplicationsQuery,
     useSetApplicationMutation,
-} from '@/modules/Applications/api/applicationsApi';
+} from '@/store/api/applicationsApi';
 import { useCloseViaClickOutsideAndEsc } from '@/shared/hooks/useCloseViaClickOutsideAndEsc';
 import styles from './SingleVacancyHeader.module.scss';
 
