@@ -1,4 +1,6 @@
-export const emptyEducation = {
+import { IResumeForm } from '@/shared/components/ResumeForm/ResumeForm';
+
+export const emptyEducation: IResumeForm['education'][0] = {
     institution: '',
     location: '',
     degree: null,
