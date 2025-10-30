@@ -1,6 +1,4 @@
-import { IResumeCreationForm } from '../types/IResumeCreationForm.types';
-
-export const emptyEducation: IResumeCreationForm['education'][0] = {
+export const emptyEducation = {
     institution: '',
     location: '',
     degree: null,
