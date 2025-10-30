@@ -13,8 +13,9 @@ const CityItem = ({ name, slug }: ICityItemProps) => {
     return (
         <li className={styles['city-item']}>
             <Link
-                to={`/vacancies?location=${slug}`}
+                to={`/vacancies`}
                 aria-label={`View vacancies in ${name}`}
+                state={{ location: name }}
             >
                 <img
                     className={styles['city-item__img']}
