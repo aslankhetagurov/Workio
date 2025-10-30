@@ -1,4 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { jobCategories, TJobCategories } from '@/shared/consts/jobCategories';
 import {
@@ -39,6 +41,15 @@ export interface IJobSearchFormProps {
 }
 
 const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
+    const location = useLocation();
+
+    const initialLocation = location.state?.location || '';
+
+    useEffect(() => {
+        if (!initialLocation) return;
+        handleSubmit(handleFormSubmit)();
+    }, [initialLocation]);
+
     const { register, handleSubmit, reset, setValue, watch } =
         useForm<IJobSearchForm>({
             mode: 'onBlur',
@@ -46,11 +57,13 @@ const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
                 createdAt: 'All',
                 employment: 'All',
                 accessibility: 'All',
+                location: initialLocation,
             },
         });
 
     const handleFormSubmit: SubmitHandler<IJobSearchForm> = (filters) => {
         onSubmit(filters);
+        window.scrollTo({ top: 0 });
     };
 
     const handleResetForm = () => {
