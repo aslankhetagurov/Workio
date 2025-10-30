@@ -9,6 +9,7 @@ import {
 import supabase from '@/../supabaseClient';
 import { ICompanySearchForm } from '../components/CompaniesSearchForm/CompaniesSearchForm';
 import { ICompanyForm } from '@/shared/components/CompanyForm/CompanyForm';
+import { InsertCompany } from '../types/Companies.types';
 
 export const companiesApi = createApi({
     reducerPath: 'companiesApi',
@@ -108,11 +109,8 @@ export const companiesApi = createApi({
             },
         }),
 
-        createCompany: builder.mutation<
-            Tables<'companies'>,
-            { companyData: ICompanyForm }
-        >({
-            queryFn: async ({ companyData }) => {
+        createCompany: builder.mutation<Tables<'companies'>, InsertCompany>({
+            queryFn: async (companyData) => {
                 try {
                     const { data, error } = await supabase
                         .from('companies')

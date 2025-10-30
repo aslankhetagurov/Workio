@@ -75,19 +75,17 @@ const CompanyForm = ({ type }: ICompanyFormProps) => {
     };
 
     const handleFormSubmit: SubmitHandler<ICompanyForm> = async (formData) => {
-        const allData = { ...formData, user_id: user?.id };
-
         if (!user?.id) {
             toast.error(`You must be logged in to ${type} a company`);
             return;
         }
 
+        const allData = { ...formData, user_id: user?.id };
+
         try {
             const data =
                 type === 'create'
-                    ? await createCompany({
-                          companyData: allData,
-                      }).unwrap()
+                    ? await createCompany(allData).unwrap()
                     : type === 'edit' && editableCompany
                     ? await editCompany({
                           data: allData,
