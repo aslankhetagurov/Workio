@@ -1,5 +1,7 @@
+import { About } from '@/modules/About';
+
 const AboutPage = () => {
-    return <h1>About Page</h1>;
+    return <About />;
 };
 
 export default AboutPage;
