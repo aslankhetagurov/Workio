@@ -1,0 +1,32 @@
+@use "@/shared/styles/abstracts/index" as *;
+
+.info {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    column-gap: 100px;
+    margin: 40px 0;
+
+    &__item {
+        max-width: 200px;
+        text-align: center;
+    }
+
+    &__icon {
+        font-size: 50px;
+        color: $hover-color;
+    }
+
+    &__title {
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    &__text {
+        transition: color 0.3s;
+
+        &:hover {
+            color: $hover-color;
+        }
+    }
+}
