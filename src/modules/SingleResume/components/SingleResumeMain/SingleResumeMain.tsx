@@ -1,3 +1,6 @@
+import { useRef, useState } from 'react';
+import { toast } from 'sonner';
+import { FaCheck } from 'react-icons/fa';
 import { BsGenderAmbiguous } from 'react-icons/bs';
 import { CiCalendarDate } from 'react-icons/ci';
 import { GiSmartphone } from 'react-icons/gi';
@@ -10,12 +13,27 @@ import {
     CiViewList,
 } from 'react-icons/ci';
 import { PiBriefcaseThin } from 'react-icons/pi';
+import { GoHeartFill } from 'react-icons/go';
 
 import { ResumeWithUserAndExperiencesAndEducations } from '@/shared/types/database.types';
 import defaultAvatar from '@/shared/assets/images/default-avatar.png';
 import { formatDateToTimeAgo } from '@/shared/lib/formatDateToTimeAgo';
 import { formatToK } from '@/shared/lib/formatToK';
 import { formatDateToDayAndMonthAndYear } from '@/shared/lib/formatDateToDayAndMonthAndYear';
+import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
+import DropDownList from '@/shared/UI/DropDownList/DropDownList';
+import { useAppSelector } from '@/store/hooks';
+import { selectCompanyData, selectUserData } from '@/modules/Auth';
+import {
+    useGetFavoriteResumesQuery,
+    useToggleFavoriteResumeMutation,
+} from '@/modules/Resumes';
+import { useGetEmployerVacanciesQuery } from '@/modules/Vacancies';
+import {
+    useGetInvitationsQuery,
+    useSetInvitationMutation,
+} from '@/store/api/invitationsApi';
+import { useCloseViaClickOutsideAndEsc } from '@/shared/hooks/useCloseViaClickOutsideAndEsc';
 import styles from './SingleResumeMain.module.scss';
 
 interface SingleResumeMainProps {
@@ -23,7 +41,41 @@ interface SingleResumeMainProps {
 }
 
 const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
-    if (!resumeData) return null;
+    const user = useAppSelector(selectUserData);
+    const isApplicant = user?.role === 'applicant';
+    const companyData = useAppSelector(selectCompanyData);
+    const [toggleFavoriteResume] = useToggleFavoriteResumeMutation();
+    const { data: favoriteResumes } = useGetFavoriteResumesQuery(
+        user?.id ?? '',
+        { skip: !user }
+    );
+    const { data: vacancies } = useGetEmployerVacanciesQuery(
+        companyData?.id ?? '',
+        {
+            skip: !companyData || isApplicant,
+        }
+    );
+    const { data: invitations } = useGetInvitationsQuery(user?.id ?? '', {
+        skip: !user,
+    });
+    const [setInvitation] = useSetInvitationMutation();
+    const [showVacancies, setShowVacancies] = useState(false);
+    const toggleShowVacancies = () => setShowVacancies((prev) => !prev);
+    const resumesRef = useRef(null);
+
+    useCloseViaClickOutsideAndEsc(resumesRef, showVacancies, setShowVacancies);
+
+    if (!resumeData || !user) return null;
+
+    const isFavorite = favoriteResumes?.some(
+        (resume) => resume.resume_id === resumeData.id
+    );
+
+    const isInvited = invitations?.some(
+        (invitation) =>
+            invitation.resume_id === resumeData.id &&
+            invitation.status === 'pending'
+    );
 
     const {
         users,
@@ -39,13 +91,107 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
         skills,
     } = resumeData;
 
+    const handleToggleFavoriteResume = async () => {
+        try {
+            const { status } = await toggleFavoriteResume({
+                resume_id: resumeData.id,
+                user_id: user.id,
+            }).unwrap();
+
+            toast.success(
+                status === 'added'
+                    ? 'Resume added to favorites'
+                    : 'Resume removed from favorites'
+            );
+        } catch (error) {
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : 'Failed to toggle favorite status'
+            );
+        }
+    };
+
+    const transformVacanciesToOptions = () => {
+        return vacancies?.map((vacancy) => ({
+            label: vacancy.title,
+            value: vacancy.id,
+        }));
+    };
+
+    const handleSetInvitation = async (vacancyId: string) => {
+        const res = await setInvitation({
+            user_id: user.id,
+            vacancy_id: vacancyId,
+            resume_id: resumeData.id,
+        });
+
+        toggleShowVacancies();
+
+        if (res.data?.invitationId)
+            toast.success('Invitation send successfully');
+    };
+
     return (
         <article className={styles['resume-main']}>
-            <img
-                className={styles['resume-main__avatar']}
-                src={users?.avatar_url || defaultAvatar}
-                alt={`${users?.full_name || 'User'} avatar`}
-            />
+            <div className={styles['resume-main__left-side']}>
+                <img
+                    className={styles['resume-main__avatar']}
+                    src={users?.avatar_url || defaultAvatar}
+                    alt={`${users?.full_name || 'User'} avatar`}
+                />
+
+                {!isApplicant && (
+                    <div className={styles['resume-main__buttons']}>
+                        <div className={styles['resume-main__invite']}>
+                            <PrimaryButton
+                                label={isInvited ? 'Invited' : 'Invite'}
+                                ariaLabel={` ${
+                                    isInvited ? 'Invited' : 'Invite'
+                                } for a vacancy`}
+                                style={{ width: '200px' }}
+                                onClick={toggleShowVacancies}
+                                icon={<FaCheck />}
+                                isShowIcon={isInvited}
+                                disabled={isInvited}
+                            />
+
+                            <div
+                                className={`${
+                                    styles['resume-main__vacancies']
+                                } ${
+                                    showVacancies &&
+                                    styles['resume-main__vacancies-show']
+                                } `}
+                                ref={resumesRef}
+                            >
+                                <p>Choose a Vacancy</p>
+                                <DropDownList
+                                    list={transformVacanciesToOptions() ?? []}
+                                    showDropDown={showVacancies}
+                                    handleSetValue={handleSetInvitation}
+                                    customClass={
+                                        styles['resume-main__dropdown']
+                                    }
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            className={
+                                isFavorite
+                                    ? styles['resume-main__favorite-active']
+                                    : styles['resume-main__favorite']
+                            }
+                            aria-label="Save resume to bookmarks"
+                            type="button"
+                            onClick={handleToggleFavoriteResume}
+                        >
+                            <GoHeartFill />
+                        </button>
+                    </div>
+                )}
+            </div>
 
             <div className={styles['resume-main__inner']}>
                 <div className={styles['resume-main__header']}>
