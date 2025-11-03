@@ -65,7 +65,7 @@ const HeroSearchForm = () => {
                 watch={watch}
                 customLabelClass={styles.form__label}
                 customInputClass={styles.form__input}
-                placeholder="job title, keywords, or company"
+                placeholder="Location"
                 name="locationInput"
             />
 
