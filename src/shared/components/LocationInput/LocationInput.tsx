@@ -52,14 +52,18 @@ const LocationInput = <T extends FieldValues>({
             return;
         }
 
-        if (input && !isOpenDropDown) {
+        if (
+            input &&
+            !isOpenDropDown &&
+            filteredLocationList[0].toLowerCase() !== input
+        ) {
             setIsOpenDropDown(true);
         }
 
         if (filteredLocationList[0].toLowerCase() === input) {
             setIsOpenDropDown(false);
         }
-    }, [debouncedLocation]);
+    }, [debouncedLocation, filteredLocationList]);
 
     const handleSetValue = (value: string) => {
         setValue(name, value as PathValue<T, typeof name>);
