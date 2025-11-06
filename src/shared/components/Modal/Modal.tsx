@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode, useEffect } from 'react';
+import { CSSProperties, MouseEvent, ReactNode, useEffect } from 'react';
 
 import CloseButton from '@/shared/UI/CloseButton/CloseButton';
 import styles from './Modal.module.scss';
@@ -9,9 +9,15 @@ interface IModalProps {
     isOpen: boolean;
     onClose: () => void;
     children: ReactNode;
+    customModalStyles?: CSSProperties;
 }
 
-const Modal = ({ isOpen, onClose, children }: IModalProps) => {
+const Modal = ({
+    isOpen,
+    onClose,
+    children,
+    customModalStyles,
+}: IModalProps) => {
     useEffect(() => {
         if (!isOpen) return;
 
@@ -38,6 +44,7 @@ const Modal = ({ isOpen, onClose, children }: IModalProps) => {
             <div
                 className={`${styles.modal} ${isOpen && styles.modal_show}`}
                 onClick={stopPropagation}
+                style={customModalStyles}
             >
                 <CloseButton onClick={onClose} />
                 {children}
