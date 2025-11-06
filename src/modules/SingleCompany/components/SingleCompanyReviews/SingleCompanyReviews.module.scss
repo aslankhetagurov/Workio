@@ -1,8 +1,15 @@
 .reviews {
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        column-gap: 30px;
+        margin-bottom: 30px;
+    }
+
     &__title {
         font-weight: 700;
         font-size: 2.5rem;
-        margin-bottom: 30px;
     }
 
     &__list {

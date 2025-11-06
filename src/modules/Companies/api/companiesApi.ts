@@ -9,6 +9,7 @@ import {
 import supabase from '@/../supabaseClient';
 import { ICompanySearchForm } from '../components/CompaniesSearchForm/CompaniesSearchForm';
 import { ICompanyForm } from '@/shared/components/CompanyForm/CompanyForm';
+import { IReviewForm } from '@/modules/SingleCompany';
 import { InsertCompany } from '../types/Companies.types';
 
 export const companiesApi = createApi({
@@ -199,6 +200,40 @@ export const companiesApi = createApi({
                 }
             },
         }),
+
+        addCompanyReview: builder.mutation<
+            Tables<'company_reviews'>,
+            IReviewForm
+        >({
+            queryFn: async (reviewData) => {
+                try {
+                    const { data, error } = await supabase
+                        .from('company_reviews')
+                        .insert(reviewData)
+                        .select()
+                        .single();
+
+                    if (error) throw error;
+
+                    return { data };
+                } catch (error) {
+                    console.error('Failed to create review:', error);
+
+                    toast.error(
+                        error instanceof Error
+                            ? `Failed to create review: ${error.message}`
+                            : 'Failed to create review'
+                    );
+
+                    return {
+                        error: {
+                            status: 'CUSTOM_ERROR',
+                            error: 'Failed to create review',
+                        },
+                    };
+                }
+            },
+        }),
     }),
 });
 
@@ -209,4 +244,5 @@ export const {
     useGetCompanyQuery,
     useDeleteCompanyMutation,
     useLazyGetCompanyQuery,
+    useAddCompanyReviewMutation,
 } = companiesApi;

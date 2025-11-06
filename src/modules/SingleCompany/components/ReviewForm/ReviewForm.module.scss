@@ -1,0 +1,150 @@
+@use "@/shared/styles/abstracts/index" as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.form-title {
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.form {
+    flex: 1;
+    overflow-y: auto;
+    background-color: $accent-bg-color;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+
+    &__label {
+        width: 100%;
+    }
+
+    &__radio {
+        appearance: auto;
+    }
+
+    &__input,
+    &__textarea {
+        width: 100%;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        resize: vertical;
+
+        &::placeholder {
+            @include placeholder;
+        }
+    }
+
+    &__textarea {
+        width: 100%;
+        background-color: #fff;
+        min-height: 150px;
+        max-width: 100%;
+    }
+
+    &__label-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: inline-block;
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+    }
+
+    &__buttons {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        margin-top: 20px;
+    }
+
+    &__textarea-wrapper {
+        grid-column: span 2;
+    }
+
+    &__benefits {
+        position: relative;
+    }
+
+    &__benefits-saved {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        row-gap: 10px;
+    }
+
+    &__benefit {
+        background-color: $green;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        font-weight: 700;
+    }
+
+    &__benefit-text {
+        line-height: 0;
+    }
+
+    &__benefit-delete {
+        font-size: 18px;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    &__checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        padding: 10px 0;
+    }
+
+    &__checkbox-label {
+        font-weight: 700;
+    }
+
+    &__checkbox {
+        cursor: pointer;
+        border: 2px solid $hover-color;
+        border-radius: 5px;
+        height: 20px;
+        width: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:checked::after {
+            content: "✓";
+            color: $hover-color;
+            font-weight: 700;
+        }
+    }
+
+    &__ratings-title {
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    &__ratings-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        row-gap: 10px;
+        column-gap: 30px;
+    }
+}

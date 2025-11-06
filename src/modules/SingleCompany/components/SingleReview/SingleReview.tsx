@@ -11,7 +11,6 @@ const SingleReview = ({ review }: SingleReviewProps) => {
     const {
         position,
         rating_overall,
-        review_date,
         experience_duration,
         is_current_employee,
         region,
@@ -24,6 +23,7 @@ const SingleReview = ({ review }: SingleReviewProps) => {
         rating_team,
         rating_work_conditions,
         benefits,
+        created_at,
     } = review;
 
     const ratingItems = [
@@ -41,7 +41,7 @@ const SingleReview = ({ review }: SingleReviewProps) => {
 
             <div className={styles['review__rating-and-date']}>
                 <RatingDisplay rating={rating_overall} />
-                {formatDateToMonthAndYear(review_date)}
+                {formatDateToMonthAndYear(created_at)}
             </div>
 
             <div className={styles['review__other-info']}>
