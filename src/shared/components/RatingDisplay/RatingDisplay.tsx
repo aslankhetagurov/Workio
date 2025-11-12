@@ -16,7 +16,7 @@ const RatingDisplay = ({
     if (!rating)
         return (
             <div className={styles.rating} style={{ fontSize: `${size}px` }}>
-                <span className={styles.rating__grade}>0.0</span>
+                {grade && <span className={styles.rating__grade}>0.0</span>}
                 {[...Array(5)].map((_, i) => (
                     <FaRegStar
                         className={styles.rating__icon}
@@ -39,7 +39,7 @@ const RatingDisplay = ({
         >
             {grade && <span className={styles.rating__grade}>{rating}</span>}
 
-            {fullStars &&
+            {!!fullStars &&
                 [...Array(fullStars)].map((_, i) => (
                     <FaStar
                         className={styles.rating__icon}
