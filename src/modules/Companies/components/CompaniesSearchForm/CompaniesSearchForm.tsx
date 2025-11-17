@@ -26,6 +26,7 @@ const CompaniesSearchForm = () => {
 
     const handleFormSubmit: SubmitHandler<ICompanySearchForm> = (filters) => {
         dispatch(setCompaniesSearchFilters(filters));
+        window.scrollTo({ top: 0 });
     };
 
     const handleResetForm = () => {
