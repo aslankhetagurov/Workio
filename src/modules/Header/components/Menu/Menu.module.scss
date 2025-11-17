@@ -12,6 +12,7 @@
     &__item {
         @include transition(color);
         border-radius: 5px;
+        color: #707275;
 
         &:hover {
             color: $hover-color;
