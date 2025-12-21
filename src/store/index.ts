@@ -15,6 +15,7 @@ import { vacanciesReducer } from '@/modules/Vacancies';
 import { invitationsApi } from './api/invitationsApi';
 import { applicationsApi } from './api/applicationsApi';
 import { chatsApi } from '@/modules/Chats';
+import { chatsReducer } from '@/modules/Chats';
 
 const store = configureStore({
     reducer: {
@@ -34,6 +35,7 @@ const store = configureStore({
         vacanciesReducer,
         resumesReducer,
         companiesReducer,
+        chatsReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
