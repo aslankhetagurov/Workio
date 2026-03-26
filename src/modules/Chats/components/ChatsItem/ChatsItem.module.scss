@@ -1,0 +1,31 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.chat {
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+
+    padding: 15px;
+    border-radius: 10px;
+    background-color: $accent-bg-color;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+
+    &:hover,
+    &_active {
+        background-color: $hover-color;
+        color: #fff;
+    }
+
+    &__img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #fff;
+    }
+
+    &__title {
+        font-weight: 700;
+    }
+}

@@ -1,0 +1,13 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.chats {
+    display: flex;
+    border: 1px solid $light-gray;
+    border-radius: 10px;
+    margin: 15px 0;
+    height: calc(100vh - 260px);
+
+    &__chat {
+        overflow-y: scroll;
+    }
+}

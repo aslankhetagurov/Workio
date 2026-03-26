@@ -1,0 +1,47 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.form {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    background-color: transparent;
+    padding-top: 20px;
+    margin-top: auto;
+
+    &__text {
+        width: 100%;
+        border: 1px solid $light-gray;
+        padding: 5px 10px;
+        border-radius: 10px;
+        resize: none;
+        overflow: hidden;
+        min-height: 36px;
+        height: "auto";
+        max-height: 36px;
+
+        &::placeholder {
+            color: $light-gray;
+        }
+    }
+
+    &__button {
+        background-color: $light-blue;
+        line-height: 0;
+        padding: 10px;
+        border-radius: 10px;
+        transition:
+            color 0.3s,
+            background-color 0.3s,
+            transform 0.3s;
+        background-color: $hover-color;
+        color: #fff;
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+
+    &__button_disable {
+        opacity: 0.3;
+    }
+}

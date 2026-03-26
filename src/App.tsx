@@ -27,6 +27,7 @@ import CompanyEditingPage from './pages/CompanyEditingPage/CompanyEditingPage';
 import FavoritesResumesPage from './pages/FavoritesResumesPage/FavoritesResumesPage';
 import ApplicantApplicationsAndInvitationsPage from './pages/ApplicantApplicationsAndInvitationsPage/ApplicantApplicationsAndInvitationsPage';
 import { EmployerApplicationsAndInvitations } from './modules/EmployerApplicationsAndInvitations';
+import ChatsPage from './pages/ChatsPage/ChatsPage';
 import './App.scss';
 
 function App() {
@@ -108,6 +109,7 @@ function App() {
                             path="/employer/favorite-resumes"
                             element={<FavoritesResumesPage />}
                         />
+                        <Route path="/chats" element={<ChatsPage />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                 </main>
