@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { MdOutlineAssignment, MdFavoriteBorder } from 'react-icons/md';
 
 import Menu from '../Menu/Menu';
 import logo from '@/shared/assets/images/logo.webp';
@@ -8,12 +7,13 @@ import { selectUserData, toggleAuthModal } from '@/modules/Auth';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import UserMenu from '../UserMenu/UserMenu';
 import styles from './Header.module.scss';
+import { AdditionalMenu } from '../AdditionalMenu/AdditionalMenu';
 
 export const Header = () => {
     const dispatch = useAppDispatch();
+    const userData = useAppSelector(selectUserData);
 
     const handleModalShowToggle = () => dispatch(toggleAuthModal());
-    const userData = useAppSelector(selectUserData);
 
     return (
         <header className={styles.header}>
@@ -34,38 +34,7 @@ export const Header = () => {
 
             {userData ? (
                 <div className={styles.header__user}>
-                    <Link
-                        to={
-                            userData.role === 'applicant'
-                                ? '/applicant/applications'
-                                : '/employer/applications'
-                        }
-                        className={styles['header__applications-link']}
-                        title="Applications"
-                    >
-                        <MdOutlineAssignment
-                            className={styles.header__applications}
-                        />
-                    </Link>
-
-                    <Link
-                        to={
-                            userData.role === 'applicant'
-                                ? '/applicant/favorite-vacancies'
-                                : '/employer/favorite-resumes'
-                        }
-                        className={styles['header__favorites-link']}
-                        title={
-                            userData.role === 'applicant'
-                                ? 'Favorite vacancies'
-                                : 'Favorite resumes'
-                        }
-                    >
-                        <MdFavoriteBorder
-                            className={styles.header__favorites}
-                        />
-                    </Link>
-
+                    <AdditionalMenu />
                     <UserMenu />
                 </div>
             ) : (

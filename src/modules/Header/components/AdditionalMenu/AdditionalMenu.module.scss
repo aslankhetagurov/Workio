@@ -1,0 +1,26 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.additional-menu {
+    &__links {
+        @include flex-align-center;
+        column-gap: 15px;
+    }
+
+    &__link {
+        @include flex-align-center;
+        position: relative;
+
+        &:hover {
+            color: $hover-color;
+        }
+    }
+
+    &__link_active {
+        color: $hover-color;
+    }
+
+    &__icon {
+        font-size: 26px;
+        line-height: 0;
+    }
+}
