@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { VacancyWithCompany } from '@/shared/types/database.types';
 import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import logo from '@/shared/assets/images/company-logo.webp';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectUserData } from '@/modules/Auth';
 import {
     useGetFavoriteVacanciesQuery,
@@ -20,6 +20,8 @@ import {
 } from '@/store/api/applicationsApi';
 import { useCloseViaClickOutsideAndEsc } from '@/shared/hooks/useCloseViaClickOutsideAndEsc';
 import styles from './SingleVacancyHeader.module.scss';
+import { setActiveChatData, useGetOrCreateChatMutation } from '@/modules/Chats';
+import { useNavigate } from 'react-router-dom';
 
 interface SingleVacancyHeaderProps {
     data: VacancyWithCompany;
@@ -27,10 +29,12 @@ interface SingleVacancyHeaderProps {
 
 const SingleVacancyHeader = ({ data }: SingleVacancyHeaderProps) => {
     const user = useAppSelector(selectUserData);
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const [toggleFavoriteVacancy] = useToggleFavoriteVacancyMutation();
     const { data: favoriteVacancies } = useGetFavoriteVacanciesQuery(
         user?.id ?? '',
-        { skip: !user }
+        { skip: !user },
     );
     const { data: resumes } = useGetApplicantResumesQuery(user?.id ?? '', {
         skip: !user,
@@ -38,23 +42,33 @@ const SingleVacancyHeader = ({ data }: SingleVacancyHeaderProps) => {
     const { data: applications } = useGetApplicationsQuery(user?.id ?? '', {
         skip: !user,
     });
+    const [getOrCreateChat] = useGetOrCreateChatMutation();
+
     const [setApplication] = useSetApplicationMutation();
     const [showResumes, setShowResumes] = useState(false);
     const toggleShowResumes = () => setShowResumes((prev) => !prev);
+    const [showResumesForMsg, setShowResumesForMsg] = useState(false);
+    const toggleShowResumesForMsg = () => setShowResumesForMsg((prev) => !prev);
     const resumesRef = useRef(null);
+    const resumesRefForMsg = useRef(null);
 
     useCloseViaClickOutsideAndEsc(resumesRef, showResumes, setShowResumes);
+    useCloseViaClickOutsideAndEsc(
+        resumesRefForMsg,
+        showResumesForMsg,
+        setShowResumesForMsg,
+    );
 
     if (!data || !user || !resumes) return null;
 
     const isFavorite = favoriteVacancies?.some(
-        (vacancy) => vacancy.vacancy_id === data.id
+        (vacancy) => vacancy.vacancy_id === data.id,
     );
 
     const isApplied = applications?.some(
         (application) =>
             application.vacancy_id === data.id &&
-            application.status === 'pending'
+            application.status === 'pending',
     );
 
     const handleToggleFavoriteVacancy = async () => {
@@ -67,13 +81,13 @@ const SingleVacancyHeader = ({ data }: SingleVacancyHeaderProps) => {
             toast.success(
                 status === 'added'
                     ? 'Vacancy added to favorites'
-                    : 'Vacancy removed from favorites'
+                    : 'Vacancy removed from favorites',
             );
         } catch (error) {
             toast.error(
                 error instanceof Error
                     ? error.message
-                    : 'Failed to toggle favorite status'
+                    : 'Failed to toggle favorite status',
             );
         }
     };
@@ -98,6 +112,23 @@ const SingleVacancyHeader = ({ data }: SingleVacancyHeaderProps) => {
             toast.success('Application send successfully');
     };
 
+    const handleGetOrCreateChat = async (resumeId: string) => {
+        if (!data.companies) return;
+
+        const { data: chatData } = await getOrCreateChat({
+            applicantId: user.id,
+            vacancyId: data.id,
+            resumeId: resumeId,
+            employerId: data.companies?.user_id,
+        });
+
+        if (chatData) {
+            dispatch(setActiveChatData(chatData));
+            navigate('/chats');
+            toggleShowResumesForMsg();
+        }
+    };
+
     return (
         <header className={styles.header}>
             <img
@@ -120,7 +151,7 @@ const SingleVacancyHeader = ({ data }: SingleVacancyHeaderProps) => {
 
             {user?.role === 'applicant' && (
                 <div className={styles.header__buttons}>
-                    <div className={styles.header__apply}>
+                    <div className={styles.header__apply} ref={resumesRef}>
                         <PrimaryButton
                             label={isApplied ? 'Applied' : 'Apply'}
                             ariaLabel={` ${
@@ -137,7 +168,6 @@ const SingleVacancyHeader = ({ data }: SingleVacancyHeaderProps) => {
                             className={`${styles.header__resumes} ${
                                 showResumes && styles['header__resumes-show']
                             } `}
-                            ref={resumesRef}
                         >
                             <p>Choose a Resume</p>
                             <DropDownList
@@ -161,6 +191,34 @@ const SingleVacancyHeader = ({ data }: SingleVacancyHeaderProps) => {
                     >
                         <GoHeartFill />
                     </button>
+
+                    <div
+                        className={styles.header__write}
+                        ref={resumesRefForMsg}
+                    >
+                        <PrimaryButton
+                            label="Write"
+                            ariaLabel="Write to the chat"
+                            style={{ width: '200px' }}
+                            onClick={toggleShowResumesForMsg}
+                        />
+
+                        <div
+                            className={`${styles.header__resumes} ${
+                                showResumesForMsg &&
+                                styles['header__resumes-show']
+                            } `}
+                        >
+                            <p>Choose a Resume</p>
+
+                            <DropDownList
+                                list={transformResumesToOptions()}
+                                showDropDown={showResumesForMsg}
+                                handleSetValue={handleGetOrCreateChat}
+                                customClass={styles.header__dropdown}
+                            />
+                        </div>
+                    </div>
                 </div>
             )}
         </header>

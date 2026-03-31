@@ -36,7 +36,7 @@ export const SingleVacancy = () => {
     return (
         <section className={styles.vacancy} aria-labelledby="vacancy-heading">
             <SingleVacancyHeader data={vacancyData} />
-            <main className={styles.vacancy__main} role="main">
+            <div className={styles.vacancy__main}>
                 <SingleVacancyDescription vacancyData={vacancyData} />
 
                 <aside
@@ -46,7 +46,7 @@ export const SingleVacancy = () => {
                     <SingleVacancyOverview vacancyData={vacancyData} />
                     <CompanyInfo companyData={vacancyData.companies} />
                 </aside>
-            </main>
+            </div>
         </section>
     );
 };
