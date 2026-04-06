@@ -127,7 +127,7 @@
         display: flex;
         column-gap: 15px;
         align-items: center;
-        flex-direction: column-reverse;
+        flex-direction: column;
         row-gap: 10px;
     }
 
@@ -153,7 +153,8 @@
         color: #ff7373;
     }
 
-    &__invite {
+    &__invite,
+    &__write {
         position: relative;
     }
 
@@ -172,6 +173,7 @@
         box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
         visibility: hidden;
         opacity: 0;
+        z-index: 10;
         transition:
             visibility 0.3s,
             opacity 0.3s;

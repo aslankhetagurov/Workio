@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { FaCheck } from 'react-icons/fa';
 import { BsGenderAmbiguous } from 'react-icons/bs';
@@ -22,7 +23,7 @@ import { formatToK } from '@/shared/lib/formatToK';
 import { formatDateToDayAndMonthAndYear } from '@/shared/lib/formatDateToDayAndMonthAndYear';
 import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import DropDownList from '@/shared/UI/DropDownList/DropDownList';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectCompanyData, selectUserData } from '@/modules/Auth';
 import {
     useGetFavoriteResumesQuery,
@@ -34,6 +35,7 @@ import {
     useSetInvitationMutation,
 } from '@/store/api/invitationsApi';
 import { useCloseViaClickOutsideAndEsc } from '@/shared/hooks/useCloseViaClickOutsideAndEsc';
+import { setActiveChatData, useGetOrCreateChatMutation } from '@/modules/Chats';
 import styles from './SingleResumeMain.module.scss';
 
 interface SingleResumeMainProps {
@@ -41,19 +43,22 @@ interface SingleResumeMainProps {
 }
 
 const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const user = useAppSelector(selectUserData);
     const isApplicant = user?.role === 'applicant';
+    const isEmployer = user?.role === 'employer';
     const companyData = useAppSelector(selectCompanyData);
     const [toggleFavoriteResume] = useToggleFavoriteResumeMutation();
     const { data: favoriteResumes } = useGetFavoriteResumesQuery(
         user?.id ?? '',
-        { skip: !user }
+        { skip: !user },
     );
     const { data: vacancies } = useGetEmployerVacanciesQuery(
         companyData?.id ?? '',
         {
             skip: !companyData || isApplicant,
-        }
+        },
     );
     const { data: invitations } = useGetInvitationsQuery(user?.id ?? '', {
         skip: !user,
@@ -62,19 +67,30 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
     const [showVacancies, setShowVacancies] = useState(false);
     const toggleShowVacancies = () => setShowVacancies((prev) => !prev);
     const resumesRef = useRef(null);
+    const [showVacanciesForMsg, setShowVacanciesForMsg] = useState(false);
+    const vacanciesRefForMsg = useRef(null);
 
     useCloseViaClickOutsideAndEsc(resumesRef, showVacancies, setShowVacancies);
+    useCloseViaClickOutsideAndEsc(
+        vacanciesRefForMsg,
+        showVacanciesForMsg,
+        setShowVacanciesForMsg,
+    );
+    const [getOrCreateChat] = useGetOrCreateChatMutation();
 
-    if (!resumeData || !user) return null;
+    const toggleShowVacanciesForMsg = () =>
+        setShowVacanciesForMsg((prev) => !prev);
+
+    if (!resumeData) return null;
 
     const isFavorite = favoriteResumes?.some(
-        (resume) => resume.resume_id === resumeData.id
+        (resume) => resume.resume_id === resumeData.id,
     );
 
     const isInvited = invitations?.some(
         (invitation) =>
             invitation.resume_id === resumeData.id &&
-            invitation.status === 'pending'
+            invitation.status === 'pending',
     );
 
     const {
@@ -92,6 +108,8 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
     } = resumeData;
 
     const handleToggleFavoriteResume = async () => {
+        if (!user) return;
+
         try {
             const { status } = await toggleFavoriteResume({
                 resume_id: resumeData.id,
@@ -101,13 +119,13 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
             toast.success(
                 status === 'added'
                     ? 'Resume added to favorites'
-                    : 'Resume removed from favorites'
+                    : 'Resume removed from favorites',
             );
         } catch (error) {
             toast.error(
                 error instanceof Error
                     ? error.message
-                    : 'Failed to toggle favorite status'
+                    : 'Failed to toggle favorite status',
             );
         }
     };
@@ -120,6 +138,8 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
     };
 
     const handleSetInvitation = async (vacancyId: string) => {
+        if (!user || !vacancyId) return;
+
         const res = await setInvitation({
             user_id: user.id,
             vacancy_id: vacancyId,
@@ -132,6 +152,23 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
             toast.success('Invitation send successfully');
     };
 
+    const handleGetOrCreateChat = async (vacancyId: string) => {
+        if (!resumeData.users || !user) return;
+
+        const { data: chatData } = await getOrCreateChat({
+            applicantId: resumeData.user_id,
+            vacancyId: vacancyId,
+            resumeId: resumeData.id,
+            employerId: user.id,
+        });
+
+        if (chatData) {
+            dispatch(setActiveChatData(chatData));
+            navigate('/chats');
+            toggleShowVacanciesForMsg();
+        }
+    };
+
     return (
         <article className={styles['resume-main']}>
             <div className={styles['resume-main__left-side']}>
@@ -141,9 +178,25 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
                     alt={`${users?.full_name || 'User'} avatar`}
                 />
 
-                {!isApplicant && (
+                {isEmployer && (
                     <div className={styles['resume-main__buttons']}>
-                        <div className={styles['resume-main__invite']}>
+                        <button
+                            className={
+                                isFavorite
+                                    ? styles['resume-main__favorite-active']
+                                    : styles['resume-main__favorite']
+                            }
+                            aria-label="Save resume to bookmarks"
+                            type="button"
+                            onClick={handleToggleFavoriteResume}
+                        >
+                            <GoHeartFill />
+                        </button>
+
+                        <div
+                            className={styles['resume-main__invite']}
+                            ref={resumesRef}
+                        >
                             <PrimaryButton
                                 label={isInvited ? 'Invited' : 'Invite'}
                                 ariaLabel={` ${
@@ -163,9 +216,9 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
                                     showVacancies &&
                                     styles['resume-main__vacancies-show']
                                 } `}
-                                ref={resumesRef}
                             >
                                 <p>Choose a Vacancy</p>
+
                                 <DropDownList
                                     list={transformVacanciesToOptions() ?? []}
                                     showDropDown={showVacancies}
@@ -177,18 +230,35 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
                             </div>
                         </div>
 
-                        <button
-                            className={
-                                isFavorite
-                                    ? styles['resume-main__favorite-active']
-                                    : styles['resume-main__favorite']
-                            }
-                            aria-label="Save resume to bookmarks"
-                            type="button"
-                            onClick={handleToggleFavoriteResume}
+                        <div
+                            className={styles['resume-main__write']}
+                            ref={vacanciesRefForMsg}
                         >
-                            <GoHeartFill />
-                        </button>
+                            <PrimaryButton
+                                label="Write"
+                                ariaLabel="Write to the chat"
+                                style={{ width: '200px' }}
+                                onClick={toggleShowVacanciesForMsg}
+                            />
+
+                            <div
+                                className={`${styles['resume-main__vacancies']} ${
+                                    showVacanciesForMsg &&
+                                    styles['resume-main__vacancies-show']
+                                } `}
+                            >
+                                <p>Choose a Vacancy</p>
+
+                                <DropDownList
+                                    list={transformVacanciesToOptions() ?? []}
+                                    showDropDown={showVacanciesForMsg}
+                                    handleSetValue={handleGetOrCreateChat}
+                                    customClass={
+                                        styles['resume-main__dropdown']
+                                    }
+                                />
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
