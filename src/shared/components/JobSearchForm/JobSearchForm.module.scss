@@ -7,7 +7,7 @@
     background-color: $accent-bg-color;
     padding: 20px;
     border-radius: 5px;
-    height: min-content;
+    min-height: calc(100vh - 57px);
 
     &__radio {
         appearance: auto;
@@ -56,9 +56,27 @@
     }
 
     &__radio {
+        appearance: none;
+        -webkit-appearance: none;
         cursor: pointer;
         width: 20px;
         height: 20px;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ffffffb8;
+
+        &:checked {
+            background-color: #358cfe;
+        }
+
+        &::after {
+            content: "\2713";
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+        }
     }
 
     &__inputs {
@@ -71,5 +89,9 @@
         display: flex;
         align-items: center;
         column-gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+        border-radius: 0;
     }
 }

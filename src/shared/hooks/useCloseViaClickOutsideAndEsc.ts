@@ -3,7 +3,7 @@ import { RefObject, useEffect } from 'react';
 export const useCloseViaClickOutsideAndEsc = (
     ref: RefObject<HTMLElement | null>,
     isOpen: boolean,
-    setIsOpen: (isOpen: boolean) => void
+    setIsOpen: (isOpen: boolean) => void,
 ) => {
     useEffect(() => {
         const handleClickOutside = (e: Event) => {
