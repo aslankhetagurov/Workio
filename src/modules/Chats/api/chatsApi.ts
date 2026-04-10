@@ -20,7 +20,7 @@ export const chatsApi = createApi({
             resumes (*, users (*)),
             applicant:users!chats_applicant_id_fkey (*),
             employer:users!chats_employer_id_fkey (*)
-          `
+          `,
                     )
                     .or(`applicant_id.eq.${userId},employer_id.eq.${userId}`)
                     .order('updated_at', { ascending: false });
@@ -115,17 +115,17 @@ export const chatsApi = createApi({
                         .select(
                             `
                     *,
-                    vacancies(*),
-                    resumes(*),
+                    vacancies (*, companies (*)),
+                    resumes (*, users (*)),
                     applicant:users!chats_applicant_id_fkey(*),
                     employer:users!chats_employer_id_fkey(*)
-                `
+                `,
                         )
                         .eq('resume_id', resumeId)
                         .eq('applicant_id', applicantId)
                         .eq('vacancy_id', vacancyId)
                         .eq('employer_id', employerId)
-                        .single();
+                        .maybeSingle();
 
                 if (existingError && existingError.code !== 'PGRST116') {
                     return {
@@ -151,11 +151,11 @@ export const chatsApi = createApi({
                     .select(
                         `
                 *,
-                vacancies(*),
-                resumes(*),
+                vacancies (*, companies (*)),
+                resumes (*, users (*)),
                 applicant:users!chats_applicant_id_fkey(*),
                 employer:users!chats_employer_id_fkey(*)
-            `
+            `,
                     )
                     .single();
 
