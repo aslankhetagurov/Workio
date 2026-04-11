@@ -11,10 +11,12 @@ export const PromoSection = () => {
 
     return (
         <section className={styles.promo}>
-            <PromoVideoModal
-                isOpen={isVideoModalOpen}
-                onClose={toggleVideoModal}
-            />
+            {isVideoModalOpen && (
+                <PromoVideoModal
+                    isOpen={isVideoModalOpen}
+                    onClose={toggleVideoModal}
+                />
+            )}
 
             <div className={styles.promo__main}>
                 <div className={styles['promo__video-preview']}>
