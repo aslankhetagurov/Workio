@@ -79,7 +79,7 @@ export const vacanciesApi = createApi({
 
                     if (error instanceof Error) {
                         toast.error(
-                            `Failed to fetch vacancies: ${error.message}`
+                            `Failed to fetch vacancies: ${error.message}`,
                         );
                     } else {
                         toast.error('Failed to fetch vacancies');
@@ -119,7 +119,7 @@ export const vacanciesApi = createApi({
                     toast.error(
                         error instanceof Error
                             ? `Failed to create vacancy: ${error.message}`
-                            : 'Failed to create vacancy'
+                            : 'Failed to create vacancy',
                     );
 
                     return {
@@ -150,7 +150,7 @@ export const vacanciesApi = createApi({
                     toast.error(
                         error instanceof Error
                             ? `Failed to fetch vacancies: ${error.message}`
-                            : 'Failed to fetch vacancies'
+                            : 'Failed to fetch vacancies',
                     );
 
                     return {
@@ -181,7 +181,7 @@ export const vacanciesApi = createApi({
                     toast.error(
                         error instanceof Error
                             ? `Failed to delete vacancy: ${error.message}`
-                            : 'Failed to delete vacancy'
+                            : 'Failed to delete vacancy',
                     );
 
                     return {
@@ -215,7 +215,7 @@ export const vacanciesApi = createApi({
                     toast.error(
                         error instanceof Error
                             ? `Failed to edit vacancy: ${error.message}`
-                            : 'Failed to edit vacancy'
+                            : 'Failed to edit vacancy',
                     );
 
                     return {
@@ -302,7 +302,7 @@ export const vacanciesApi = createApi({
                     toast.error(
                         error instanceof Error
                             ? `Failed to fetch vacancies: ${error.message}`
-                            : 'Failed to fetch vacancies'
+                            : 'Failed to fetch vacancies',
                     );
 
                     return {

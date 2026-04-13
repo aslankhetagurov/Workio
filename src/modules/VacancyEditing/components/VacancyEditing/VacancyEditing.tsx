@@ -8,9 +8,7 @@ export const VacancyEditing = () => {
                 <h1 className={styles.vacancy__title}>Edit the Vacancy</h1>
             </header>
 
-            <main className={styles.vacancy__main}>
-                <VacancyForm type="edit" />
-            </main>
+            <VacancyForm type="edit" />
         </section>
     );
 };

@@ -33,6 +33,7 @@ export const VacanciesAndResumesSearch = ({
     }, [isOpen]);
 
     const toggleForm = () => setIsOpen(!isOpen);
+    const closeForm = () => setIsOpen(false);
 
     return (
         <aside className={styles.search} role="search">
@@ -50,7 +51,7 @@ export const VacanciesAndResumesSearch = ({
                     customIconClass={styles['search__close-btn']}
                     size={26}
                 />
-                <JobSearchForm onSubmit={onSubmit} />
+                <JobSearchForm onSubmit={onSubmit} closeForm={closeForm} />
             </div>
         </aside>
     );
