@@ -24,6 +24,7 @@
 .modal {
     width: 100%;
     max-width: 500px;
+    max-height: 90%;
     background-color: #fff;
     border-radius: 5px;
     margin: 20px;
@@ -36,9 +37,17 @@
     transition:
         transform 0.3s ease,
         opacity 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
     &_show {
         transform: translateY(0);
         opacity: 1;
+    }
+
+    @media (max-width: 576px) {
+        margin: 5px;
+        padding: 5px;
     }
 }

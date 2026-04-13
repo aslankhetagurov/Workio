@@ -63,6 +63,7 @@ export const FeaturedResumes = () => {
                         className={styles['featured-resumes__categories']}
                         value={category}
                         onChange={handleSetCategory}
+                        name="resumes categories"
                     >
                         <option key="All categories" value="All categories">
                             All categories

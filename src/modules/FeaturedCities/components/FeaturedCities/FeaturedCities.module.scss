@@ -15,4 +15,20 @@
         display: flex;
         gap: 30px;
     }
+
+    @media (max-width: 1024px) {
+        margin-bottom: 12rem;
+    }
+
+    @media (max-width: 768px) {
+        margin-bottom: 8rem;
+
+        &__header {
+            margin-bottom: 5px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        margin-bottom: 6rem;
+    }
 }

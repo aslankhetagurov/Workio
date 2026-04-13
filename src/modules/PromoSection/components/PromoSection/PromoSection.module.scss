@@ -98,6 +98,7 @@
     &__stat {
         display: flex;
         justify-content: space-around;
+        column-gap: 10px;
     }
 
     &__stat-item {
@@ -111,5 +112,47 @@
         font-size: 4rem;
         font-weight: 700;
         color: $hover-color;
+    }
+
+    @media (max-width: 768px) {
+        margin-bottom: 8rem;
+
+        &__main {
+            grid-template-columns: 1fr;
+            justify-items: center;
+            margin-bottom: 5px;
+        }
+
+        &__video-preview {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        &__preview-img {
+            border-radius: 10px;
+            width: 100%;
+            max-height: 400px;
+        }
+
+        &__title {
+            margin-bottom: 15px;
+        }
+
+        &__subtitle {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        &__features-list {
+            row-gap: 10px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        margin-bottom: 6rem;
     }
 }

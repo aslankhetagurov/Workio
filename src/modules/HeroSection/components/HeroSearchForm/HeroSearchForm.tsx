@@ -22,6 +22,8 @@ const HeroSearchForm = () => {
         useForm<IHeroSearchForm>({ mode: 'onBlur' });
 
     const onSubmit: SubmitHandler<IHeroSearchForm> = (data) => {
+        if (!data.jobOrCompanyInput || !data.locationInput) return;
+
         const { jobOrCompanyInput, locationInput, select } = data;
 
         const params = new URLSearchParams({
@@ -87,6 +89,7 @@ const HeroSearchForm = () => {
                 label="Find"
                 type="submit"
                 ariaLabel="Find vacancies, resumes, or companies"
+                className={styles.form__btn}
             />
         </form>
     );

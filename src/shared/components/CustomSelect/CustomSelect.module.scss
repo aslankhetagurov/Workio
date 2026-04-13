@@ -30,4 +30,10 @@
         font-weight: 700;
         outline: 1px solid $hover-color;
     }
+
+    @media (max-width: 768px) {
+        &__label {
+            margin-bottom: 5px;
+        }
+    }
 }

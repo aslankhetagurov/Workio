@@ -59,6 +59,7 @@ export const FeaturedVacancies = () => {
                         className={styles['featured-vacancies__categories']}
                         value={category}
                         onChange={handleSetCategory}
+                        name="vacancies categories"
                     >
                         <option key="All categories" value="All categories">
                             All categories

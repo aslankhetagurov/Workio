@@ -31,4 +31,32 @@
         max-width: 70%;
         object-fit: cover;
     }
+
+    @media (max-width: 576px) {
+        &__titles {
+            max-width: 90%;
+        }
+
+        &__title {
+            font-size: 5rem;
+            margin-bottom: 5px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        margin: 55px 0px 40px 0;
+
+        &__titles {
+            max-width: 85%;
+        }
+
+        &__title {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 375px) {
+        margin-bottom: 70px;
+    }
 }
