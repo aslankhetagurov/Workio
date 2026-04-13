@@ -6,8 +6,8 @@ import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
 import { selectUserData, toggleAuthModal } from '@/modules/Auth';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import UserMenu from '../UserMenu/UserMenu';
-import styles from './Header.module.scss';
 import { AdditionalMenu } from '../AdditionalMenu/AdditionalMenu';
+import styles from './Header.module.scss';
 
 export const Header = () => {
     const dispatch = useAppDispatch();
@@ -33,10 +33,10 @@ export const Header = () => {
             <Menu />
 
             {userData ? (
-                <div className={styles.header__user}>
+                <>
                     <AdditionalMenu />
                     <UserMenu />
-                </div>
+                </>
             ) : (
                 <div className={styles.header__auth}>
                     <PrimaryButton
