@@ -48,4 +48,8 @@
         color: #dc2626;
         font-weight: 500;
     }
+
+    @media (max-width: 768px) {
+        margin-bottom: 20px;
+    }
 }

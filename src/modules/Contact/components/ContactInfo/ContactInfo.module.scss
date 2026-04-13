@@ -9,6 +9,7 @@
 
     &__item {
         max-width: 200px;
+        width: 100%;
         text-align: center;
     }
 
@@ -28,5 +29,14 @@
         &:hover {
             color: $hover-color;
         }
+    }
+
+    @media (max-width: 768px) {
+        column-gap: 50px;
+    }
+
+    @media (max-width: 576px) {
+        margin: 20px 0;
+        column-gap: 10px;
     }
 }
