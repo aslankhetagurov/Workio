@@ -41,11 +41,11 @@ export const SingleResume = () => {
         <section className={styles.resume} aria-labelledby="resume-heading">
             <SingleResumeMain resumeData={resumeData} />
 
-            <main className={styles.resume__content}>
+            <div className={styles.resume__content}>
                 <SingleResumeAbout aboutText={about_me} />
                 <SingleResumeEducation education={education} />
                 <SingleResumeExperience resumeData={resumeData} />
-            </main>
+            </div>
         </section>
     );
 };

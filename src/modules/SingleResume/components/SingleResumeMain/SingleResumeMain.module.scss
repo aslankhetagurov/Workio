@@ -131,6 +131,13 @@
         row-gap: 10px;
     }
 
+    &__button {
+        width: 100%;
+        max-width: 200px;
+        min-width: 100px;
+        margin: 0 auto;
+    }
+
     &__favorite,
     &__favorite-active {
         font-size: 34px;
@@ -156,6 +163,7 @@
     &__invite,
     &__write {
         position: relative;
+        width: 100%;
     }
 
     &__vacancies {
@@ -190,5 +198,56 @@
         box-shadow: none;
         row-gap: 10px;
         padding: 0;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        padding: 10px;
+
+        &__avatar {
+            margin: 0 auto 20px;
+        }
+
+        &__buttons {
+            margin-bottom: 10px;
+            flex-direction: row;
+        }
+
+        &__resume-title {
+            height: initial;
+        }
+
+        &__favorite,
+        &__favorite-active {
+            order: 2;
+        }
+
+        &__invite {
+            order: 1;
+        }
+
+        &__write {
+            order: 3;
+        }
+    }
+
+    @media (max-width: 576px) {
+        &__inner {
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+        }
+
+        &__header {
+            flex-direction: column;
+            text-align: center;
+            row-gap: 10px;
+        }
+
+        &__info-wrapper {
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+        }
     }
 }

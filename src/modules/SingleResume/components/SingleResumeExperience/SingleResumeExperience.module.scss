@@ -35,4 +35,17 @@
         list-style: disc;
         list-style-position: inside;
     }
+
+    @media (max-width: 576px) {
+        &__item {
+            flex-direction: column;
+            padding-bottom: 2px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        &__time {
+            color: rgb(83, 142, 230);
+            margin-bottom: 5px;
+        }
+    }
 }

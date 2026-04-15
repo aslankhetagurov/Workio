@@ -202,7 +202,7 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
                                 ariaLabel={` ${
                                     isInvited ? 'Invited' : 'Invite'
                                 } for a vacancy`}
-                                style={{ width: '200px' }}
+                                className={styles['resume-main__button']}
                                 onClick={toggleShowVacancies}
                                 icon={<FaCheck />}
                                 isShowIcon={isInvited}
@@ -235,9 +235,9 @@ const SingleResumeMain = ({ resumeData }: SingleResumeMainProps) => {
                             ref={vacanciesRefForMsg}
                         >
                             <PrimaryButton
+                                className={styles['resume-main__button']}
                                 label="Write"
                                 ariaLabel="Write to the chat"
-                                style={{ width: '200px' }}
                                 onClick={toggleShowVacanciesForMsg}
                             />
 
