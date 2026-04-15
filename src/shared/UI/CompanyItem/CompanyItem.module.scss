@@ -8,6 +8,7 @@
     transition: background-color 0.3s;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     &:hover {
         background-color: $accent-bg-color;
@@ -20,6 +21,7 @@
         padding: 10px 20px;
         width: 100%;
         border-radius: 10px;
+        overflow: hidden;
     }
 
     &__logo {
@@ -66,5 +68,12 @@
         margin-left: auto;
         max-width: min-content;
         margin: 10px;
+    }
+
+    @media (max-width: 375px) {
+        &__other-info {
+            display: flex;
+            flex-wrap: wrap;
+        }
     }
 }

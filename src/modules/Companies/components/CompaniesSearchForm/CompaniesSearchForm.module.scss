@@ -1,6 +1,53 @@
 @use "@/shared/styles/abstracts/index" as *;
 
-.form {
+.search {
+    position: relative;
+
+    &__button {
+        display: none;
+        max-width: 150px;
+        margin: 0 auto 20px;
+
+        @media (max-width: 768px) {
+            display: block;
+        }
+    }
+
+    &__form {
+        position: static;
+
+        @media (max-width: 768px) {
+            position: fixed;
+            top: 100%;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 100;
+            transition: all 0.3s;
+            overflow-y: auto;
+            height: calc(100vh - 57px);
+
+            &--open {
+                top: 0;
+            }
+        }
+    }
+
+    &__close {
+        display: none;
+        position: absolute;
+        color: #c8dcff;
+        top: 10px;
+        right: 20px;
+        z-index: 10;
+
+        @media (max-width: 768px) {
+            display: block;
+        }
+    }
+}
+
+.search-form {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
@@ -9,16 +56,17 @@
     border-radius: 5px;
     height: min-content;
 
-    &__input {
-        width: 100%;
-        background-color: #fff;
-        padding: 10px;
-        border-radius: 5px;
-        padding-left: 25px;
+    &__label {
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        column-gap: 5px;
+    }
 
-        &::placeholder {
-            @include placeholder;
-        }
+    &__label-text {
+        display: inline-block;
+        margin-bottom: 10px;
     }
 
     &__input-wrapper {
@@ -32,16 +80,19 @@
         left: 2px;
     }
 
-    &__label-title {
-        font-weight: 700;
-        margin-bottom: 10px;
-        display: inline-block;
-        display: flex;
-        align-items: center;
-        column-gap: 5px;
+    &__input {
+        width: 100%;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        padding-left: 25px;
+
+        &::placeholder {
+            @include placeholder;
+        }
     }
 
-    &__categories {
+    &__select {
         width: 100%;
         background-color: #fff;
         padding: 10px;
@@ -49,9 +100,14 @@
         cursor: pointer;
     }
 
-    &__buttons {
+    &__actions {
         display: flex;
         align-items: center;
         column-gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+        min-height: calc(100vh - 57px);
+        border-radius: 0;
     }
 }
