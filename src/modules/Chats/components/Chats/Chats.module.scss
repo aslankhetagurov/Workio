@@ -10,4 +10,10 @@
     &__chat {
         overflow-y: scroll;
     }
+
+    @media (max-width: 768px) {
+        border: none;
+        margin: 0;
+        height: calc(100vh - 150px);
+    }
 }

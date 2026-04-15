@@ -19,7 +19,7 @@
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        max-width: 450px;
+        max-width: 80%;
         column-gap: 30px;
     }
 
@@ -31,6 +31,8 @@
 
     &__text {
         font-weight: 700;
+        max-width: 100%;
+        overflow-wrap: break-word;
     }
 
     &__info {
@@ -49,5 +51,9 @@
 
     &__status {
         line-height: 0;
+    }
+
+    @media (max-width: 768px) {
+        padding: 0;
     }
 }

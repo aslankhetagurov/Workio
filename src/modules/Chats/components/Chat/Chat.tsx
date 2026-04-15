@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import { FiArrowUpRight } from 'react-icons/fi';
 import { TiMessages } from 'react-icons/ti';
+import { IoIosArrowDropleft } from 'react-icons/io';
 
-import { useAppSelector } from '@/store/hooks';
-import { selectActiveChatData } from '../../store/chatsSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import {
+    selectActiveChatData,
+    setActiveChatData,
+} from '../../store/chatsSlice';
 import { selectUserData } from '@/modules/Auth';
 import avatar from '@/shared/assets/images/default-avatar.png';
 import companyAvatar from '@/shared/assets/images/company-logo.webp';
@@ -12,9 +16,13 @@ import ChatsForm from '../ChatsForm/ChatsForm';
 import styles from './Chat.module.scss';
 
 const Chat = () => {
+    const dispatch = useAppDispatch();
     const user = useAppSelector(selectUserData);
     const isApplicant = user?.role === 'applicant';
     const activeChatData = useAppSelector(selectActiveChatData);
+    const handleClearActiveChat = () => {
+        dispatch(setActiveChatData(null));
+    };
 
     if (!activeChatData) {
         return (
@@ -86,6 +94,15 @@ const Chat = () => {
                         </Link>
                     </div>
                 </div>
+
+                <button
+                    className={styles.chat__close}
+                    onClick={handleClearActiveChat}
+                >
+                    <IoIosArrowDropleft
+                        className={styles['chat__close-icon']}
+                    />
+                </button>
             </header>
 
             <MessagesList activeChatData={activeChatData} userData={user} />

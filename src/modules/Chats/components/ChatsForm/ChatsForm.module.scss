@@ -16,11 +16,14 @@
         resize: none;
         overflow: hidden;
         min-height: 36px;
-        height: "auto";
+        height: auto;
         max-height: 36px;
+        display: flex;
+        align-items: center;
 
         &::placeholder {
             color: $light-gray;
+            padding-top: 3px;
         }
     }
 
@@ -43,5 +46,9 @@
 
     &__button_disable {
         opacity: 0.3;
+    }
+
+    @media (max-width: 768px) {
+        padding: 10px 0 0;
     }
 }

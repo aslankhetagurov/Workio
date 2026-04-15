@@ -25,4 +25,21 @@
     &__empty {
         padding: 10px;
     }
+
+    @media (max-width: 1024px) {
+        min-width: 300px;
+    }
+
+    @media (max-width: 768px) {
+        min-width: 100%;
+        border: none;
+
+        &__title {
+            margin-bottom: 10px;
+        }
+
+        &__list {
+            row-gap: 15px;
+        }
+    }
 }
