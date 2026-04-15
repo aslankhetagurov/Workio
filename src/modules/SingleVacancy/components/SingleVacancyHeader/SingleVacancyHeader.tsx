@@ -131,23 +131,25 @@ const SingleVacancyHeader = ({ data }: SingleVacancyHeaderProps) => {
 
     return (
         <header className={styles.header}>
-            <img
-                className={styles.header__logo}
-                src={data.companies?.logo_url || logo}
-                alt={
-                    data.companies?.name
-                        ? `${data.companies.name} logo`
-                        : 'Company logo'
-                }
-            />
+            <>
+                <img
+                    className={styles.header__logo}
+                    src={data.companies?.logo_url || logo}
+                    alt={
+                        data.companies?.name
+                            ? `${data.companies.name} logo`
+                            : 'Company logo'
+                    }
+                />
 
-            <h3
-                className={styles.header__title}
-                aria-label="Vacancy title"
-                id="vacancy-heading"
-            >
-                {data.title}
-            </h3>
+                <h3
+                    className={styles.header__title}
+                    aria-label="Vacancy title"
+                    id="vacancy-heading"
+                >
+                    {data.title}
+                </h3>
+            </>
 
             {user?.role === 'applicant' && (
                 <div className={styles.header__buttons}>

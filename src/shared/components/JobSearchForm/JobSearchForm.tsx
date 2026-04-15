@@ -38,9 +38,10 @@ const createdAtFilterMap = {
 
 export interface IJobSearchFormProps {
     onSubmit: (filters: IJobSearchForm) => void;
+    closeForm: () => void;
 }
 
-const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
+const JobSearchForm = ({ onSubmit, closeForm }: IJobSearchFormProps) => {
     const location = useLocation();
 
     const initialLocation = location.state?.location || '';
@@ -166,7 +167,7 @@ const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
                                     {label}
                                 </span>
                             </label>
-                        )
+                        ),
                     )}
                 </div>
             </div>
@@ -232,6 +233,7 @@ const JobSearchForm = ({ onSubmit }: IJobSearchFormProps) => {
                     label="Search"
                     ariaLabel="Search job"
                     type="submit"
+                    onClick={closeForm}
                 />
                 <PrimaryButton
                     label="Reset"

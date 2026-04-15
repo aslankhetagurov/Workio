@@ -70,6 +70,8 @@
             background-color 0.3s,
             color 0.3s,
             transform 0.3s;
+        max-width: 260px;
+        margin: 0 auto;
 
         &:hover {
             background-color: $hover-color;
@@ -126,5 +128,17 @@
         display: flex;
         align-items: center;
         column-gap: 30px;
+    }
+
+    @media (max-width: 768px) {
+        &__info {
+            row-gap: 10px;
+        }
+
+        &__single-logo {
+            width: 50%;
+            height: auto;
+            margin: 0 auto;
+        }
     }
 }

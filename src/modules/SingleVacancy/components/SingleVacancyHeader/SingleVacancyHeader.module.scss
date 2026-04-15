@@ -26,6 +26,7 @@
         display: flex;
         column-gap: 30px;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     &__favorite,
@@ -86,5 +87,46 @@
         box-shadow: none;
         row-gap: 10px;
         padding: 0;
+    }
+
+    @media (max-width: 1200px) {
+        padding: 0 20px;
+    }
+
+    @media (max-width: 1024px) {
+        height: min-content;
+        padding: 10px 20px;
+        flex-direction: column;
+        justify-content: center;
+        row-gap: 10px;
+
+        &__logo {
+            margin: 0 auto 5px;
+        }
+
+        &__buttons {
+            margin-left: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        margin-bottom: 20px;
+
+        &__buttons {
+            flex-direction: column;
+            row-gap: 7px;
+        }
+
+        &__favorite {
+            order: 0;
+        }
+
+        &__apply {
+            order: 1;
+        }
+
+        &__resumes {
+            z-index: 10;
+        }
     }
 }
