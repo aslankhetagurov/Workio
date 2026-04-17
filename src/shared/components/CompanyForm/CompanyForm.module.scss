@@ -74,4 +74,20 @@
         top: 78px;
         font-size: 14px;
     }
+
+    @media (max-width: 768px) {
+        &__label-title {
+            margin-bottom: 5px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+
+        &__label-title {
+            margin-bottom: 5px;
+        }
+    }
 }
