@@ -171,6 +171,7 @@
     &__experiences-remove {
         position: absolute;
         right: 10px;
+        top: -10px;
     }
 
     &__remove-icon {
@@ -180,9 +181,40 @@
     &__experiences-dates {
         display: flex;
         align-items: center;
-        column-gap: 20px;
+        gap: 20px;
     }
+
     &__experiences-date {
         width: 100%;
+    }
+
+    @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+
+        &__label-title {
+            margin-bottom: 5px;
+        }
+
+        &__education-fields,
+        &__experiences-fields {
+            row-gap: 10px;
+            margin-bottom: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        &__education-fields,
+        &__experiences-fields {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__experiences-dates {
+            flex-direction: column;
+        }
     }
 }
