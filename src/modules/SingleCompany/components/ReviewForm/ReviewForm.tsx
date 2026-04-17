@@ -60,7 +60,7 @@ const ReviewForm = ({ onClose }: IReviewFormProps) => {
 
     const onError = (errors: FieldErrors<IReviewForm>) => {
         for (const key of Object.keys(
-            selectRefs
+            selectRefs,
         ) as (keyof typeof selectRefs)[]) {
             if (errors[key]) {
                 selectRefs[key]?.current?.focus();
@@ -266,7 +266,9 @@ const ReviewForm = ({ onClose }: IReviewFormProps) => {
 
                     <div className={styles['form__ratings-list']}>
                         <div className={styles.form__rating}>
-                            <label>Growth Opportunities</label>
+                            <span className={styles['form__rating-label']}>
+                                Growth Opportunities
+                            </span>
                             <Controller
                                 control={control}
                                 name="rating_growth_opportunities"
@@ -280,7 +282,9 @@ const ReviewForm = ({ onClose }: IReviewFormProps) => {
                         </div>
 
                         <div className={styles.form__rating}>
-                            <label>Management</label>
+                            <span className={styles['form__rating-label']}>
+                                Management
+                            </span>
                             <Controller
                                 control={control}
                                 name="rating_management"
@@ -294,7 +298,9 @@ const ReviewForm = ({ onClose }: IReviewFormProps) => {
                         </div>
 
                         <div className={styles.form__rating}>
-                            <label>Team</label>
+                            <span className={styles['form__rating-label']}>
+                                Team
+                            </span>
                             <Controller
                                 control={control}
                                 name="rating_team"
@@ -308,7 +314,9 @@ const ReviewForm = ({ onClose }: IReviewFormProps) => {
                         </div>
 
                         <div className={styles.form__rating}>
-                            <label>Salary Level</label>
+                            <span className={styles['form__rating-label']}>
+                                Salary Level
+                            </span>
                             <Controller
                                 control={control}
                                 name="rating_salary_level"
@@ -322,7 +330,9 @@ const ReviewForm = ({ onClose }: IReviewFormProps) => {
                         </div>
 
                         <div className={styles.form__rating}>
-                            <label>Working Conditions</label>
+                            <span className={styles['form__rating-label']}>
+                                Working Conditions
+                            </span>
                             <Controller
                                 control={control}
                                 name="rating_work_conditions"
@@ -334,8 +344,11 @@ const ReviewForm = ({ onClose }: IReviewFormProps) => {
                                 )}
                             />
                         </div>
+
                         <div className={styles.form__rating}>
-                            <label>Relax Conditions</label>
+                            <span className={styles['form__rating-label']}>
+                                Relax Conditions
+                            </span>
                             <Controller
                                 control={control}
                                 name="rating_relax_conditions"

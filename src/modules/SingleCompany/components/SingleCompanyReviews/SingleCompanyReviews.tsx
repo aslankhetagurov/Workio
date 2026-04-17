@@ -23,7 +23,7 @@ const SingleCompanyReviews = ({ reviews }: SingleCompanyReviewsProps) => {
                 <PrimaryButton
                     label="Leave a review"
                     onClick={handleToggleModal}
-                    style={{ width: '150px' }}
+                    style={{ width: '130px' }}
                 />
             </header>
 

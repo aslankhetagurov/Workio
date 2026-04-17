@@ -8,4 +8,10 @@
     &__text {
         white-space: pre-line;
     }
+
+    @media (max-width: 768px) {
+        &__title {
+            margin-bottom: 15px;
+        }
+    }
 }

@@ -1,6 +1,5 @@
 .tabs {
-    margin-top: 20px;
-    margin-bottom: 30px;
+    margin: 20px 0 30px;
 
     &__list {
         display: flex;
@@ -12,5 +11,20 @@
         min-width: 110px;
         border-radius: 50px;
         padding: 5px 10px;
+    }
+
+    @media (max-width: 768px) {
+        margin: 15px 0 15px;
+
+        &__list {
+            justify-content: center;
+            column-gap: 10px;
+        }
+
+        &__btn {
+            min-width: 100px;
+            border-radius: 50px;
+            padding: 5px;
+        }
     }
 }

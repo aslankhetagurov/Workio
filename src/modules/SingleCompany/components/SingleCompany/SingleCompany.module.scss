@@ -25,4 +25,19 @@
             text-decoration-style: solid;
         }
     }
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        row-gap: 20px;
+        justify-content: center;
+        text-align: center;
+
+        &__main {
+            padding-bottom: 20px;
+        }
+
+        &__rating {
+            justify-content: center;
+        }
+    }
 }

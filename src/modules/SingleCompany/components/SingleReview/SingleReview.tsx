@@ -88,22 +88,24 @@ const SingleReview = ({ review }: SingleReviewProps) => {
                 </ul>
             </div>
 
-            <div className={styles.rating__benefits}>
-                <span className={styles.review__title}>
-                    Benefits and advantages
-                </span>
+            {!!benefits.length && (
+                <div className={styles.rating__benefits}>
+                    <span className={styles.review__title}>
+                        Benefits and advantages
+                    </span>
 
-                <ul className={styles['review__benefits-list']}>
-                    {benefits?.map((item, i) => (
-                        <li
-                            className={styles['review__benefits-item']}
-                            key={item + i}
-                        >
-                            {item}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                    <ul className={styles['review__benefits-list']}>
+                        {benefits.map((item, i) => (
+                            <li
+                                className={styles['review__benefits-item']}
+                                key={item + i}
+                            >
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </li>
     );
 };

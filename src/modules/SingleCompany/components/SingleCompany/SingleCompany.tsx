@@ -58,7 +58,7 @@ export const SingleCompany = () => {
                 <CompanyInfo companyData={mainData} isSingleCompany={true} />
             </aside>
 
-            <main className={styles.company__main}>
+            <div className={styles.company__main}>
                 <span className={styles.company__label}>Organization</span>
                 <h1 className={styles.company__title}>{name}</h1>
 
@@ -86,7 +86,7 @@ export const SingleCompany = () => {
                 ) : (
                     <SingleCompanyReviews reviews={company_reviews ?? []} />
                 )}
-            </main>
+            </div>
         </section>
     );
 };

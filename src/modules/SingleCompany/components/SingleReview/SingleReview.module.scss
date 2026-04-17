@@ -22,7 +22,7 @@
     &__other-info {
         display: flex;
         align-items: center;
-        column-gap: 10px;
+        gap: 10px;
         margin-bottom: 30px;
     }
 
@@ -65,7 +65,7 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        column-gap: 10px;
+        gap: 10px;
     }
 
     &__benefits-item {
@@ -74,5 +74,46 @@
         padding: 2px 10px;
         border-radius: 5px;
         font-weight: 700;
+    }
+
+    @media (max-width: 1024px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__ratings-item {
+            column-gap: 50px;
+        }
+
+        &__ratings-list {
+            grid-template-columns: 1fr;
+            column-gap: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 10px;
+
+        &__benefits-list {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        &__other-info {
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        &__pros,
+        &__cons,
+        &__ratings {
+            margin-bottom: 15px;
+        }
+
+        &__title {
+            margin-bottom: 2px;
+        }
     }
 }
