@@ -84,7 +84,7 @@ const Slider = ({
             translateWidth + itemWidthWithGapRef.current
         }px)`;
 
-        setTranslateWidth(translateWidth + itemWidthWithGapRef.current);
+        setTranslateWidth((prev) => prev + itemWidthWithGapRef.current);
 
         if (itemCounter === -(itemCount - 1)) {
             setItemCounter(0);
@@ -138,7 +138,7 @@ const Slider = ({
             translateWidth - itemWidthWithGapRef.current
         }px)`;
 
-        setTranslateWidth(translateWidth - itemWidthWithGapRef.current);
+        setTranslateWidth((prev) => prev - itemWidthWithGapRef.current);
 
         if (itemCounter === itemCount - 1) {
             setItemCounter(0);
@@ -183,6 +183,7 @@ const Slider = ({
                     <button
                         onClick={handlePrevSlide}
                         className={`${styles.slider__arrow} ${styles['slider__arrow-left']}`}
+                        aria-label="Previous slide"
                     >
                         <FaCircleArrowLeft />
                     </button>
@@ -190,6 +191,7 @@ const Slider = ({
                     <button
                         onClick={handleNextSlide}
                         className={`${styles.slider__arrow} ${styles['slider__arrow-right']}`}
+                        aria-label="Next slide"
                     >
                         <FaCircleArrowRight />
                     </button>
