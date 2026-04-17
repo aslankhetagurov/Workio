@@ -105,6 +105,8 @@
     }
 
     @media (max-width: 768px) {
+        margin-left: 0;
+
         &__list {
             max-width: 100%;
             top: 100%;

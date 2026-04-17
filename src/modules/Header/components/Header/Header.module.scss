@@ -37,6 +37,10 @@
         column-gap: 20px;
     }
 
+    &__auth {
+        margin-left: auto;
+    }
+
     @media (max-width: 768px) {
         order: 2;
         bottom: 0;
