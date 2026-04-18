@@ -1,6 +1,5 @@
 import { ChangeEvent, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
-import { Link } from 'react-router-dom';
 
 import {
     jobCategories,
@@ -9,7 +8,7 @@ import {
 import { useGetFeaturedVacanciesQuery } from '../../api/featuredVacanciesApi';
 import VacancyItem from '@/shared/UI/VacancyItem/VacancyItem';
 import Spinner from '@/shared/UI/Spinner/Spinner';
-import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
+import { ShowAllLinkBtn } from '@/shared/UI/ShowAllLinkBtn/ShowAllLinkBtn';
 import styles from './FeaturedVacancies.module.scss';
 
 export const FeaturedVacancies = () => {
@@ -19,16 +18,8 @@ export const FeaturedVacancies = () => {
     const {
         data: vacancies,
         isLoading,
-        error,
         isError,
     } = useGetFeaturedVacanciesQuery(category);
-
-    if (isError) {
-        console.error('Error loading featured vacancies:', error);
-        return null;
-    }
-
-    if (!vacancies) return null;
 
     const handleSetCategory = (e: ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value as TJobCategoriesWithAll;
@@ -81,22 +72,27 @@ export const FeaturedVacancies = () => {
                 </div>
             </div>
 
-            <ul className={styles['featured-vacancies__list']}>
-                {isLoading ? (
-                    <Spinner />
-                ) : (
-                    vacancies.map((data) => (
-                        <VacancyItem key={data.id} data={data} />
-                    ))
-                )}
-            </ul>
+            {isLoading && <Spinner />}
 
-            <Link
-                className={styles['featured-vacancies__link-all']}
-                to="/vacancies"
-            >
-                <PrimaryButton label="Show All" />
-            </Link>
+            {isError && (
+                <p role="alert">Failed to load vacancies. Please try again.</p>
+            )}
+
+            {!isLoading && !isError && vacancies?.length === 0 && (
+                <p>No vacancies found</p>
+            )}
+
+            {!isLoading && !isError && vacancies && (
+                <>
+                    <ul className={styles['featured-vacancies__list']}>
+                        {vacancies.map((data) => (
+                            <VacancyItem key={data.id} data={data} />
+                        ))}
+                    </ul>
+
+                    <ShowAllLinkBtn link="/vacancies" />
+                </>
+            )}
         </section>
     );
 };

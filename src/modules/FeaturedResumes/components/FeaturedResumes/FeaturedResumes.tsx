@@ -1,6 +1,5 @@
 import { ChangeEvent, useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
-import { Link } from 'react-router-dom';
 
 import {
     jobCategories,
@@ -9,7 +8,7 @@ import {
 import Spinner from '@/shared/UI/Spinner/Spinner';
 import { useGetFeaturedResumesQuery } from '../../api/featuredResumesApi';
 import ResumeItem from '@/shared/UI/ResumeItem/ResumeItem';
-import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
+import { ShowAllLinkBtn } from '@/shared/UI/ShowAllLinkBtn/ShowAllLinkBtn';
 import styles from './FeaturedResumes.module.scss';
 
 export const FeaturedResumes = () => {
@@ -19,16 +18,8 @@ export const FeaturedResumes = () => {
     const {
         data: resumes,
         isLoading,
-        error,
         isError,
     } = useGetFeaturedResumesQuery(category);
-
-    if (isError) {
-        console.error('Error loading featured resumes:', error);
-        return null;
-    }
-
-    if (!resumes) return null;
 
     const handleSetCategory = (e: ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value as TJobCategoriesWithAll;
@@ -48,9 +39,9 @@ export const FeaturedResumes = () => {
                     >
                         Featured Resumes
                     </h3>
-                    <span className={styles['featured-resumes__subtitle']}>
+                    <p className={styles['featured-resumes__subtitle']}>
                         Explore top recent resumes
-                    </span>
+                    </p>
                 </div>
 
                 <div className={styles['featured-resumes__categories-wrapper']}>
@@ -83,22 +74,27 @@ export const FeaturedResumes = () => {
                 </div>
             </div>
 
-            {isLoading ? (
-                <Spinner />
-            ) : (
-                <ul className={styles['featured-resumes__list']}>
-                    {resumes.map((data) => (
-                        <ResumeItem key={data.id} data={data} />
-                    ))}
-                </ul>
+            {isLoading && <Spinner />}
+
+            {isError && (
+                <p role="alert">Failed to load resumes. Please try again.</p>
             )}
 
-            <Link
-                className={styles['featured-resumes__link-all']}
-                to="/resumes"
-            >
-                <PrimaryButton label="Show All" />
-            </Link>
+            {!isLoading && !isError && resumes?.length === 0 && (
+                <p>No resumes found</p>
+            )}
+
+            {!isLoading && !isError && resumes && (
+                <>
+                    <ul className={styles['featured-resumes__list']}>
+                        {resumes.map((data) => (
+                            <ResumeItem key={data.id} data={data} />
+                        ))}
+                    </ul>
+
+                    <ShowAllLinkBtn link="/resumes" />
+                </>
+            )}
         </section>
     );
 };

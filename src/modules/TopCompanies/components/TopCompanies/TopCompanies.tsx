@@ -1,25 +1,15 @@
-import { Link } from 'react-router-dom';
-
 import Spinner from '@/shared/UI/Spinner/Spinner';
 import { useGetTopCompaniesQuery } from '../../api/topCompaniesApi';
 import CompanyItem from '@/shared/UI/CompanyItem/CompanyItem';
-import PrimaryButton from '@/shared/UI/PrimaryButton/PrimaryButton';
+import { ShowAllLinkBtn } from '@/shared/UI/ShowAllLinkBtn/ShowAllLinkBtn';
 import styles from './TopCompanies.module.scss';
 
 export const TopCompanies = () => {
     const {
         data: topCompanies,
         isError,
-        error,
         isLoading,
     } = useGetTopCompaniesQuery();
-
-    if (isError) {
-        console.error('Error loading top companies:', error);
-        return null;
-    }
-
-    if (!topCompanies) return null;
 
     return (
         <section className={styles['top-companies']}>
@@ -27,24 +17,32 @@ export const TopCompanies = () => {
                 <h3 className={styles['top-companies__title']}>
                     Top Companies
                 </h3>
-                <span className={styles['top-companies__subtitle']}>
+                <p className={styles['top-companies__subtitle']}>
                     Explore leading employers on Workio
-                </span>
+                </p>
             </div>
 
-            <ul className={styles['top-companies__list']}>
-                {isLoading ? (
-                    <Spinner />
-                ) : (
-                    topCompanies.map((data) => (
-                        <CompanyItem key={data.id} companyData={data} />
-                    ))
-                )}
-            </ul>
+            {isLoading && <Spinner />}
 
-            <Link className={styles['top-companies__link-all']} to="/companies">
-                <PrimaryButton label="Show All" />
-            </Link>
+            {isError && (
+                <p role="alert">Failed to load сompanies. Please try again.</p>
+            )}
+
+            {!isLoading && !isError && topCompanies?.length === 0 && (
+                <p>No сompanies found</p>
+            )}
+
+            {!isLoading && !isError && topCompanies && (
+                <>
+                    <ul className={styles['top-companies__list']}>
+                        {topCompanies.map((data) => (
+                            <CompanyItem key={data.id} companyData={data} />
+                        ))}
+                    </ul>
+
+                    <ShowAllLinkBtn link="/сompanies" />
+                </>
+            )}
         </section>
     );
 };
