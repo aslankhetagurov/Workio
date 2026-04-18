@@ -3,11 +3,11 @@ import CityItem from '../CityItem/CityItem';
 import { citySlugMap, TCitySlug } from '@/shared/consts/citySlugMap';
 import styles from './FeaturedCities.module.scss';
 
-export const FeaturedCities = () => {
-    const renderCities = Object.entries(citySlugMap).map(([slug, name]) => (
-        <CityItem key={slug} name={name} slug={slug as TCitySlug} />
-    ));
+const renderCities = Object.entries(citySlugMap).map(([slug, name]) => (
+    <CityItem key={slug} name={name} slug={slug as TCitySlug} />
+));
 
+export const FeaturedCities = () => {
     return (
         <section className={styles['featured-cities']}>
             <div className={styles['featured-cities__header']}>
