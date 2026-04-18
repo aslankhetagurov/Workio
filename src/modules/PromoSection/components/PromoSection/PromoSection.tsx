@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 
+const PromoVideoModal = React.lazy(
+    () => import('../PromoVideoModal/PromoVideoModal'),
+);
 import preview from '@/shared/assets/images/promo-preview.webp';
 import styles from './PromoSection.module.scss';
-import PromoVideoModal from '../PromoVideoModal/PromoVideoModal';
 
 export const PromoSection = () => {
     const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -11,12 +13,14 @@ export const PromoSection = () => {
 
     return (
         <section className={styles.promo}>
-            {isVideoModalOpen && (
-                <PromoVideoModal
-                    isOpen={isVideoModalOpen}
-                    onClose={toggleVideoModal}
-                />
-            )}
+            <Suspense fallback={''}>
+                {isVideoModalOpen && (
+                    <PromoVideoModal
+                        isOpen={isVideoModalOpen}
+                        onClose={toggleVideoModal}
+                    />
+                )}
+            </Suspense>
 
             <div className={styles.promo__main}>
                 <div className={styles['promo__video-preview']}>
@@ -24,6 +28,10 @@ export const PromoSection = () => {
                         className={styles['promo__preview-img']}
                         src={preview}
                         alt="Promo video preview image"
+                        width={675}
+                        height={525}
+                        loading="lazy"
+                        decoding="async"
                     />
                     <button
                         className={styles['promo__preview-btn']}
@@ -38,12 +46,12 @@ export const PromoSection = () => {
                     <h3 className={styles.promo__title}>
                         Smart Job Discovery: The Workio Way
                     </h3>
-                    <span className={styles.promo__subtitle}>
+                    <p className={styles.promo__subtitle}>
                         Tired of endless job listings? Workio brings you a
                         smarter, faster way to explore career opportunities —
                         through short, engaging videos. Discover teams, culture,
                         and expectations before you even apply.
-                    </span>
+                    </p>
                     <ul className={styles['promo__features-list']}>
                         <li className={styles['promo__feature-item']}>
                             Real insights into team culture

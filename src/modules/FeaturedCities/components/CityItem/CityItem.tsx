@@ -20,7 +20,11 @@ const CityItem = ({ name, slug }: ICityItemProps) => {
                 <img
                     className={styles['city-item__img']}
                     src={cityImageMap[slug]}
-                    alt={`Image of ${name}`}
+                    alt={name}
+                    width={250}
+                    height={310}
+                    loading="lazy"
+                    decoding="async"
                 />
                 <span className={styles['city-item__name']}>{name}</span>
             </Link>

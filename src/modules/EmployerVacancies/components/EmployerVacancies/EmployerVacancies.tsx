@@ -8,9 +8,9 @@ export const EmployerVacancies = () => {
                 <h1 className={styles.vacancies__title}>My Vacancies</h1>
             </header>
 
-            <main>
+            <div>
                 <EmployerVacanciesList />
-            </main>
+            </div>
         </section>
     );
 };

@@ -15,7 +15,7 @@ const CompanyItem = ({ companyData }: ICompanyItemProps) => {
     const { id, location, name, logo_url, industry } = companyData;
 
     return (
-        <li className={styles['company-item']} role="listitem">
+        <li className={styles['company-item']}>
             <Link
                 className={styles['company-item__link']}
                 to={`/companies/${id}`}
@@ -24,6 +24,10 @@ const CompanyItem = ({ companyData }: ICompanyItemProps) => {
                     className={styles['company-item__logo']}
                     src={logo_url || companyLogo}
                     alt={name || 'Company logo'}
+                    width={55}
+                    height={55}
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 <div className={styles['company-item__info']}>

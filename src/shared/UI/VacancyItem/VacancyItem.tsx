@@ -36,6 +36,10 @@ const VacancyItem = ({ data }: IVacancyItemProps) => {
                     className={styles['vacancy-item__logo']}
                     src={companies?.logo_url || companyLogo}
                     alt={companies?.name || 'Company logo'}
+                    width={55}
+                    height={55}
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 <div className={styles['vacancy-item__content']}>

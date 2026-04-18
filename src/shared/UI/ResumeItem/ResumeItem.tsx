@@ -27,6 +27,10 @@ const ResumeItem = ({ data }: IResumeItemProps) => {
                     className={styles['resume-item__avatar']}
                     src={users?.avatar_url || defaultAvatar}
                     alt={users?.full_name || 'User Avatar'}
+                    width={60}
+                    height={60}
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 <div className={styles['resume-item__content']}>

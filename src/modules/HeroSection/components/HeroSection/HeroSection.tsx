@@ -6,7 +6,6 @@ export const HeroSection = () => {
     return (
         <section
             className={styles['hero-section']}
-            role="region"
             aria-labelledby="hero-heading"
         >
             <div className={styles['hero-section__content']}>
@@ -17,16 +16,20 @@ export const HeroSection = () => {
                     >
                         Find Your Dream Job Today
                     </h1>
-                    <h2 className={styles['hero-section__subtitle']}>
+                    <p className={styles['hero-section__subtitle']}>
                         New jobs added daily. Don’t miss your chance.
-                    </h2>
+                    </p>
                 </div>
                 <HeroSearchForm />
             </div>
+
             <img
                 className={styles['hero-section__img']}
                 src={bg}
                 alt="Job search illustration"
+                width={800}
+                height={600}
+                fetchPriority="high"
             />
         </section>
     );
