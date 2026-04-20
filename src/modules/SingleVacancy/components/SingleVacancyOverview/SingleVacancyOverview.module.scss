@@ -26,6 +26,7 @@
     &__icon {
         color: $hover-color;
         font-size: 22px;
+        min-width: 22px;
     }
 
     &__info {
@@ -36,5 +37,11 @@
     &__item-title {
         font-weight: 700;
         display: block;
+    }
+
+    @media (max-width: 768px) {
+        &__list {
+            row-gap: 10px;
+        }
     }
 }
