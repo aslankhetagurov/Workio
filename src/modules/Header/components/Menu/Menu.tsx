@@ -18,21 +18,31 @@ const Menu = () => {
             <button
                 className={`${styles['menu__burger']} ${isOpen ? styles['menu__burger_close'] : ''}`}
                 onClick={toggleMenu}
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isOpen}
+                aria-controls="main-navigation"
+                type="button"
             >
                 <span
                     className={`${styles['menu__burger-line']} ${isOpen ? styles['menu__burger-line_close-one'] : ''}`}
+                    aria-hidden="true"
                 ></span>
+
                 <span
                     className={`${styles['menu__burger-line']} ${isOpen ? styles['menu__burger-line_close-two'] : ''}`}
+                    aria-hidden="true"
                 ></span>
+
                 <span
                     className={`${styles['menu__burger-line']} ${isOpen ? styles['menu__burger-line_close-three'] : ''}`}
+                    aria-hidden="true"
                 ></span>
             </button>
 
             <ul
                 className={`${styles.menu__list} ${isOpen ? styles.menu__list_open : ''}`}
                 onClick={toggleMenu}
+                id="main-navigation"
             >
                 <li className={styles.menu__item}>
                     <NavLink to="/" className={getLinkClass}>
