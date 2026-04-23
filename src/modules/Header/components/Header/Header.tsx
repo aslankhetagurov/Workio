@@ -26,6 +26,10 @@ export const Header = () => {
                     className={styles['header__logo-img']}
                     src={logo}
                     alt="Workio logo"
+                    width="49px"
+                    height="49px"
+                    fetchPriority="high"
+                    decoding="async"
                 />
                 <h1 className={styles.header__title}>Workio</h1>
             </Link>

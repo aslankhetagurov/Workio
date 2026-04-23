@@ -1,5 +1,5 @@
 import HeroSearchForm from '../HeroSearchForm/HeroSearchForm';
-import bg from '@/shared/assets/images/job-bg.svg';
+import bg from '@/shared/assets/images/job-bg.webp';
 import styles from './HeroSection.module.scss';
 
 export const HeroSection = () => {
@@ -27,9 +27,10 @@ export const HeroSection = () => {
                 className={styles['hero-section__img']}
                 src={bg}
                 alt="Job search illustration"
-                width={800}
+                width={600}
                 height={600}
                 fetchPriority="high"
+                decoding="async"
             />
         </section>
     );

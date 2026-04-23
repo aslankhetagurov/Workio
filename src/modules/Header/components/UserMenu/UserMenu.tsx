@@ -66,6 +66,10 @@ const UserMenu = () => {
                     className={styles['user-menu__avatar']}
                     src={userData.avatar_url || defaultAvatar}
                     alt="User avatar"
+                    width={49}
+                    height={49}
+                    fetchPriority="high"
+                    decoding="async"
                 />
             </button>
 

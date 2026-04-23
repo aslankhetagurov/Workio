@@ -29,7 +29,7 @@ export const PromoSection = () => {
                         src={preview}
                         alt="Promo video preview image"
                         width={675}
-                        height={525}
+                        height={526}
                         loading="lazy"
                         decoding="async"
                     />
