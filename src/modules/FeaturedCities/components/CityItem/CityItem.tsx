@@ -20,7 +20,8 @@ const CityItem = ({ name, slug }: ICityItemProps) => {
                 <img
                     className={styles['city-item__img']}
                     src={cityImageMap[slug]}
-                    alt={name}
+                    alt=""
+                    role="presentation"
                     width={250}
                     height={310}
                     loading="lazy"
