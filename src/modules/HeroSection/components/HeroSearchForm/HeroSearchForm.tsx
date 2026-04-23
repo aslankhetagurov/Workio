@@ -71,20 +71,26 @@ const HeroSearchForm = () => {
                 name="locationInput"
             />
 
-            <label className={styles['form__select-label']}>
-                <select className={styles.form__select} {...register('select')}>
-                    <option value="vacancies" aria-label="vacancies">
-                        Vacancies
-                    </option>
-                    <option value="resumes" aria-label="resumes">
-                        Resumes
-                    </option>
-                    <option value="companies" aria-label="companies">
-                        Companies
-                    </option>
+            <div className={styles['form__select-wrapper']}>
+                <label htmlFor="select" className="sr-only">
+                    Select category
+                </label>
+
+                <select
+                    id="select"
+                    className={styles.form__select}
+                    {...register('select')}
+                >
+                    <option value="vacancies">Vacancies</option>
+                    <option value="resumes">Resumes</option>
+                    <option value="companies">Companies</option>
                 </select>
-                <IoIosArrowDown className={styles['form__select-icon']} />
-            </label>
+                <IoIosArrowDown
+                    className={styles['form__select-icon']}
+                    aria-hidden="true"
+                />
+            </div>
+
             <PrimaryButton
                 label="Find"
                 type="submit"
