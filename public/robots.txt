@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Disallow: /applicant
+Disallow: /employer
+Disallow: /chats
+Disallow: /applicant/resume-creation
+Disallow: /applicant/resume-editing
+Disallow: /employer/company-creation
+Disallow: /employer/company-editing
+Disallow: /employer/vacancy-creation
+Disallow: /employer/vacancy-editing
+Disallow: /applicant/favorite-vacancies
+Disallow: /employer/favorite-resumes
