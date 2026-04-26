@@ -43,9 +43,9 @@ export const PromoSection = () => {
                 </div>
 
                 <div className={styles.promo__info}>
-                    <h3 className={styles.promo__title}>
+                    <h2 className={styles.promo__title}>
                         Smart Job Discovery: The Workio Way
-                    </h3>
+                    </h2>
                     <p className={styles.promo__subtitle}>
                         Tired of endless job listings? Workio brings you a
                         smarter, faster way to explore career opportunities —

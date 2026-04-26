@@ -33,12 +33,12 @@ export const FeaturedResumes = () => {
         >
             <div className={styles['featured-resumes__top']}>
                 <div className={styles['featured-resumes__titles']}>
-                    <h3
+                    <h2
                         className={styles['featured-resumes__title']}
                         id="featured-resumes-title"
                     >
                         Featured Resumes
-                    </h3>
+                    </h2>
                     <p className={styles['featured-resumes__subtitle']}>
                         Explore top recent resumes
                     </p>

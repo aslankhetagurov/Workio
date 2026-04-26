@@ -11,12 +11,12 @@ export const FeaturedCities = () => {
     return (
         <section className={styles['featured-cities']}>
             <div className={styles['featured-cities__header']}>
-                <h3 className={styles['featured-cities__title']}>
+                <h2 className={styles['featured-cities__title']}>
                     Featured Cities
-                </h3>
-                <span className={styles['featured-cities__subtitle']}>
+                </h2>
+                <p className={styles['featured-cities__subtitle']}>
                     Start your career journey in the right city
-                </span>
+                </p>
             </div>
 
             <Slider sliderItems={renderCities} duration={800} gap={30} />

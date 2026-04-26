@@ -30,12 +30,12 @@ export const FeaturedVacancies = () => {
         <section className={styles['featured-vacancies']}>
             <div className={styles['featured-vacancies__top']}>
                 <div className={styles['featured-vacancies__titles']}>
-                    <h3 className={styles['featured-vacancies__title']}>
+                    <h2 className={styles['featured-vacancies__title']}>
                         Featured Vacancies
-                    </h3>
-                    <span className={styles['featured-vacancies__subtitle']}>
+                    </h2>
+                    <p className={styles['featured-vacancies__subtitle']}>
                         Explore top recent vacancies
-                    </span>
+                    </p>
                 </div>
 
                 <div

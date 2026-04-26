@@ -14,9 +14,9 @@ export const TopCompanies = () => {
     return (
         <section className={styles['top-companies']}>
             <div className={styles['top-companies__titles']}>
-                <h3 className={styles['top-companies__title']}>
+                <h2 className={styles['top-companies__title']}>
                     Top Companies
-                </h3>
+                </h2>
                 <p className={styles['top-companies__subtitle']}>
                     Explore leading employers on Workio
                 </p>
