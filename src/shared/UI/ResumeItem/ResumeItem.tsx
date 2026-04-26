@@ -35,9 +35,9 @@ const ResumeItem = ({ data }: IResumeItemProps) => {
 
                 <div className={styles['resume-item__content']}>
                     <div className={styles['resume-item__info']}>
-                        <h4 className={styles['resume-item__username']}>
+                        <h3 className={styles['resume-item__username']}>
                             {users?.full_name}
-                        </h4>
+                        </h3>
                         <ul className={styles['resume-item__other-info']}>
                             <li
                                 className={

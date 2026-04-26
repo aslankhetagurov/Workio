@@ -44,9 +44,9 @@ const VacancyItem = ({ data }: IVacancyItemProps) => {
 
                 <div className={styles['vacancy-item__content']}>
                     <div className={styles['vacancy-item__info']}>
-                        <h4 className={styles['vacancy-item__title']}>
+                        <h3 className={styles['vacancy-item__title']}>
                             {title}
-                        </h4>
+                        </h3>
                         <ul className={styles['vacancy-item__other-info']}>
                             <li
                                 className={
