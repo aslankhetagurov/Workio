@@ -20,6 +20,7 @@ type TMode = 'logIn' | 'signUp';
 const AuthForm = () => {
     const [mode, setMode] = useState<TMode>('logIn');
     const [toggleShowPassword, setToggleShowPassword] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -28,8 +29,10 @@ const AuthForm = () => {
     } = useForm<IFormInputs>({
         mode: 'onBlur',
     });
+
     const { handleAuth, isLoading } = useAuth();
     const modalIsOpen = useAppSelector(selectAuthModalIsOpen);
+
     const emailInputRef = useRef<HTMLInputElement>(null);
     const fullNameInputRef = useRef<HTMLInputElement>(null);
 
@@ -49,7 +52,7 @@ const AuthForm = () => {
     };
 
     const handleToggleShowPassword = () =>
-        setToggleShowPassword(!toggleShowPassword);
+        setToggleShowPassword((prev) => !prev);
 
     const handleSetMode = (mode: TMode) => {
         reset();
@@ -76,6 +79,7 @@ const AuthForm = () => {
                 >
                     Log In
                 </button>
+
                 <button
                     className={`${styles['auth__mode-button']} ${
                         mode === 'signUp'
@@ -94,15 +98,18 @@ const AuthForm = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 {mode === 'signUp' && (
-                    <label className={styles.auth__label}>
-                        Full Name
+                    <div className={styles['auth__input-wrapper']}>
+                        <label htmlFor="fullName">Full Name</label>
+
                         <input
+                            id="fullName"
                             className={styles.auth__input}
                             placeholder="Daniel Smith"
                             aria-invalid={!!errors.fullName}
+                            aria-describedby="fullName-error"
                             {...register('fullName', {
                                 required: true,
-                                pattern: /^[A-Za-z]+ [A-Za-z]+$/i,
+                                pattern: /^[\p{L}]+(\s[\p{L}]+)+$/u,
                                 minLength: 3,
                             })}
                             ref={(e) => {
@@ -110,26 +117,33 @@ const AuthForm = () => {
                                 fullNameInputRef.current = e;
                             }}
                         />
+
                         {errors.fullName && (
-                            <span className={styles['auth__form-error']}>
-                                {errors.fullName?.type === 'required'
+                            <span
+                                id="fullName-error"
+                                className={styles['auth__form-error']}
+                            >
+                                {errors.fullName.type === 'required'
                                     ? 'This field is required'
-                                    : errors.fullName?.type === 'pattern'
-                                    ? 'Full name must contain at least 2 words, english letters only, separated by a space'
-                                    : errors.fullName?.type === 'minLength'
-                                    ? 'Min 3 characters'
-                                    : ''}
+                                    : errors.fullName.type === 'pattern'
+                                      ? 'Enter at least two words (letters only)'
+                                      : errors.fullName.type === 'minLength'
+                                        ? 'Min 3 characters'
+                                        : ''}
                             </span>
                         )}
-                    </label>
+                    </div>
                 )}
 
-                <label className={styles.auth__label}>
-                    Email
+                <div className={styles['auth__input-wrapper']}>
+                    <label htmlFor="email">Email</label>
+
                     <input
+                        id="email"
                         className={styles.auth__input}
                         placeholder="example@gmail.com"
                         aria-invalid={!!errors.email}
+                        aria-describedby="email-error"
                         {...register('email', {
                             required: true,
                             pattern: /^\S+@\S+$/i,
@@ -139,88 +153,94 @@ const AuthForm = () => {
                             emailInputRef.current = e;
                         }}
                     />
+
                     {errors.email && (
-                        <span className={styles['auth__form-error']}>
+                        <span
+                            id="email-error"
+                            className={styles['auth__form-error']}
+                        >
                             {errors.email.type === 'required'
                                 ? 'This field is required'
                                 : errors.email.type === 'pattern'
-                                ? 'Invalid email address'
-                                : ''}
+                                  ? 'Invalid email address'
+                                  : ''}
                         </span>
                     )}
-                </label>
+                </div>
 
-                <label className={styles.auth__label}>
-                    Password
-                    <input
-                        className={`${styles.auth__input} ${styles.auth__password}`}
-                        type={toggleShowPassword ? 'text' : 'password'}
-                        aria-invalid={!!errors.password}
-                        {...register('password', {
-                            required: true,
-                            minLength: 6,
-                            maxLength: 20,
-                            pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/,
-                        })}
-                    />
-                    <button
-                        className={styles['auth__form-eye']}
-                        onClick={handleToggleShowPassword}
-                        type="button"
-                        aria-label="Toggle password visibility"
-                    >
-                        {toggleShowPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-                    </button>
+                <div className={styles['auth__input-wrapper']}>
+                    <label htmlFor="password">Password</label>
+
+                    <div className={styles['auth__password-wrapper']}>
+                        <input
+                            id="password"
+                            className={`${styles.auth__input} ${styles.auth__password}`}
+                            type={toggleShowPassword ? 'text' : 'password'}
+                            aria-invalid={!!errors.password}
+                            aria-describedby="password-error"
+                            {...register('password', {
+                                required: true,
+                                minLength: 6,
+                                maxLength: 20,
+                                pattern:
+                                    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/,
+                            })}
+                        />
+
+                        <button
+                            className={styles['auth__form-eye']}
+                            onClick={handleToggleShowPassword}
+                            type="button"
+                            aria-label="Toggle password visibility"
+                        >
+                            {toggleShowPassword ? (
+                                <FaRegEyeSlash />
+                            ) : (
+                                <FaRegEye />
+                            )}
+                        </button>
+                    </div>
+
                     {errors.password && (
-                        <span className={styles['auth__form-error']}>
+                        <span
+                            id="password-error"
+                            className={styles['auth__form-error']}
+                        >
                             {errors.password.type === 'required'
                                 ? 'This field is required'
                                 : errors.password.type === 'pattern'
-                                ? 'Password must be 6-20 characters long and contain at least one letter and one number'
-                                : ''}
+                                  ? 'Password must be 6-20 characters long and contain at least one letter and one number'
+                                  : ''}
                         </span>
                     )}
-                </label>
+                </div>
 
                 {mode === 'signUp' && (
-                    <>
-                        <label className={styles.auth__label}>
-                            Select Role
-                            {
-                                <select
-                                    className={styles.auth__select}
-                                    {...register('role', { required: true })}
-                                >
-                                    <option value="" hidden>
-                                        -- Select Role --
-                                    </option>
-                                    <option
-                                        className={
-                                            styles['auth__select-option']
-                                        }
-                                        value="applicant"
-                                    >
-                                        Applicant
-                                    </option>
-                                    <option
-                                        className={
-                                            styles['auth__select-option']
-                                        }
-                                        value="employer"
-                                    >
-                                        Employer
-                                    </option>
-                                </select>
-                            }
-                            {errors.role?.type === 'required' ? (
-                                <span className={styles['auth__form-error']}>
-                                    'This field is required'
-                                </span>
-                            ) : (
-                                ''
-                            )}
-                        </label>
-                    </>
+                    <div className={styles['auth__input-wrapper']}>
+                        <label htmlFor="role">Select Role</label>
+
+                        <select
+                            id="role"
+                            className={styles.auth__select}
+                            aria-describedby="role-error"
+                            {...register('role', { required: true })}
+                        >
+                            <option value="" hidden>
+                                -- Select Role --
+                            </option>
+                            <option value="applicant">Applicant</option>
+                            <option value="employer">Employer</option>
+                        </select>
+
+                        {errors.role?.type === 'required' && (
+                            <span
+                                id="role-error"
+                                className={styles['auth__form-error']}
+                            >
+                                This field is required
+                            </span>
+                        )}
+                    </div>
                 )}
 
                 <PrimaryButton
