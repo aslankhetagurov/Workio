@@ -7,7 +7,6 @@
     column-gap: 10px;
     height: 10rem;
     background-color: $accent-bg-color;
-    padding: 3rem 7rem;
     clip-path: ellipse(70% 100% at 50% 100%);
     margin-top: 50px;
     max-width: 1430px;
@@ -17,24 +16,6 @@
 
     &__copyright {
         font-size: 1.8rem;
-    }
-
-    &__socials {
-        @include flex-align-center;
-        column-gap: 3rem;
-    }
-
-    &__social-item {
-        @include transition(color);
-        font-size: 3rem;
-
-        &:hover {
-            color: $hover-color;
-        }
-    }
-
-    &__social-link {
-        display: flex;
     }
 
     @media (max-width: 1024px) {

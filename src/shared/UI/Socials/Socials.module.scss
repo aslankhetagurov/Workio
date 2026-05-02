@@ -1,0 +1,23 @@
+@use "@/shared/styles/abstracts/index.scss" as *;
+
+.socials {
+    @include flex-align-center;
+    column-gap: 3rem;
+
+    &__item {
+        @include transition(color);
+        font-size: 3rem;
+
+        &:hover {
+            color: $hover-color;
+        }
+
+        @media (max-width: 768px) {
+            color: $hover-color;
+        }
+    }
+
+    &__link {
+        display: flex;
+    }
+}

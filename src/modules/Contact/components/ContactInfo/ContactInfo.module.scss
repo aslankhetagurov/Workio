@@ -1,11 +1,15 @@
 @use "@/shared/styles/abstracts/index" as *;
 
 .info {
-    margin: 0 auto;
     display: flex;
     justify-content: center;
     column-gap: 100px;
-    margin: 40px 0;
+    flex-wrap: wrap;
+    margin: 50px auto;
+
+    &__items {
+        display: flex;
+    }
 
     &__item {
         max-width: 200px;
@@ -29,6 +33,21 @@
         &:hover {
             color: $hover-color;
         }
+    }
+
+    &__socials {
+        display: none;
+        justify-content: center;
+        margin-top: 20px;
+        min-width: 100%;
+
+        @media (max-width: 768px) {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        column-gap: 50px;
     }
 
     @media (max-width: 768px) {
