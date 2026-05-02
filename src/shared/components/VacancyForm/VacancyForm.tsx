@@ -52,7 +52,8 @@ const VacancyForm = ({ type }: IVacancyFormProps) => {
     const { register, handleSubmit, reset, setValue, watch, control } =
         useForm<IVacancyForm>({
             mode: 'onBlur',
-            defaultValues: editableVacancy ?? undefined,
+            defaultValues:
+                type === 'create' ? undefined : (editableVacancy ?? undefined),
         });
 
     const categoryRef = useRef<HTMLButtonElement>(null);
@@ -69,7 +70,7 @@ const VacancyForm = ({ type }: IVacancyFormProps) => {
 
     const onError = (errors: FieldErrors<IVacancyForm>) => {
         for (const key of Object.keys(
-            selectRefs
+            selectRefs,
         ) as (keyof typeof selectRefs)[]) {
             if (errors[key]) {
                 selectRefs[key]?.current?.focus();
@@ -107,7 +108,7 @@ const VacancyForm = ({ type }: IVacancyFormProps) => {
             toast.success(
                 `Vacancy successfully ${
                     type === 'create' ? 'created' : 'edited'
-                }!`
+                }!`,
             );
             navigate('/employer/vacancies');
         } catch (err) {
