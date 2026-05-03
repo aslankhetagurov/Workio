@@ -4,7 +4,7 @@
     padding: 10px;
     column-gap: 10px;
     border-radius: 5px;
-    max-width: 70%;
+    max-width: 80%;
     display: grid;
     grid-template-columns: 1fr 1fr 0.5fr 0.5fr;
     background-color: $accent-bg-color;
@@ -15,17 +15,6 @@
         align-items: center;
         position: relative;
         width: 100%;
-
-        @media (min-width: 576px) {
-            &::after {
-                content: "";
-                height: 100%;
-                width: 1px;
-                background-color: #b7b7b7;
-                position: absolute;
-                right: 0;
-            }
-        }
     }
 
     &__input {
@@ -34,6 +23,7 @@
         border-radius: 5px;
         position: relative;
         padding-left: 25px;
+        background-color: #fff;
 
         &::placeholder {
             font-size: 14px;
@@ -44,27 +34,15 @@
     &__icon {
         font-size: 22px;
         position: absolute;
+        z-index: 1000;
     }
 
     &__select {
-        background-color: $hover-color;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        text-align: center;
+        width: 100%;
+        background-color: #fff;
+        padding: 10px;
         border-radius: 5px;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-    }
-
-    &__select-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        height: 100%;
-        width: 100%;
+        min-width: 140px;
     }
 
     &__select-icon {
@@ -82,14 +60,15 @@
 
     @media (max-width: 768px) {
         max-width: 85%;
-    }
-
-    @media (max-width: 576px) {
         grid-template-rows: 1fr 1fr 1fr;
         grid-template-columns: 1fr 1fr;
         row-gap: 10px;
-        max-width: 100%;
         position: relative;
+        margin: 0 auto;
+
+        &__select-wrapper {
+            grid-area: span 1 / span 2;
+        }
 
         &__select-label {
             grid-column-start: 1;
@@ -105,12 +84,10 @@
             grid-row-start: 3;
             grid-row-end: 4;
         }
+    }
 
-        &__separator {
-            height: 100%;
-            width: 1px;
-            background-color: #b7b7b7;
-            position: absolute;
-        }
+    @media (max-width: 576px) {
+        max-width: 100%;
+        margin: 0;
     }
 }

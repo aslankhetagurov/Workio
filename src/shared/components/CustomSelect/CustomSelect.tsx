@@ -12,7 +12,7 @@ export interface TSeletcOptionObject {
 
 interface CustomSelectProps<
     TOption extends string | TSeletcOptionObject,
-    TFormValues extends FieldValues
+    TFormValues extends FieldValues,
 > {
     name: Path<TFormValues>;
     control: Control<TFormValues>;
@@ -28,7 +28,7 @@ interface CustomSelectProps<
 
 const CustomSelect = <
     TOption extends string | TSeletcOptionObject,
-    TFormValues extends FieldValues
+    TFormValues extends FieldValues,
 >({
     name,
     control,
@@ -52,7 +52,7 @@ const CustomSelect = <
     const selected = options.find((opt) =>
         typeof opt === 'string'
             ? opt === field.value
-            : opt.value === field.value
+            : opt.value === field.value,
     );
 
     const handleSetValue = (value: string) => {
@@ -109,7 +109,7 @@ const CustomSelect = <
                 handleSetValue={handleSetValue}
                 showDropDown={isOpen}
                 id={`${name}-dropdown-id`}
-                topMargin={84}
+                topMargin={label ? 69 : 42}
             />
         </div>
     );

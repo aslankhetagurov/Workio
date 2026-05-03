@@ -12,6 +12,7 @@ import LocationInput from '@/shared/components/LocationInput/LocationInput';
 import { setCompaniesSearchFilters } from '../../store/companiesSlice';
 import CloseButton from '@/shared/UI/CloseButton/CloseButton';
 import styles from './CompaniesSearchForm.module.scss';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export interface ICompanySearchForm {
     companyName: string;
@@ -22,10 +23,24 @@ export interface ICompanySearchForm {
 const CompaniesSearchForm = () => {
     const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const initialLocation = location.state?.location || '';
+    const initialCompanyName = location.state?.keyword || '';
+
     const { register, handleSubmit, reset, setValue, watch } =
         useForm<ICompanySearchForm>({
             mode: 'onBlur',
+            defaultValues: {
+                location: initialLocation,
+                companyName: initialCompanyName,
+            },
         });
+
+    useEffect(() => {
+        handleSubmit(handleFormSubmit)();
+    }, []);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -51,7 +66,19 @@ const CompaniesSearchForm = () => {
     };
 
     const handleResetForm = () => {
-        reset();
+        navigate(location.pathname, { replace: true, state: {} });
+        reset({
+            companyName: '',
+            location: '',
+        });
+
+        dispatch(
+            setCompaniesSearchFilters({
+                companyName: '',
+                location: '',
+                category: '',
+            }),
+        );
     };
 
     const toggleForm = () => setIsOpen(!isOpen);

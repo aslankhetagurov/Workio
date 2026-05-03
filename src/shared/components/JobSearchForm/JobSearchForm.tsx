@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { jobCategories, TJobCategories } from '@/shared/consts/jobCategories';
@@ -43,13 +43,14 @@ export interface IJobSearchFormProps {
 
 const JobSearchForm = ({ onSubmit, closeForm }: IJobSearchFormProps) => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const initialLocation = location.state?.location || '';
+    const initialKeyword = location.state?.keyword || '';
 
     useEffect(() => {
-        if (!initialLocation) return;
         handleSubmit(handleFormSubmit)();
-    }, [initialLocation]);
+    }, []);
 
     const { register, handleSubmit, reset, setValue, watch } =
         useForm<IJobSearchForm>({
@@ -59,6 +60,7 @@ const JobSearchForm = ({ onSubmit, closeForm }: IJobSearchFormProps) => {
                 employment: 'All',
                 accessibility: 'All',
                 location: initialLocation,
+                keywords: initialKeyword,
             },
         });
 
@@ -68,7 +70,24 @@ const JobSearchForm = ({ onSubmit, closeForm }: IJobSearchFormProps) => {
     };
 
     const handleResetForm = () => {
-        reset();
+        navigate(location.pathname, { replace: true, state: {} });
+        reset({
+            keywords: '',
+            location: '',
+            createdAt: 'All',
+            employment: 'All',
+            accessibility: 'All',
+        });
+        onSubmit({
+            keywords: '',
+            location: '',
+            createdAt: 'All',
+            employment: 'All',
+            accessibility: 'All',
+            salaryMin: 0,
+            salaryMax: 0,
+            category: '',
+        });
     };
 
     return (
